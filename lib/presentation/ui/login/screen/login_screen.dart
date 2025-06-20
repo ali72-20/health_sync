@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/di/di.dart';
 import 'package:health_sync/presentation/ui/login/managers/login_screen_states.dart';
@@ -17,13 +17,15 @@ class LoginScreen extends StatelessWidget {
     return RepositoryProvider<LoginTextControllerManager>(
       create: (_) => controllerManager,
       dispose: (_) => controllerManager.dispose(),
-      child: BlocProvider(
-        create: (_) => viewModel,
-        child: BlocConsumer<LoginScreenViewModel, LoginScreenStates>(
-          builder: (context, state) {
-            return LoginScreenBody();
-          },
-          listener: (context, state) {},
+      child: Scaffold(
+        body: BlocProvider(
+          create: (_) => viewModel,
+          child: BlocConsumer<LoginScreenViewModel, LoginScreenStates>(
+            builder: (context, state) {
+              return LoginScreenBody();
+            },
+            listener: (context, state) {},
+          ),
         ),
       ),
     );
