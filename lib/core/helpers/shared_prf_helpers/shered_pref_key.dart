@@ -1,0 +1,4 @@
+class SharedPrefKeys{
+  SharedPrefKeys._();
+
+}
