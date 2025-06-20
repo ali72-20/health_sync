@@ -15,4 +15,7 @@ class ThemeProvider extends ChangeNotifier{
 
   String get currentTheme => _currentTheme;
 
+  bool isLightTheme(){
+    return _currentTheme == LocalKeys.lightTheme;
+  }
 }

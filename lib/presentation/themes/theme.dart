@@ -3,8 +3,9 @@ import 'package:health_sync/presentation/themes/colors.dart';
 
 import 'font_weights.dart';
 
-class Theme {
-  ThemeData lightTheme = ThemeData(
+class AppTheme {
+  AppTheme._();
+  static ThemeData lightTheme = ThemeData(
     fontFamily: "Roboto",
     scaffoldBackgroundColor: white,
     colorScheme: ColorScheme(
@@ -53,4 +54,5 @@ class Theme {
       displayLarge: TextStyle(),
     ),
   );
+  static ThemeData darkTheme = ThemeData();
 }

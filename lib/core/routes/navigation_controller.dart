@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:health_sync/core/routes/pages_route.dart';
 import 'package:health_sync/presentation/ui/login/screen/login_screen.dart';
 
-class AppRoutes {
-  AppRoutes._();
+class NavigationController {
+  NavigationController._();
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
