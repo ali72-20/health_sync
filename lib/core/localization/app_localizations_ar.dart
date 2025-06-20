@@ -10,4 +10,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get password => 'كلمة المرور';
+
+  @override
+  String get login => 'تسجيل الدخول';
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_sync/core/observers/MyBlocObserver.dart';
 import 'package:health_sync/core/providers/language_provider.dart';
 import 'package:health_sync/core/providers/theme_provider.dart';
 import 'package:health_sync/core/routes/navigation_controller.dart';
@@ -14,6 +16,7 @@ import 'di/di.dart';
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
+  Bloc.observer = MyBlocObserver();
   runApp(
     MultiProvider(
       providers: [
