@@ -13,6 +13,8 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../core/providers/language_provider.dart' as _i891;
+import '../core/providers/theme_provider.dart' as _i578;
 import '../data/api/api_manager.dart' as _i93;
 import '../data/api/core/network_module.dart' as _i228;
 import '../data/repositories/auth_repository_impl.dart' as _i74;
@@ -31,6 +33,8 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
     gh.factory<_i139.LoginScreenViewModel>(() => _i139.LoginScreenViewModel());
+    gh.singleton<_i891.LanguageProvider>(() => _i891.LanguageProvider());
+    gh.singleton<_i578.ThemeProvider>(() => _i578.ThemeProvider());
     gh.singleton<_i256.LoginTextControllerManager>(
       () => _i256.LoginTextControllerManager(),
     );
