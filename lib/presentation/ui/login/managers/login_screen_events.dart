@@ -5,3 +5,4 @@ class LoginEvent extends LoginScreenEvents{
   final String password;
   LoginEvent({required this.email, required this.password});
 }
+
