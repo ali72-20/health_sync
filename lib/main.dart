@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:health_sync/core/observers/MyBlocObserver.dart';
 import 'package:health_sync/core/providers/language_provider.dart';
 import 'package:health_sync/core/providers/theme_provider.dart';
@@ -8,7 +8,7 @@ import 'package:health_sync/core/routes/navigation_controller.dart';
 import 'package:health_sync/core/routes/pages_route.dart';
 import 'package:health_sync/presentation/themes/theme.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'core/localization/app_localizations.dart';
 import 'core/localization/l10n.dart';
 import 'di/di.dart';

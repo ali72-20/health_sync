@@ -109,6 +109,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get login;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get email;
+
+  /// No description provided for @enter_your_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get enter_your_email;
+
+  /// No description provided for @enter_your_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get enter_your_password;
+
+  /// No description provided for @need_help.
+  ///
+  /// In en, this message translates to:
+  /// **'Need help?'**
+  String get need_help;
+
+  /// No description provided for @secure_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Login'**
+  String get secure_login;
+
+  /// No description provided for @welcome_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get welcome_back;
 }
 
 class _AppLocalizationsDelegate

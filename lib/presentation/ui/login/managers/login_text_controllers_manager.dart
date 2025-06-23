@@ -2,7 +2,6 @@
 
 
 import 'package:flutter/cupertino.dart';
-import 'package:health_sync/presentation/ui/login/managers/login_screen_view_model.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton

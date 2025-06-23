@@ -1,4 +1,10 @@
 {
-  "password" : "Password",
-  "login" : "Login"
+  "password": "Password",
+  "login": "Login",
+  "email": "Email Address",
+  "enter_your_email": "Enter your email",
+  "enter_your_password": "Enter your password",
+  "need_help": "Need help?",
+  "secure_login": "Secure Login",
+  "welcome_back": "Welcome back"
 }

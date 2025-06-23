@@ -13,4 +13,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get login => 'تسجيل الدخول';
+
+  @override
+  String get email => 'عنوان البريد الإلكتروني';
+
+  @override
+  String get enter_your_email => 'أدخل بريدك الإلكتروني';
+
+  @override
+  String get enter_your_password => 'أدخل كلمة المرور الخاصة بك';
+
+  @override
+  String get need_help => 'تحتاج مساعدة؟';
+
+  @override
+  String get secure_login => 'تسجيل دخول آمن';
+
+  @override
+  String get welcome_back => 'مرحبًا بعودتك';
 }
