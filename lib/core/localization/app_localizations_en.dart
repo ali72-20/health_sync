@@ -31,4 +31,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcome_back => 'Welcome back';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get doctors => 'Doctors';
+
+  @override
+  String get patients => 'Patients';
+
+  @override
+  String get clinics => 'Clinics';
+
+  @override
+  String get reports => 'Reports';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get logout => 'Logout';
 }

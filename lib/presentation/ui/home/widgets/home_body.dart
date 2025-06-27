@@ -1,5 +1,4 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
-import 'package:health_sync/core/assets/assets_paths.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/presentation/themes/colors.dart';
 import 'package:health_sync/presentation/ui/home/widgets/dash_board_view.dart';
@@ -50,32 +49,39 @@ class _HomeBodyState extends State<HomeBody> {
           items: [
             SideMenuItem(
               icon: Icon(Icons.dashboard),
-              title: "Dashboard",
+              title: context.locale.dashboard,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
-              title: "Doctors",
+              title: context.locale.doctors,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
-              title: "Patients",
+              title: context.locale.patients,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
               icon: Icon(Icons.local_hospital),
-              title: "Clinics",
+              title: context.locale.clinics,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
               icon: Icon(Icons.bar_chart),
-              title: "Reports",
+              title: context.locale.reports,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
               icon: Icon(Icons.person),
-              title: "Profile",
+              title: context.locale.profile,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
+            SideMenuItem(
+              icon: Icon(Icons.logout),
+              title: context.locale.logout,
+              onTap: (_,_){
+
+              }
+            )
           ],
           controller: sideMenuController,
           title: Text("HealthSync"),

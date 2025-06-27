@@ -31,4 +31,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get welcome_back => 'مرحبًا بعودتك';
+
+  @override
+  String get dashboard => 'لوحة التحكم';
+
+  @override
+  String get doctors => 'الأطباء';
+
+  @override
+  String get patients => 'المرضى';
+
+  @override
+  String get clinics => 'العيادات';
+
+  @override
+  String get reports => 'التقارير';
+
+  @override
+  String get profile => 'الملف الشخصي';
+
+  @override
+  String get logout => 'تسجيل الخروج';
 }
