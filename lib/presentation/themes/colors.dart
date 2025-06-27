@@ -10,3 +10,4 @@ final gray = Color(0xff666666);
 final white = Color(0xffffffff);
 final yellow = Color(0xffFFB300);
 final lightGray = Color(0xffF5F5F5);
+final offWhite = Color(0xffF5F5F5);

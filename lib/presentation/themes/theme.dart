@@ -60,7 +60,7 @@ class AppTheme {
       titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeights.medium,color: black),
       labelSmall: TextStyle(),
       labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeights.medium,color: white),
-      labelLarge: TextStyle(fontSize: 14),
+      labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeights.medium),
       displaySmall: TextStyle(fontSize: 12, fontWeight: FontWeights.regular),
       displayMedium: TextStyle(fontSize: 14, fontWeight: FontWeights.regular),
       displayLarge: TextStyle(),

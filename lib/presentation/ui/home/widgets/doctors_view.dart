@@ -5,6 +5,6 @@ class DoctorsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Center(child: Text("Doctors view"),);
   }
 }

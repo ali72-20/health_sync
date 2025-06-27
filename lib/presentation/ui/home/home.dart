@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/di/di.dart';
+import 'package:health_sync/presentation/ui/home/managers/home_screen_states.dart';
 import 'package:health_sync/presentation/ui/home/managers/home_screen_view_model.dart';
 import 'package:health_sync/presentation/ui/home/widgets/dash_board_view.dart';
 import 'package:health_sync/presentation/ui/home/widgets/home_body.dart';
@@ -16,7 +17,7 @@ class Home extends StatelessWidget {
     return BlocProvider(
       create: (_) => viewModel,
       child: Scaffold(
-        body: BlocConsumer(
+        body: BlocConsumer<HomeScreenViewModel, HomeScreenState>(
           builder: (context, state) {
             return HomeBody(currentView: DashBoardView());
           },

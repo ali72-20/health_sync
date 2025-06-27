@@ -33,8 +33,8 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
-    gh.factory<_i139.LoginScreenViewModel>(() => _i139.LoginScreenViewModel());
     gh.factory<_i835.HomeScreenViewModel>(() => _i835.HomeScreenViewModel());
+    gh.factory<_i139.LoginScreenViewModel>(() => _i139.LoginScreenViewModel());
     gh.singleton<_i891.LanguageProvider>(() => _i891.LanguageProvider());
     gh.singleton<_i578.ThemeProvider>(() => _i578.ThemeProvider());
     gh.singleton<_i256.LoginTextControllerManager>(
