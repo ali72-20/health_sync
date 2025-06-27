@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/di/di.dart';
 import 'package:health_sync/presentation/ui/home/managers/home_screen_states.dart';
 import 'package:health_sync/presentation/ui/home/managers/home_screen_view_model.dart';
-import 'package:health_sync/presentation/ui/home/widgets/dash_board_view.dart';
+import 'package:health_sync/presentation/ui/dash_board/view/dash_board_view.dart';
 import 'package:health_sync/presentation/ui/home/widgets/home_body.dart';
 
 import '../../../core/common/common_imports.dart';

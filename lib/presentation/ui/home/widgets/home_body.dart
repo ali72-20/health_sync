@@ -1,14 +1,14 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/presentation/themes/colors.dart';
-import 'package:health_sync/presentation/ui/home/widgets/dash_board_view.dart';
-import 'package:health_sync/presentation/ui/home/widgets/doctors_view.dart';
-import 'package:health_sync/presentation/ui/home/widgets/patients_view.dart';
-import 'package:health_sync/presentation/ui/home/widgets/profile_view.dart';
-import 'package:health_sync/presentation/ui/home/widgets/reports_view.dart';
+import 'package:health_sync/presentation/ui/dash_board/view/dash_board_view.dart';
+import 'package:health_sync/presentation/ui/doctors/view/doctors_view.dart';
+import 'package:health_sync/presentation/ui/patients/view/patients_view.dart';
+import 'package:health_sync/presentation/ui/profile/view/profile_view.dart';
+import 'package:health_sync/presentation/ui/reports/view/reports_view.dart';
 
 import '../../../../core/common/common_imports.dart';
-import 'clinics_view.dart';
+import '../../clinics/view/clinics_view.dart';
 
 class HomeBody extends StatefulWidget {
   final Widget currentView;
