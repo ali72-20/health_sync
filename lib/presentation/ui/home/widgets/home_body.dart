@@ -1,4 +1,6 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
+import 'package:health_sync/core/assets/assets_paths.dart';
+import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/presentation/themes/colors.dart';
 import 'package:health_sync/presentation/ui/home/widgets/dash_board_view.dart';
 import 'package:health_sync/presentation/ui/home/widgets/doctors_view.dart';
@@ -47,6 +49,7 @@ class _HomeBodyState extends State<HomeBody> {
         SideMenu(
           items: [
             SideMenuItem(
+              icon: Icon(Icons.dashboard),
               title: "Dashboard",
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
@@ -59,14 +62,17 @@ class _HomeBodyState extends State<HomeBody> {
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
+              icon: Icon(Icons.local_hospital),
               title: "Clinics",
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
+              icon: Icon(Icons.bar_chart),
               title: "Reports",
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
+              icon: Icon(Icons.person),
               title: "Profile",
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
@@ -74,6 +80,7 @@ class _HomeBodyState extends State<HomeBody> {
           controller: sideMenuController,
           title: Text("HealthSync"),
           style: SideMenuStyle(
+            selectedIconColor: Theme.of(context).colorScheme.secondary,
             hoverColor: Colors.transparent,
             selectedTitleTextStyle: Theme.of(context).textTheme.labelLarge
                 ?.copyWith(color: Theme.of(context).colorScheme.secondary),

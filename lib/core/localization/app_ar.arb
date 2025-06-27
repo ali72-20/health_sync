@@ -6,5 +6,12 @@
   "enter_your_password": "أدخل كلمة المرور الخاصة بك",
   "need_help": "تحتاج مساعدة؟",
   "secure_login": "تسجيل دخول آمن",
-  "welcome_back": "مرحبًا بعودتك"
+  "welcome_back": "مرحبًا بعودتك",
+  "dashboard": "لوحة التحكم",
+  "doctors": "الأطباء",
+  "patients": "المرضى",
+  "clinics": "العيادات",
+  "reports": "التقارير",
+  "profile": "الملف الشخصي",
+  "logout": "تسجيل الخروج"
 }

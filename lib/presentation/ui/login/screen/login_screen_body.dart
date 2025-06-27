@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:health_sync/core/assets/assets_paths.dart';
+import 'package:health_sync/core/assets/assets_paths.dart' hide Icons;
 import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/core/extensions/spaces.dart';
 import 'package:health_sync/presentation/themes/colors.dart';
