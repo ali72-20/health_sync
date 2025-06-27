@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health_sync/core/routes/pages_route.dart';
+import 'package:health_sync/presentation/ui/home/home.dart';
 import 'package:health_sync/presentation/ui/login/screen/login_screen.dart';
 
 class NavigationController {
@@ -13,6 +14,8 @@ class NavigationController {
           widget: LoginScreen(),
           settings: settings,
         );
+      case PagesRoutes.homePage:
+        return _handleMaterialPageRoute(widget: Home(), settings: settings);
       default:
         return _handleMaterialPageRoute(
           widget: const Scaffold(body: Center(child: Text('Page not found'))),

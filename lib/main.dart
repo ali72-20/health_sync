@@ -51,7 +51,7 @@ class HealthSync extends StatelessWidget {
           : AppTheme.darkTheme,
       navigatorKey: navKey,
       locale: Locale(languageProvider.currentLanguage),
-      initialRoute: PagesRoutes.loginPage,
+      initialRoute: PagesRoutes.homePage,
       onGenerateRoute: NavigationController.onGenerateRoute,
     );
   }

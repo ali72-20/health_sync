@@ -51,6 +51,7 @@ dependencies:
   flutter_localization: ^0.3.0
   cached_network_image:
   intl: any
+  easy_sidemenu: ^0.7.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
