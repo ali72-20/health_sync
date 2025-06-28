@@ -1,4 +1,5 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
+import 'package:health_sync/core/assets/assets_paths.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/presentation/themes/colors.dart';
 import 'package:health_sync/presentation/ui/dash_board/view/dash_board_view.dart';
@@ -96,8 +97,26 @@ class _HomeBodyState extends State<HomeBody> {
             selectedColor: Theme.of(context).colorScheme.primary,
           ),
         ),
-        Expanded(
-          child: PageView(controller: pageController, children: views),
+        SizedBox(
+          width: context.width * 0.03,
+        ),
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(Images.logo),
+                Icon(Icons.notifications),
+              ],
+            ),
+            SizedBox(
+              width: context.width * 0.7,
+              height: 2,
+            ),
+            Expanded(
+              child: PageView(controller: pageController, children: views),
+            ),
+          ],
         ),
       ],
     );
