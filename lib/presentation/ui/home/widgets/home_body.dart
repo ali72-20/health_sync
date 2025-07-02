@@ -3,6 +3,7 @@ import 'package:health_sync/core/assets/assets_paths.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/presentation/themes/colors.dart';
 import 'package:health_sync/presentation/ui/dash_board/view/dash_board_view.dart';
+import 'package:health_sync/presentation/ui/doctors/view/doctors_search_result.dart';
 import 'package:health_sync/presentation/ui/doctors/view/doctors_view.dart';
 import 'package:health_sync/presentation/ui/patients/view/patients_view.dart';
 import 'package:health_sync/presentation/ui/profile/view/profile_view.dart';
@@ -97,26 +98,8 @@ class _HomeBodyState extends State<HomeBody> {
             selectedColor: Theme.of(context).colorScheme.primary,
           ),
         ),
-        SizedBox(
-          width: context.width * 0.03,
-        ),
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(Images.logo),
-                Icon(Icons.notifications),
-              ],
-            ),
-            SizedBox(
-              width: context.width * 0.7,
-              height: 2,
-            ),
-            Expanded(
-              child: PageView(controller: pageController, children: views),
-            ),
-          ],
+        Expanded(
+          child: PageView(controller: pageController, children: views),
         ),
       ],
     );
