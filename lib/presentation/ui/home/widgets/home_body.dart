@@ -1,9 +1,7 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
-import 'package:health_sync/core/assets/assets_paths.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/presentation/themes/colors.dart';
 import 'package:health_sync/presentation/ui/dash_board/view/dash_board_view.dart';
-import 'package:health_sync/presentation/ui/doctors/view/doctors_search_result.dart';
 import 'package:health_sync/presentation/ui/doctors/view/doctors_view.dart';
 import 'package:health_sync/presentation/ui/patients/view/patients_view.dart';
 import 'package:health_sync/presentation/ui/profile/view/profile_view.dart';
