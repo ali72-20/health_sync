@@ -41,6 +41,8 @@ class LoginScreenViewModel extends Cubit<LoginScreenStates> {
     switch (event) {
       case LoginEvent():
         _login(event.email, event.password, event.key);
+      case NavigateToRegisterEvent(): emit(NavigateToRegisterState());
+
     }
   }
 }

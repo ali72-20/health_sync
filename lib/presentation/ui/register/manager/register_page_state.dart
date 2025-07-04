@@ -5,3 +5,6 @@ abstract class RegisterPageState extends BaseUIState{}
 
 final class RegisterPageInitialState extends RegisterPageState {}
 
+final class RegisterPageOnLoadingState extends RegisterPageState{}
+final class RegisterPageOnSuccessState extends RegisterPageState {}
+final class RegisterPageOnErrorState extends RegisterPageState {}

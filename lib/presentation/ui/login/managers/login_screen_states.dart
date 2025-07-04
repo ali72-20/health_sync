@@ -6,4 +6,5 @@ final class LoginScreenInitialState extends LoginScreenStates{}
 final class LoginScreenOnLoadingState extends LoginScreenStates{}
 final class LoginScreenOnSuccessState extends LoginScreenStates {}
 final class LoginScreenOnErrorState extends LoginScreenStates {}
+final class NavigateToRegisterState extends LoginScreenStates{}
 

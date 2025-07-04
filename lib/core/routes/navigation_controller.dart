@@ -16,6 +16,11 @@ class NavigationController {
         );
       case PagesRoutes.homePage:
         return _handleMaterialPageRoute(widget: Home(), settings: settings);
+      case PagesRoutes.registerPage:
+        return _handleMaterialPageRoute(
+          widget: const Scaffold(body: Center(child: Text('Register Page'))),
+          settings: settings,
+        );
       default:
         return _handleMaterialPageRoute(
           widget: const Scaffold(body: Center(child: Text('Page not found'))),

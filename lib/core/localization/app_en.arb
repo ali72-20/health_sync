@@ -13,5 +13,9 @@
   "clinics": "Clinics",
   "reports": "Reports",
   "profile": "Profile",
-  "logout": "Logout"
+  "logout": "Logout",
+  "register": "Register",
+  "phone_number": "Phone Number",
+  "address": "Address"
+
 }

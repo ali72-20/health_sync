@@ -9,3 +9,5 @@ class LoginEvent extends LoginScreenEvents{
   LoginEvent({required this.email, required this.password, required this.key});
 }
 
+class NavigateToRegisterEvent extends LoginScreenEvents{}
+
