@@ -29,6 +29,7 @@ import '../data/repositories/auth_repository_impl.dart' as _i74;
 import '../domain/repositories/auth_repository.dart' as _i800;
 import '../domain/use_cases/auth/get_user_profile_use_case.dart' as _i114;
 import '../domain/use_cases/auth/login_use_case.dart' as _i132;
+import '../domain/use_cases/auth/logout_use_case.dart' as _i584;
 import '../domain/use_cases/auth/register_use_case.dart' as _i961;
 import '../presentation/ui/clinics/managers/clinics_page_view_model.dart'
     as _i735;
@@ -102,14 +103,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i132.LoginUseCase>(
       () => _i132.LoginUseCase(gh<_i800.AuthRepository>()),
     );
+    gh.factory<_i584.LogoutUseCase>(
+      () => _i584.LogoutUseCase(gh<_i800.AuthRepository>()),
+    );
+    gh.factory<_i78.ProfilePageViewModel>(
+      () => _i78.ProfilePageViewModel(
+        gh<_i114.GetUserProfileUseCase>(),
+        gh<_i584.LogoutUseCase>(),
+      ),
+    );
     gh.factory<_i139.LoginScreenViewModel>(
       () => _i139.LoginScreenViewModel(gh<_i132.LoginUseCase>()),
     );
     gh.factory<_i96.RegisterPageViewModel>(
       () => _i96.RegisterPageViewModel(gh<_i961.RegisterUseCase>()),
-    );
-    gh.factory<_i78.ProfilePageViewModel>(
-      () => _i78.ProfilePageViewModel(gh<_i114.GetUserProfileUseCase>()),
     );
     return this;
   }

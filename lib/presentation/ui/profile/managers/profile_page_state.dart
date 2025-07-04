@@ -15,3 +15,5 @@ final class ProfilePageOnErrorState extends ProfilePageState {
 
   ProfilePageOnErrorState({required this.exception});
 }
+
+final class LogoutSuccessState extends ProfilePageState{}

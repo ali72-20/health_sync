@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:health_sync/data/api/core/api_end_points.dart';
+import 'package:health_sync/data/models/request_models/auth/logout_request_model.dart';
 import 'package:health_sync/data/models/response_model/auth/login_response_model.dart';
 import 'package:health_sync/data/models/response_model/auth/register_response_model.dart';
 import 'package:health_sync/data/models/response_model/auth/user_model.dart';
@@ -26,4 +27,7 @@ abstract interface class ApiManager {
 
   @GET(ApiEndPoints.getUserProfile)
   Future<UserModel> getUserProfile({@Header("Authorization") required String token});
+
+  @POST(ApiEndPoints.logout)
+  Future<void> logout(@Body() LogoutReuqestModel model);
 }

@@ -3,5 +3,6 @@ class ApiEndPoints{
   static const String login = "Auth/signin";
   static const String register = "AdminAuth/register_profile";
   static const String getUserProfile = "Dashboard/GetProfile";
+  static const String logout = "Auth/logout";
 
 }

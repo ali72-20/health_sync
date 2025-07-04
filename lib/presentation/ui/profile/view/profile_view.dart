@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
+import 'package:health_sync/core/routes/pages_route.dart';
 import 'package:health_sync/domain/entities/auth/user_entity.dart';
+import 'package:health_sync/main.dart';
 import 'package:health_sync/presentation/ui/profile/managers/profile_page_event.dart';
 import 'package:health_sync/presentation/ui/profile/managers/profile_page_state.dart';
 import 'package:health_sync/presentation/ui/profile/managers/profile_page_view_model.dart';
@@ -36,7 +38,11 @@ class ProfileView extends StatelessWidget {
             ),
           );
         },
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is LogoutSuccessState) {
+            navKey.currentState!.pushReplacementNamed(PagesRoutes.loginPage);
+          }
+        },
       ),
     );
   }
@@ -133,13 +139,14 @@ class ProfileView extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
+    final viewModel = context.read<ProfilePageViewModel>();
     return Wrap(
       spacing: 16,
       runSpacing: 16,
       children: [
         ElevatedButton.icon(
           onPressed: () {
-            // Your logout logic here
+            viewModel.onEven(LogoutEvent());
           },
           icon: const Icon(Icons.logout, size: 18),
           label: Text(context.locale.logout),

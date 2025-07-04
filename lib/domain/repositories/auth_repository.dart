@@ -9,5 +9,5 @@ abstract interface class AuthRepository {
   Future<ApiResult<LoginResponseEntity>> login(LoginRequestEntity entity);
   Future<ApiResult<RegisterResponseEntity>> register(RegisterRequestEntity entity);
   Future<ApiResult<UserEntity>> getUserProfile();
-
+  Future<ApiResult<void>> logout();
 }
