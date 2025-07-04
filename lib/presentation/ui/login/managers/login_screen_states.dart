@@ -1,6 +1,9 @@
 import 'package:health_sync/presentation/ui/core/base_managers/base_ui_state.dart';
 
-abstract class LoginScreenStates<T> extends BaseUIState<T>{}
+abstract class LoginScreenStates {}
 
-final class LoginScreenInitialState<T> extends LoginScreenStates<T>{}
+final class LoginScreenInitialState extends LoginScreenStates{}
+final class LoginScreenOnLoadingState extends LoginScreenStates{}
+final class LoginScreenOnSuccessState extends LoginScreenStates {}
+final class LoginScreenOnErrorState extends LoginScreenStates {}
 

@@ -66,7 +66,11 @@ class LoginScreenBody extends StatelessWidget {
                           labelText: context.locale.enter_your_email,
                           prefixIcon: Icon(Icons.email, color: gray),
                         ),
-                        validator: (value) {},
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return context.locale.enter_your_email;
+                          }
+                        },
                         onChanged: (value) {},
                       ),
                       verticalSpace(26),
@@ -86,7 +90,11 @@ class LoginScreenBody extends StatelessWidget {
                           labelText: context.locale.enter_your_password,
                           prefixIcon: Icon(Icons.lock, color: gray),
                         ),
-                        validator: (value) {},
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return context.locale.enter_your_password;
+                          }
+                        },
                       ),
                       verticalSpace(32),
                       ElevatedButton(

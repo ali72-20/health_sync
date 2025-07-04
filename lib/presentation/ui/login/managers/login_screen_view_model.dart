@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/api_result/ApiResult.dart';
@@ -17,9 +19,10 @@ class LoginScreenViewModel extends Cubit<LoginScreenStates> {
 
   _login(String email, String password,GlobalKey<FormState> formKey) async {
     if(formKey.currentState!.validate() == false) {
+      log("LoginScreenViewModel Form validation failed");
       return;
     }
-    emit(OnLoadingState() as LoginScreenStates);
+    emit(LoginScreenOnLoadingState());
     LoginRequestEntity entity = LoginRequestEntity(
       email: email,
       password: password,
@@ -27,9 +30,10 @@ class LoginScreenViewModel extends Cubit<LoginScreenStates> {
     final result = await _loginUseCase.login(entity);
     switch (result) {
       case OnSuccess<LoginResponseEntity>():
-        emit(OnSuccessState() as LoginScreenStates);
+        emit(LoginScreenOnSuccessState());
+
       case OnFailure<LoginResponseEntity>():
-        emit(OnErrorState(exception: result.exception) as LoginScreenStates);
+        emit(LoginScreenOnErrorState());
     }
   }
 
