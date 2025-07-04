@@ -67,12 +67,12 @@ class RegisterPageBody extends StatelessWidget {
                         controller: controllerManager.usernameController,
                         decoration: InputDecoration(
                           hintText: context.locale.user_name,
-                          labelText: context.locale.enter_your_email,
+                          labelText: context.locale.enter_your_user_name,
                           prefixIcon: Icon(Icons.email, color: gray),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return context.locale.enter_your_email;
+                            return context.locale.enter_your_user_name;
                           }
                         },
                         onChanged: (value) {},
@@ -135,7 +135,7 @@ class RegisterPageBody extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return context.locale.enter_your_email;
+                            return context.locale.enter_your_phone_number;
                           }
                         },
                         onChanged: (value) {},
@@ -156,7 +156,7 @@ class RegisterPageBody extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return context.locale.enter_your_email;
+                            return context.locale.enter_your_address;
                           }
                         },
                         onChanged: (value) {},
