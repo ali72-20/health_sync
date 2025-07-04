@@ -21,4 +21,9 @@ class AuthRemoteDataSourceContractImpl implements AuthRemoteDataSourceContract {
     return await _apiManager.register(model);
   }
 
+  @override
+  Future<void> getUserProfile({required String token}) async{
+     return await _apiManager.getUserProfile(token: token);
+  }
+
 }

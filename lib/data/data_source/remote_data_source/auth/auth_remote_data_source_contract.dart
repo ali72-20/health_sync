@@ -6,4 +6,5 @@ import '../../../models/response_model/auth/login_response_model.dart';
 abstract interface class AuthRemoteDataSourceContract{
   Future<LoginResponseModel> login(LoginRequestModel model);
   Future<void> register(RegisterRequestModel model);
+  Future<void> getUserProfile({required String token});
 }

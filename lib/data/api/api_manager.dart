@@ -12,8 +12,7 @@ part 'api_manager.g.dart';
 @singleton
 @injectable
 @RestApi(baseUrl: ApiBaseUrls.BASE_URL)
-abstract interface class ApiManager{
-
+abstract interface class ApiManager {
   @factoryMethod
   factory ApiManager(Dio dio) = _ApiManager;
 
@@ -23,4 +22,6 @@ abstract interface class ApiManager{
   @POST(ApiEndPoints.register)
   Future<void> register(@Body() RegisterRequestModel model);
 
+  @GET(ApiEndPoints.getUserProfile)
+  Future<void> getUserProfile({@Header("Token") required String token});
 }
