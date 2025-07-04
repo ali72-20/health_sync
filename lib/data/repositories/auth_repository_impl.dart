@@ -61,7 +61,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<ApiResult<UserEntity>> getUserProfile() async{
     String? token = await _authLocalDataSourceContract.getToken();
     return await safeApiCall<UserEntity>(apiCall:() async{
-      final response = await _authRemoteDataSourceContract.getUserProfile(token: token??"");
+      final response = await _authRemoteDataSourceContract.getUserProfile(token: "Bearer $token"??"");
       return response.toDomain();
     });
   }

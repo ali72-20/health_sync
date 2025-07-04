@@ -59,26 +59,25 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
-    gh.factory<_i835.HomeScreenViewModel>(() => _i835.HomeScreenViewModel());
     gh.factory<_i823.PatientsPageViewModel>(
       () => _i823.PatientsPageViewModel(),
     );
+    gh.factory<_i835.HomeScreenViewModel>(() => _i835.HomeScreenViewModel());
     gh.factory<_i977.DashBoardPageViewModel>(
       () => _i977.DashBoardPageViewModel(),
     );
     gh.factory<_i735.ClinicsPageViewModel>(() => _i735.ClinicsPageViewModel());
-    gh.factory<_i78.ProfilePageViewModel>(() => _i78.ProfilePageViewModel());
     gh.factory<_i756.DoctorsPageViewModel>(() => _i756.DoctorsPageViewModel());
     gh.factory<_i384.ReportsScreeViewModel>(
       () => _i384.ReportsScreeViewModel(),
     );
     gh.singleton<_i891.LanguageProvider>(() => _i891.LanguageProvider());
     gh.singleton<_i578.ThemeProvider>(() => _i578.ThemeProvider());
-    gh.singleton<_i256.LoginTextControllerManager>(
-      () => _i256.LoginTextControllerManager(),
-    );
     gh.singleton<_i1042.RegisterControllerManager>(
       () => _i1042.RegisterControllerManager(),
+    );
+    gh.singleton<_i256.LoginTextControllerManager>(
+      () => _i256.LoginTextControllerManager(),
     );
     gh.lazySingleton<_i361.Dio>(() => networkModule.dioProvider());
     gh.factory<_i69.AuthLocalDataSourceContract>(
@@ -94,20 +93,23 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i69.AuthLocalDataSourceContract>(),
       ),
     );
+    gh.factory<_i114.GetUserProfileUseCase>(
+      () => _i114.GetUserProfileUseCase(gh<_i800.AuthRepository>()),
+    );
     gh.factory<_i961.RegisterUseCase>(
       () => _i961.RegisterUseCase(gh<_i800.AuthRepository>()),
     );
     gh.factory<_i132.LoginUseCase>(
       () => _i132.LoginUseCase(gh<_i800.AuthRepository>()),
     );
-    gh.factory<_i114.GetUserProfileUseCase>(
-      () => _i114.GetUserProfileUseCase(gh<_i800.AuthRepository>()),
-    );
     gh.factory<_i139.LoginScreenViewModel>(
       () => _i139.LoginScreenViewModel(gh<_i132.LoginUseCase>()),
     );
     gh.factory<_i96.RegisterPageViewModel>(
       () => _i96.RegisterPageViewModel(gh<_i961.RegisterUseCase>()),
+    );
+    gh.factory<_i78.ProfilePageViewModel>(
+      () => _i78.ProfilePageViewModel(gh<_i114.GetUserProfileUseCase>()),
     );
     return this;
   }

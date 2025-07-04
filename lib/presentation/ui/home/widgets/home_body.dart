@@ -1,6 +1,7 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/presentation/themes/colors.dart';
+import 'package:health_sync/presentation/ui/clinics/view/clinics_search_result_view.dart';
 import 'package:health_sync/presentation/ui/dash_board/view/dash_board_view.dart';
 import 'package:health_sync/presentation/ui/doctors/view/doctor_details.dart';
 import 'package:health_sync/presentation/ui/doctors/view/doctors_search_result.dart';
@@ -37,8 +38,8 @@ class _HomeBodyState extends State<HomeBody> {
   List<Widget> views = [
     DashBoardView(),
     DoctorsView(),
-    PatientsView(),
-    ClinicsView(),
+    ClinicProfileScreen(),
+    ClinicsScreen(),
     ReportsView(),
     ProfileView(),
   ];

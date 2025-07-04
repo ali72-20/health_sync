@@ -1,5 +1,12 @@
-// clinics_screen.dart
+// clinics_screen.dart (CORRECTED)
+
 import 'package:flutter/material.dart';
+
+import 'clinic_details_page.dart';
+import 'clinics_search_result_view.dart';
+
+// Import your other screens so navigation works
+
 
 // A data model for the clinic and an enum for the status
 enum ClinicStatus { Approved, Rejected }
@@ -33,20 +40,19 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
     Clinic(name: 'Prime Healthcare Center', address: '654 Care Lane, Downtown Dubai', status: ClinicStatus.Approved, registrationDate: '2024-01-11'),
     Clinic(name: 'Family Care Clinic', address: '456 Wellness Street, Abu Dhabi', status: ClinicStatus.Approved, registrationDate: '2024-01-14'),
     Clinic(name: 'Advanced Medical Hub', address: '789 Medical Boulevard, Sharjah', status: ClinicStatus.Rejected, registrationDate: '2024-01-13'),
-    // Add more data to test pagination
     Clinic(name: 'Wellness First', address: '101 Health Ave, Abu Dhabi', status: ClinicStatus.Approved, registrationDate: '2024-01-10'),
     Clinic(name: 'Sharjah Specialty', address: '202 Cure Rd, Sharjah', status: ClinicStatus.Approved, registrationDate: '2024-01-09'),
   ];
 
-  // This would be used to filter the data source
   final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 30.0),
+      body: Padding(
+        // Added padding for better aesthetics
+        padding: const EdgeInsets.fromLTRB(32, 32, 32, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -54,7 +60,15 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
             const SizedBox(height: 24),
             _buildSearchBarAndButton(),
             const SizedBox(height: 24),
-            _buildClinicsTable(),
+
+            // ================== THE FIX IS HERE ==================
+            // We wrap the part of the UI that scrolls (the table)
+            // in an Expanded widget. This tells the Column's child
+            // to fill the remaining available vertical space.
+            Expanded(
+              child: _buildClinicsTable(),
+            ),
+            // =====================================================
           ],
         ),
       ),
@@ -102,9 +116,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
         ),
         const SizedBox(width: 24),
         ElevatedButton(
-          onPressed: () {
-            // Logic for adding a new clinic
-          },
+          onPressed: () {},
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF0D6EFD),
             foregroundColor: Colors.white,
@@ -121,6 +133,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   }
 
   Widget _buildClinicsTable() {
+    // This widget is fine, the problem was with its parent layout.
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -129,7 +142,6 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: PaginatedDataTable(
-        // The header is not needed as we have one above the table
         header: const SizedBox.shrink(),
         rowsPerPage: 5,
         columns: const [
@@ -139,10 +151,9 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
           DataColumn(label: Text('Registration Date', style: TextStyle(fontWeight: FontWeight.bold))),
           DataColumn(label: Text('Actions', style: TextStyle(fontWeight: FontWeight.bold))),
         ],
-        source: _ClinicDataSource(clinics: _clinics),
+        source: _ClinicDataSource(clinics: _clinics, context: context),
         columnSpacing: 20,
         horizontalMargin: 20,
-        // The following properties help match the UI more closely
         showCheckboxColumn: false,
         dataRowHeight: 60,
         headingRowHeight: 56,
@@ -151,18 +162,17 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   }
 }
 
-
 class _ClinicDataSource extends DataTableSource {
   final List<Clinic> clinics;
+  final BuildContext context;
 
-  _ClinicDataSource({required this.clinics});
+  _ClinicDataSource({required this.clinics, required this.context});
 
   @override
   DataRow? getRow(int index) {
-    if (index >= clinics.length) {
-      return null;
-    }
+    if (index >= clinics.length) return null;
     final clinic = clinics[index];
+
     return DataRow.byIndex(
       index: index,
       cells: [
@@ -170,7 +180,7 @@ class _ClinicDataSource extends DataTableSource {
         DataCell(Text(clinic.address)),
         DataCell(_buildStatusChip(clinic.status)),
         DataCell(Text(clinic.registrationDate)),
-        DataCell(_buildActionIcons()),
+        DataCell(_buildActionIcons(clinic)),
       ],
     );
   }
@@ -179,17 +189,13 @@ class _ClinicDataSource extends DataTableSource {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: status == ClinicStatus.Approved
-            ? const Color(0xFFD1FAE5) // light green
-            : const Color(0xFFFEE2E2), // light red
+        color: status == ClinicStatus.Approved ? const Color(0xFFD1FAE5) : const Color(0xFFFEE2E2),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
         status == ClinicStatus.Approved ? 'Approved' : 'Rejected',
         style: TextStyle(
-            color: status == ClinicStatus.Approved
-                ? const Color(0xFF065F46) // dark green
-                : const Color(0xFF991B1B), // dark red
+            color: status == ClinicStatus.Approved ? const Color(0xFF065F46) : const Color(0xFF991B1B),
             fontWeight: FontWeight.bold,
             fontSize: 12
         ),
@@ -197,13 +203,19 @@ class _ClinicDataSource extends DataTableSource {
     );
   }
 
-  Widget _buildActionIcons() {
+  Widget _buildActionIcons(Clinic clinic) {
     return Row(
       children: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            if (clinic.status == ClinicStatus.Rejected) {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ClinicDetailsScreen()));
+            } else {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ClinicProfileScreen()));
+            }
+          },
           icon: const Icon(Icons.edit, color: Color(0xFF0D6EFD), size: 20),
-          tooltip: 'Edit',
+          tooltip: 'View/Edit',
         ),
         IconButton(
           onPressed: () {},
@@ -221,10 +233,8 @@ class _ClinicDataSource extends DataTableSource {
 
   @override
   bool get isRowCountApproximate => false;
-
   @override
   int get rowCount => clinics.length;
-
   @override
   int get selectedRowCount => 0;
 }

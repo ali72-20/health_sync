@@ -1,183 +1,172 @@
-import 'package:flutter/material.dart';
+// clinic_details_screen.dart
 
-class ClinicDetailPage extends StatelessWidget {
-  const ClinicDetailPage({super.key});
+import 'package:flutter/material.dart';
+import 'package:dotted_border/dotted_border.dart';
+
+class ClinicDetailsScreen extends StatelessWidget {
+  const ClinicDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF8F9FA),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Container(
-          width: double.infinity,
-          child: Card(
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Clinic Information Section
-                  _buildSectionHeader('Clinic Information'),
-                  SizedBox(height: 24),
-
-                  // Clinic Details
-                  _buildInfoRow('Clinic Name', 'City Medical Center'),
-                  SizedBox(height: 16),
-                  _buildInfoRow('License ID', 'CLN-2024-456'),
-                  SizedBox(height: 16),
-                  _buildInfoRow('Address', '123 Healthcare Avenue, Dubai, UAE'),
-                  SizedBox(height: 16),
-                  _buildInfoRow('Contact', '+971 50 123 4567'),
-                  SizedBox(height: 16),
-                  _buildInfoRow('Email', 'contact@citymedical.ae'),
-
-                  SizedBox(height: 48),
-
-                  // License Document Section
-                  _buildSectionHeader('License Document'),
-                  SizedBox(height: 24),
-
-                  // Document Upload Area
-                  Container(
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF8F9FA),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Color(0xFFE5E7EB),
-                        width: 1,
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.description_outlined,
-                          size: 48,
-                          color: Color(0xFF9CA3AF),
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          'clinic_license_CLN456.pdf',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF6B7280),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        TextButton(
-                          onPressed: () {
-                            // View document functionality
-                          },
-                          child: Text(
-                            'View Document',
-                            style: TextStyle(
-                              color: Color(0xFF3B82F6),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: 48),
-
-                  // Action Buttons
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          // Approve clinic functionality
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF3B82F6),
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text(
-                          'Approve Clinic',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 16),
-                      OutlinedButton(
-                        onPressed: () {
-                          // Reject application functionality
-                        },
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Color(0xFFDC2626),
-                          side: BorderSide(color: Color(0xFFDC2626)),
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                        child: Text(
-                          'Reject Application',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+      backgroundColor: const Color(0xFFF8F9FA),
+      appBar: AppBar(
+        title: const Text('Clinic Application Review'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 1,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildClinicInfoCard(),
+              const SizedBox(height: 32),
+              _buildLicenseDocumentCard(),
+              const SizedBox(height: 40),
+              _buildActionButtons(),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildSectionHeader(String title) {
+  Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w600,
-        color: Color(0xFF111827),
+      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget _buildClinicInfoCard() {
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionTitle('Clinic Information'),
+          const SizedBox(height: 24),
+          _buildInfoRow('Clinic Name', 'City Medical Center'),
+          _buildInfoRow('License ID', 'CLN-2024-456'),
+          _buildInfoRow('Address', '123 Healthcare Avenue, Dubai, UAE'),
+          _buildInfoRow('Contact', '+971 50 123 4567'),
+          _buildInfoRow('Email', 'contact@citymedical.ae'),
+        ],
       ),
     );
   }
 
   Widget _buildInfoRow(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLicenseDocumentCard() {
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionTitle('License Document'),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8F9FA),
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(color: Colors.blue.shade600, width: 2),
+            ),
+            child: DottedBorder(
+              color: Colors.grey.shade500,
+              strokeWidth: 1,
+              dashPattern: const [6, 3],
+              borderType: BorderType.RRect,
+              radius: const Radius.circular(6),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.insert_drive_file_outlined, color: Colors.grey.shade600, size: 40),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'clinic_license_CLN456.pdf',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('View Document'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Row(
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF6B7280),
+        ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF0D6EFD),
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
           ),
+          child: const Text('Approve Clinic'),
         ),
-        SizedBox(height: 4),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF111827),
+        const SizedBox(width: 16),
+        OutlinedButton(
+          onPressed: () {},
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.red.shade700,
+            side: BorderSide(color: Colors.red.shade400, width: 1.5),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
           ),
+          child: const Text('Reject Application'),
         ),
       ],
     );

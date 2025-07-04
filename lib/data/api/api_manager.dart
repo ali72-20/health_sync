@@ -25,5 +25,5 @@ abstract interface class ApiManager {
   Future<RegisterResponseModel> register(@Body() RegisterRequestModel model);
 
   @GET(ApiEndPoints.getUserProfile)
-  Future<UserModel> getUserProfile({@Header("Token") required String token});
+  Future<UserModel> getUserProfile({@Header("Authorization") required String token});
 }
