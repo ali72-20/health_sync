@@ -4,6 +4,7 @@ import 'package:health_sync/data/models/response_model/auth/login_response_model
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/request_models/auth/login_request_model.dart';
+import '../models/request_models/auth/register_request_model.dart';
 import 'core/api_base_urls.dart';
 
 part 'api_manager.g.dart';
@@ -18,5 +19,8 @@ abstract interface class ApiManager{
 
   @POST(ApiEndPoints.login)
   Future<LoginResponseModel> login(@Body() LoginRequestModel model);
+
+  @POST(ApiEndPoints.register)
+  Future<void> register(@Body() RegisterRequestModel model);
 
 }
