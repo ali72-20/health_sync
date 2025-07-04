@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_sync/core/routes/pages_route.dart';
 import 'package:health_sync/di/di.dart';
+import 'package:health_sync/main.dart';
 import 'package:health_sync/presentation/ui/register/manager/controller_manager.dart';
 import 'package:health_sync/presentation/ui/register/manager/register_page_state.dart';
 import 'package:health_sync/presentation/ui/register/manager/register_page_view_model.dart';
@@ -29,7 +31,19 @@ class RegisterPage extends StatelessWidget {
               }
               return RegisterPageBody();
             },
-            listener: (context, state) {},
+            listener: (context, state) {
+              if(state is RegisterPageOnSuccessState){
+                navKey.currentState!.pushReplacementNamed(PagesRoutes.homePage);
+              }
+              else if(state is RegisterPageOnErrorState){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Register Error"),
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                  ),
+                );
+              }
+            },
           ),
         )
       ,

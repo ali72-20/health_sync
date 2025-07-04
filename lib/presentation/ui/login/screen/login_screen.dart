@@ -36,6 +36,19 @@ class LoginScreen extends StatelessWidget {
                   PagesRoutes.registerPage,
                 );
               }
+              else if(state is LoginScreenOnSuccessState) {
+                navKey.currentState?.pushReplacementNamed(
+                  PagesRoutes.homePage,
+                );
+              }
+              else if (state is LoginScreenOnErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("login Error"),
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                  ),
+                );
+              }
             },
           ),
         ),
