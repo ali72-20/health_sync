@@ -67,4 +67,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enter_your_address => 'أدخل عنوانك';
+
+  @override
+  String get first_name => 'الاسم الأول';
+
+  @override
+  String get last_name => 'الاسم الأخير';
+
+  @override
+  String get enter_your_first_name => 'أدخل اسمك الأول';
+
+  @override
+  String get enter_your_last_name => 'أدخل اسم عائلتك';
+
+  @override
+  String get user_name => 'اسم المستخدم';
 }

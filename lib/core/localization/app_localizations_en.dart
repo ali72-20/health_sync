@@ -67,4 +67,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enter_your_address => 'Enter your address';
+
+  @override
+  String get first_name => 'First Name';
+
+  @override
+  String get last_name => 'Last Name';
+
+  @override
+  String get enter_your_first_name => 'Enter your first name';
+
+  @override
+  String get enter_your_last_name => 'Enter your last name';
+
+  @override
+  String get user_name => 'Username';
 }

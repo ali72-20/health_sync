@@ -217,6 +217,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter your address'**
   String get enter_your_address;
+
+  /// No description provided for @first_name.
+  ///
+  /// In en, this message translates to:
+  /// **'First Name'**
+  String get first_name;
+
+  /// No description provided for @last_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Name'**
+  String get last_name;
+
+  /// No description provided for @enter_your_first_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your first name'**
+  String get enter_your_first_name;
+
+  /// No description provided for @enter_your_last_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your last name'**
+  String get enter_your_last_name;
+
+  /// No description provided for @user_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get user_name;
 }
 
 class _AppLocalizationsDelegate

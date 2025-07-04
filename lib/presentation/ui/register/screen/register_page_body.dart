@@ -51,20 +51,20 @@ class RegisterPageBody extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                "first name",
+                                context.locale.first_name,
                                 style: Theme.of(context).textTheme.titleMedium,
                                 textAlign: TextAlign.start,
                               ),
                               TextFormField(
                                 controller: controllerManager.firstNameController,
                                 decoration: InputDecoration(
-                                  hintText: context.locale.email,
-                                  labelText: context.locale.enter_your_email,
+                                  hintText: context.locale.first_name,
+                                  labelText: context.locale.enter_your_first_name,
                                   prefixIcon: Icon(Icons.email, color: gray),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return context.locale.enter_your_email;
+                                    return context.locale.enter_your_first_name;
                                   }
                                 },
                                 onChanged: (value) {},
@@ -74,20 +74,20 @@ class RegisterPageBody extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                "last name",
+                                context.locale.last_name,
                                 style: Theme.of(context).textTheme.titleMedium,
                                 textAlign: TextAlign.start,
                               ),
                               TextFormField(
                                 controller: controllerManager.lastNameController,
                                 decoration: InputDecoration(
-                                  hintText: context.locale.email,
-                                  labelText: context.locale.enter_your_email,
+                                  hintText: context.locale.last_name,
+                                  labelText: context.locale.enter_your_last_name,
                                   prefixIcon: Icon(Icons.email, color: gray),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return context.locale.enter_your_email;
+                                    return context.locale.enter_your_last_name;
                                   }
                                 },
                                 onChanged: (value) {},
@@ -98,7 +98,7 @@ class RegisterPageBody extends StatelessWidget {
                       ),
                       verticalSpace(26),
                       Text(
-                        context.locale.email,
+                        context.locale.user_name,
                         style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.start,
                       ),
@@ -106,7 +106,7 @@ class RegisterPageBody extends StatelessWidget {
                       TextFormField(
                         controller: controllerManager.usernameController,
                         decoration: InputDecoration(
-                          hintText: context.locale.email,
+                          hintText: context.locale.user_name,
                           labelText: context.locale.enter_your_email,
                           prefixIcon: Icon(Icons.email, color: gray),
                         ),

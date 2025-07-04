@@ -23,5 +23,6 @@
   "last_name": "Last Name",
   "enter_your_first_name": "Enter your first name",
   "enter_your_last_name": "Enter your last name",
-  "user_name": "Username"
+  "user_name": "Username",
+  "enter_your_user_name": "Enter your username"
 }
