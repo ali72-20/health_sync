@@ -7,6 +7,7 @@ import 'package:health_sync/data/models/request_models/auth/register_request_mod
 import 'package:health_sync/domain/entities/auth/login_request_entity.dart';
 import 'package:health_sync/domain/entities/auth/register_request_entity.dart';
 import 'package:health_sync/domain/entities/auth/register_response_entity.dart';
+import 'package:health_sync/domain/entities/auth/user_entity.dart';
 import 'package:health_sync/domain/repositories/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -54,5 +55,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
   void saveToken(String token) async {
     await _authLocalDataSourceContract.saveToken(token: token);
+  }
+
+  @override
+  Future<ApiResult<UserEntity>> getUserProfile() async{
+    String? token = await _authLocalDataSourceContract.getToken();
+    return await safeApiCall<UserEntity>(apiCall:() async{
+      final response = await _authRemoteDataSourceContract.getUserProfile(token: token??"");
+      return response.toDomain();
+    });
   }
 }
