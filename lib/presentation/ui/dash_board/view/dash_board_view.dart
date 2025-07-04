@@ -17,7 +17,7 @@ class DashBoardView extends StatelessWidget {
       create: (_) => viewModel,
       child: BlocConsumer<DashBoardPageViewModel, DashBoardPageState>(
         builder: (context, state) {
-          return DashBoardBody();
+          return AdminDashboardScreen();
         },
         listener: (context, state) {},
       ),

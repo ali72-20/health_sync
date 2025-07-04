@@ -1,52 +1,296 @@
-import 'package:health_sync/core/extensions/spaces.dart';
-import 'package:health_sync/presentation/ui/dash_board/view/dash_board_card_item.dart';
+// admin_dashboard_screen.dart
+import 'package:flutter/material.dart';
+import 'package:dotted_border/dotted_border.dart';
 
-import '../../../../core/common/common_imports.dart';
+class AdminDashboardScreen extends StatefulWidget {
+  const AdminDashboardScreen({super.key});
 
-class DashBoardBody extends StatelessWidget {
-  const DashBoardBody({super.key});
+  @override
+  State<AdminDashboardScreen> createState() => _AdminDashboardScreenState();
+}
+
+class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
+  // State for the toggle buttons (Clinic/Doctors)
+  // Index 0: Clinic, Index 1: Doctors
+  final List<bool> _isSelected = [false, true];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text("Admin Dashboard", textAlign: TextAlign.start,),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 24),
-          child: Row(
-            children: [
-              DashBoardCardItem(
-                number: "10",
-                sideState: "Request Attention",
-                state: "Pending",
-              ),
-              DashBoardCardItem(
-                number: "10",
-                sideState: "Request Attention",
-                state: "Pending",
-              ),
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Admin Dashboard',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 24),
+            _buildStatsGrid(),
+            const SizedBox(height: 24),
+            _buildAlertBanner(),
+            const SizedBox(height: 24),
+            _buildPendingRequestsSection(),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 24),
-          child: Row(
-            children: [
-              DashBoardCardItem(
-                number: "10",
-                sideState: "Request Attention",
-                state: "Pending",
-              ),
-              DashBoardCardItem(
-                number: "10",
-                sideState: "Request Attention",
-                state: "Pending",
-              ),
-            ],
-          ),
-        ),
+      ),
+    );
+  }
 
+  Widget _buildStatsGrid() {
+    return GridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 20,
+      mainAxisSpacing: 20,
+      childAspectRatio: 2.5, // Adjust this ratio for your desired card shape
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        _buildStatCard(
+            icon: Icons.pending_actions_outlined,
+            iconColor: Colors.orange,
+            count: '10',
+            label: 'Pending Requests',
+            statusText: 'Requires Attention',
+            statusColor: Colors.red),
+        _buildStatCard(
+            icon: Icons.medical_services_outlined,
+            iconColor: Colors.blue,
+            count: '50',
+            label: 'Active Doctors',
+            statusText: 'All Active',
+            statusColor: Colors.blue),
+        _buildStatCard(
+            icon: Icons.add_business_outlined,
+            iconColor: Colors.teal,
+            count: '20',
+            label: 'Registered Clinics',
+            statusText: '3 Pending Approval',
+            statusColor: Colors.amber.shade800),
+        _buildStatCard(
+            icon: Icons.people_alt_outlined,
+            iconColor: Colors.purple,
+            count: '100',
+            label: 'Registered Patients',
+            statusText: 'Active Users',
+            statusColor: Colors.blue),
       ],
+    );
+  }
+
+  Widget _buildStatCard({
+    required IconData icon,
+    required Color iconColor,
+    required String count,
+    required String label,
+    required String statusText,
+    required Color statusColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 1,
+            blurRadius: 10,
+          )
+        ],
+      ),
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: iconColor.withOpacity(0.15),
+                child: Icon(icon, color: iconColor, size: 20),
+              ),
+              const SizedBox(height: 12),
+              Text(count, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 4),
+              Text(label, style: TextStyle(color: Colors.grey.shade600, fontSize: 14)),
+            ],
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Text(
+              statusText,
+              style: TextStyle(color: statusColor, fontWeight: FontWeight.bold, fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAlertBanner() {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Colors.red.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(color: Colors.blue.shade600, width: 2),
+      ),
+      child: DottedBorder(
+        color: Colors.red.shade400,
+        strokeWidth: 1.5,
+        dashPattern: const [8, 4],
+        borderType: BorderType.RRect,
+        radius: const Radius.circular(4),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          child: Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.red.shade700, size: 20),
+              const SizedBox(width: 12),
+              Text(
+                '10 Pending Requests Require Immediate Attention',
+                style: TextStyle(color: Colors.red.shade900, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPendingRequestsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text('Pending Requests', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Spacer(),
+            ToggleButtons(
+              isSelected: _isSelected,
+              onPressed: (int index) {
+                setState(() {
+                  for (int i = 0; i < _isSelected.length; i++) {
+                    _isSelected[i] = i == index;
+                  }
+                });
+              },
+              borderRadius: BorderRadius.circular(8.0),
+              selectedColor: Colors.black87,
+              color: Colors.grey.shade600,
+              fillColor: Colors.white,
+              selectedBorderColor: Colors.grey.shade400,
+              borderColor: Colors.grey.shade300,
+              children: const [
+                Padding(padding: EdgeInsets.symmetric(horizontal: 16.0), child: Text('Clinic')),
+                Padding(padding: EdgeInsets.symmetric(horizontal: 16.0), child: Text('Doctors')),
+              ],
+            )
+          ],
+        ),
+        const SizedBox(height: 16),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: Column(
+            children: _isSelected[1] ? _buildDoctorList() : _buildClinicList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _buildDoctorList() {
+    return [
+      _buildDoctorRow('Dr. Michael...', 'Pediatrics', 'Children...', '2024-01-20'),
+      _buildDoctorRow('Dr. Lisa...', 'Dermatology', 'Skin Ca...', '2024-01-21'),
+    ];
+  }
+
+  List<Widget> _buildClinicList() {
+    return [
+      _buildClinicRow('Wellness Point Clinic', '321 Health Road, Dubai Marina', '2024-01-12'),
+      _buildClinicRow('City Medical Center', '123 Healthcare Ave, Dubai Healthcare City', '2024-01-15'),
+    ];
+  }
+
+  Widget _buildStatusChip(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.amber.shade100,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.amber.shade800, fontWeight: FontWeight.bold, fontSize: 12),
+      ),
+    );
+  }
+
+  Widget _buildDoctorRow(String name, String specialty, String clinic, String date) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            radius: 20,
+            // In a real app, use NetworkImage(doctor.imageUrl)
+            backgroundColor: Colors.black12,
+          ),
+          const SizedBox(width: 16),
+          Expanded(flex: 2, child: Text(name, style: const TextStyle(fontWeight: FontWeight.bold))),
+          Expanded(flex: 2, child: Text(specialty)),
+          Expanded(flex: 2, child: Text(clinic)),
+          Expanded(flex: 2, child: _buildStatusChip('Pending')),
+          Expanded(flex: 2, child: Text(date, style: TextStyle(color: Colors.grey.shade600))),
+          Expanded(
+            flex: 4,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(onPressed: () {}, child: const Text('View Details')),
+                TextButton(onPressed: () {}, child: const Text('Approve', style: TextStyle(color: Colors.green))),
+                TextButton(onPressed: () {}, child: const Text('Reject', style: TextStyle(color: Colors.red))),
+                TextButton(onPressed: () {}, child: const Text('Assign Clinic')),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildClinicRow(String name, String address, String date) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+      child: Row(
+        children: [
+          Expanded(flex: 4, child: Text(name, style: const TextStyle(fontWeight: FontWeight.bold))),
+          Expanded(flex: 4, child: Text(address)),
+          Expanded(flex: 2, child: _buildStatusChip('Pending')),
+          Expanded(flex: 2, child: Text(date, style: TextStyle(color: Colors.grey.shade600))),
+          Expanded(
+            flex: 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(onPressed: () {}, icon: const Icon(Icons.edit, color: Colors.blue, size: 20)),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.delete, color: Colors.red, size: 20)),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert, color: Colors.grey, size: 20)),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

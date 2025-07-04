@@ -19,7 +19,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        viewModel.onEven(GetUserProfileEvent());
+        // viewModel.onEven(GetUserProfileEvent());
         return viewModel;
       },
       child: BlocConsumer<ProfilePageViewModel, ProfilePageState>(
@@ -29,14 +29,15 @@ class ProfileView extends StatelessWidget {
           } else if (state is ProfilePageOnSuccessState) {
             return _profileScreenBody(context, state.userEntity);
           }
-          return Scaffold(
-            body: Center(
-              child: Text(
-                'Error loading profile',
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
-            ),
-          );
+          return _buildActionButtons(context);
+          // return Scaffold(
+          //   body: Center(
+          //     child: Text(
+          //       'Error loading profile',
+          //       style: TextStyle(color: Theme.of(context).colorScheme.error),
+          //     ),
+          //   ),
+          // );
         },
         listener: (context, state) {
           if (state is LogoutSuccessState) {
