@@ -1,13 +1,13 @@
-abstract class BaseUIState{}
+abstract class BaseUIState<T>{}
 
 
-final class OnLoadingState extends BaseUIState {}
-final class OnSuccessState<T> extends BaseUIState {
+final class OnLoadingState<T> extends BaseUIState<T> {}
+final class OnSuccessState<T> extends BaseUIState <T>{
   T? data;
   OnSuccessState({this.data});
 }
 
-final class OnErrorState extends BaseUIState {
+final class OnErrorState<T> extends BaseUIState<T> {
    Exception? exception;
    OnErrorState({this.exception});
 }

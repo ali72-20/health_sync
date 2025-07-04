@@ -41,6 +41,7 @@ class LoginScreenBody extends StatelessWidget {
                   ]
                 ),
                 child: Form(
+                  key: controllerManager.formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -97,7 +98,7 @@ class LoginScreenBody extends StatelessWidget {
                               .getController(LoginFormFields.PASSWORD)
                               .text;
                           viewModel.onEvent(
-                            LoginEvent(email: email, password: password),
+                            LoginEvent(email: email, password: password, key: controllerManager.formKey),
                           );
                         },
                         child: Text(

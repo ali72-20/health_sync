@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/di/di.dart';
+import 'package:health_sync/presentation/ui/core/base_managers/base_ui_state.dart';
 import 'package:health_sync/presentation/ui/login/managers/login_screen_states.dart';
 import 'package:health_sync/presentation/ui/login/managers/login_screen_view_model.dart';
 import 'package:health_sync/presentation/ui/login/managers/login_text_controllers_manager.dart';
@@ -22,6 +23,9 @@ class LoginScreen extends StatelessWidget {
           create: (_) => viewModel,
           child: BlocConsumer<LoginScreenViewModel, LoginScreenStates>(
             builder: (context, state) {
+              if(state is OnLoadingState){
+                return const Center(child: CircularProgressIndicator());
+              }
               return LoginScreenBody();
             },
             listener: (context, state) {},

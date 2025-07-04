@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 @singleton
 @injectable
 class LoginTextControllerManager{
+     GlobalKey<FormState> formKey = GlobalKey<FormState>();
      TextEditingController _emailController = TextEditingController();
      TextEditingController _passwordController = TextEditingController();
 
