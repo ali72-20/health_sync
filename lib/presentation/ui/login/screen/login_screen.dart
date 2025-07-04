@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
             },
             listener: (context, state) {
               if (state is NavigateToRegisterState) {
-                navKey.currentState?.pushReplacementNamed(
+                navKey.currentState?.pushNamed(
                   PagesRoutes.registerPage,
                 );
               }

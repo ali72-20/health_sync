@@ -52,4 +52,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Logout';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get phone_number => 'Phone Number';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get enter_your_phone_number => 'Enter your phone number';
+
+  @override
+  String get enter_your_address => 'Enter your address';
 }

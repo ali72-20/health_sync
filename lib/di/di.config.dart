@@ -45,6 +45,7 @@ import '../presentation/ui/patients/managers/patients_page_view_model.dart'
     as _i823;
 import '../presentation/ui/profile/managers/profile_page_view_model.dart'
     as _i78;
+import '../presentation/ui/register/manager/controller_manager.dart' as _i1042;
 import '../presentation/ui/register/manager/register_page_view_model.dart'
     as _i96;
 import '../presentation/ui/reports/managers/reports_page_view_model.dart'
@@ -75,6 +76,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i578.ThemeProvider>(() => _i578.ThemeProvider());
     gh.singleton<_i256.LoginTextControllerManager>(
       () => _i256.LoginTextControllerManager(),
+    );
+    gh.singleton<_i1042.RegisterControllerManager>(
+      () => _i1042.RegisterControllerManager(),
     );
     gh.lazySingleton<_i361.Dio>(() => networkModule.dioProvider());
     gh.factory<_i69.AuthLocalDataSourceContract>(

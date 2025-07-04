@@ -16,5 +16,12 @@
   "logout": "تسجيل الخروج",
   "register": "تسجيل",
   "phone_number": "رقم الهاتف",
-  "address": "العنوان"
+  "address": "العنوان",
+  "enter_your_phone_number": "أدخل رقم هاتفك",
+  "enter_your_address": "أدخل عنوانك",
+  "first_name": "الاسم الأول",
+  "last_name": "الاسم الأخير",
+  "enter_your_first_name": "أدخل اسمك الأول",
+  "enter_your_last_name": "أدخل اسم عائلتك",
+    "user_name": "اسم المستخدم"
 }

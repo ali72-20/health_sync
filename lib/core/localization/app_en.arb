@@ -16,6 +16,12 @@
   "logout": "Logout",
   "register": "Register",
   "phone_number": "Phone Number",
-  "address": "Address"
-
+  "address": "Address",
+  "enter_your_phone_number": "Enter your phone number",
+  "enter_your_address": "Enter your address",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "enter_your_first_name": "Enter your first name",
+  "enter_your_last_name": "Enter your last name",
+  "user_name": "Username"
 }

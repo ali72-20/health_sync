@@ -5,14 +5,17 @@ import '../../../../core/assets/assets_paths.dart';
 import '../../../../core/common/common_imports.dart';
 import '../../../../core/extensions/spaces.dart';
 import '../../../themes/colors.dart';
+import '../manager/controller_manager.dart';
 import '../manager/register_page_view_model.dart';
 
 class RegisterPageBody extends StatelessWidget {
+
   const RegisterPageBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.read<RegisterPageViewModel>();
+    final controllerManager = context.read<RegisterControllerManager>();
     return Center(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -38,9 +41,83 @@ class RegisterPageBody extends StatelessWidget {
                     ]
                 ),
                 child: Form(
+                  key: controllerManager.formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                "first name",
+                                style: Theme.of(context).textTheme.titleMedium,
+                                textAlign: TextAlign.start,
+                              ),
+                              TextFormField(
+                                controller: controllerManager.firstNameController,
+                                decoration: InputDecoration(
+                                  hintText: context.locale.email,
+                                  labelText: context.locale.enter_your_email,
+                                  prefixIcon: Icon(Icons.email, color: gray),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return context.locale.enter_your_email;
+                                  }
+                                },
+                                onChanged: (value) {},
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                "last name",
+                                style: Theme.of(context).textTheme.titleMedium,
+                                textAlign: TextAlign.start,
+                              ),
+                              TextFormField(
+                                controller: controllerManager.lastNameController,
+                                decoration: InputDecoration(
+                                  hintText: context.locale.email,
+                                  labelText: context.locale.enter_your_email,
+                                  prefixIcon: Icon(Icons.email, color: gray),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return context.locale.enter_your_email;
+                                  }
+                                },
+                                onChanged: (value) {},
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      verticalSpace(26),
+                      Text(
+                        context.locale.email,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.start,
+                      ),
+                      verticalSpace(11),
+                      TextFormField(
+                        controller: controllerManager.usernameController,
+                        decoration: InputDecoration(
+                          hintText: context.locale.email,
+                          labelText: context.locale.enter_your_email,
+                          prefixIcon: Icon(Icons.email, color: gray),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return context.locale.enter_your_email;
+                          }
+                        },
+                        onChanged: (value) {},
+                      ),
+                      verticalSpace(26),
                       Text(
                         context.locale.welcome_back,
                         style: Theme.of(context).textTheme.titleLarge,
@@ -54,6 +131,7 @@ class RegisterPageBody extends StatelessWidget {
                       ),
                       verticalSpace(11),
                       TextFormField(
+                        controller: controllerManager.emailController,
                         decoration: InputDecoration(
                           hintText: context.locale.email,
                           labelText: context.locale.enter_your_email,
@@ -74,6 +152,7 @@ class RegisterPageBody extends StatelessWidget {
                       ),
                       verticalSpace(11),
                       TextFormField(
+                        controller: controllerManager.passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: context.locale.password,
@@ -86,12 +165,19 @@ class RegisterPageBody extends StatelessWidget {
                           }
                         },
                       ),
+                      verticalSpace(26),
+                      Text(
+                        context.locale.phone_number,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.start,
+                      ),
                       verticalSpace(11),
                       TextFormField(
+                        controller: controllerManager.phoneNumberController,
                         decoration: InputDecoration(
-                          hintText: context.locale.email,
-                          labelText: context.locale.enter_your_email,
-                          prefixIcon: Icon(Icons.email, color: gray),
+                          hintText: context.locale.phone_number,
+                          labelText: context.locale.enter_your_phone_number,
+                          prefixIcon: Icon(Icons.phone_android, color: gray),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -100,12 +186,20 @@ class RegisterPageBody extends StatelessWidget {
                         },
                         onChanged: (value) {},
                       ),
+                      verticalSpace(26),
+                      Text(
+
+                        context.locale.address,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.start,
+                      ),
                       verticalSpace(11),
                       TextFormField(
+                        controller: controllerManager.addressController,
                         decoration: InputDecoration(
-                          hintText: context.locale.email,
-                          labelText: context.locale.enter_your_email,
-                          prefixIcon: Icon(Icons.email, color: gray),
+                          hintText: context.locale.address,
+                          labelText: context.locale.enter_your_address,
+                          prefixIcon: Icon(Icons.location_city, color: gray),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -119,7 +213,7 @@ class RegisterPageBody extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {},
                         child: Text(
-                          context.locale.login,
+                          context.locale.register,
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                       ),
@@ -151,4 +245,10 @@ class RegisterPageBody extends StatelessWidget {
       ),
     );
   }
+}
+
+
+enum Gender{
+  MALE,
+  FEMALE,
 }

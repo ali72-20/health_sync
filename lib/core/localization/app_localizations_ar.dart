@@ -52,4 +52,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get logout => 'تسجيل الخروج';
+
+  @override
+  String get register => 'تسجيل';
+
+  @override
+  String get phone_number => 'رقم الهاتف';
+
+  @override
+  String get address => 'العنوان';
+
+  @override
+  String get enter_your_phone_number => 'أدخل رقم هاتفك';
+
+  @override
+  String get enter_your_address => 'أدخل عنوانك';
 }
