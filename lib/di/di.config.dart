@@ -21,6 +21,8 @@ import '../data/data_source/remote_data_source/auth/auth_remote_data_source_cont
     as _i121;
 import '../data/data_source/remote_data_source/auth/auth_remote_data_source_contract_impl.dart'
     as _i570;
+import '../data/repositories/auth_repository_impl.dart' as _i74;
+import '../domain/repositories/auth_repository.dart' as _i800;
 import '../presentation/ui/clinics/managers/clinics_page_view_model.dart'
     as _i735;
 import '../presentation/ui/dash_board/manager/dash_board_page_view_model.dart'
@@ -70,6 +72,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i93.ApiManager>(() => _i93.ApiManager(gh<_i361.Dio>()));
     gh.factory<_i121.AuthRemoteDataSourceContract>(
       () => _i570.AuthRemoteDataSourceContractImpl(gh<_i93.ApiManager>()),
+    );
+    gh.factory<_i800.AuthRepository>(
+      () => _i74.AuthRepositoryImpl(gh<_i121.AuthRemoteDataSourceContract>()),
     );
     return this;
   }
