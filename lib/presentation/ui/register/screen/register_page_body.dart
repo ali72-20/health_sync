@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
+import 'package:health_sync/domain/entities/auth/register_request_entity.dart';
+import 'package:health_sync/presentation/ui/register/manager/register_page_event.dart';
 
 import '../../../../core/assets/assets_paths.dart';
 import '../../../../core/common/common_imports.dart';
@@ -47,75 +49,13 @@ class RegisterPageBody extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  context.locale.first_name,
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.titleMedium,
-                                ),
-                                verticalSpace(8),
-                                TextFormField(
-                                  controller:
-                                      controllerManager.firstNameController,
-                                  decoration: InputDecoration(
-                                    hintText: context.locale.first_name,
-                                    labelText:
-                                        context.locale.enter_your_first_name,
-                                    prefixIcon: Icon(Icons.person, color: gray),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return context
-                                          .locale
-                                          .enter_your_first_name;
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          horizontalSpace(16),
-
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  context.locale.last_name,
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.titleMedium,
-                                ),
-                                verticalSpace(8),
-                                TextFormField(
-                                  controller:
-                                      controllerManager.lastNameController,
-                                  decoration: InputDecoration(
-                                    hintText: context.locale.last_name,
-                                    labelText:
-                                        context.locale.enter_your_last_name,
-                                    prefixIcon: Icon(Icons.person, color: gray),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return context
-                                          .locale
-                                          .enter_your_last_name;
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      Text(
+                        context.locale.welcome_back,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: TextAlign.center,
                       ),
+                      verticalSpace(30),
+                      _firstnameLastnameRow(context),
                       verticalSpace(26),
                       Text(
                         context.locale.user_name,
@@ -138,12 +78,6 @@ class RegisterPageBody extends StatelessWidget {
                         onChanged: (value) {},
                       ),
                       verticalSpace(26),
-                      Text(
-                        context.locale.welcome_back,
-                        style: Theme.of(context).textTheme.titleLarge,
-                        textAlign: TextAlign.center,
-                      ),
-                      verticalSpace(30),
                       Text(
                         context.locale.email,
                         style: Theme.of(context).textTheme.titleMedium,
@@ -229,13 +163,7 @@ class RegisterPageBody extends StatelessWidget {
                       ),
 
                       verticalSpace(32),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          context.locale.register,
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
-                      ),
+                      _registerButton(context),
                       verticalSpace(24),
                       Text(
                         context.locale.need_help,
@@ -263,6 +191,103 @@ class RegisterPageBody extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _registerButton(BuildContext context) {
+    final viewModel = context.read<RegisterPageViewModel>();
+    final controllerManager = context.read<RegisterControllerManager>();
+    return ElevatedButton(
+      onPressed: () {
+        RegisterRequestEntity entity = createRegisterRequestEntity(
+          controllerManager,
+        );
+        viewModel.onEvent(
+          RegisterEvent(entity: entity, key: controllerManager.formKey),
+        );
+      },
+      child: Text(
+        context.locale.register,
+        style: Theme.of(context).textTheme.labelMedium,
+      ),
+    );
+  }
+
+  Widget _firstnameLastnameRow(BuildContext context) {
+    final controllerManager = context.read<RegisterControllerManager>();
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.locale.first_name,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              verticalSpace(8),
+              TextFormField(
+                controller: controllerManager.firstNameController,
+                decoration: InputDecoration(
+                  hintText: context.locale.first_name,
+                  labelText: context.locale.enter_your_first_name,
+                  prefixIcon: Icon(Icons.person, color: gray),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return context.locale.enter_your_first_name;
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+
+        horizontalSpace(16),
+
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.locale.last_name,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              verticalSpace(8),
+              TextFormField(
+                controller: controllerManager.lastNameController,
+                decoration: InputDecoration(
+                  hintText: context.locale.last_name,
+                  labelText: context.locale.enter_your_last_name,
+                  prefixIcon: Icon(Icons.person, color: gray),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return context.locale.enter_your_last_name;
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  RegisterRequestEntity createRegisterRequestEntity(
+    RegisterControllerManager controllerManager,
+  ) {
+    final entity = RegisterRequestEntity(
+      firstName: controllerManager.firstNameController.text,
+      lastName: controllerManager.lastNameController.text,
+      username: controllerManager.usernameController.text,
+      email: controllerManager.emailController.text,
+      password: controllerManager.passwordController.text,
+      phoneNumber: controllerManager.phoneNumberController.text,
+      address: controllerManager.addressController.text,
+      gender: "Male",
+      accessLevel: "PATIENT",
+    );
+    return entity;
   }
 }
 
