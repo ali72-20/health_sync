@@ -9,7 +9,6 @@ import '../manager/controller_manager.dart';
 import '../manager/register_page_view_model.dart';
 
 class RegisterPageBody extends StatelessWidget {
-
   const RegisterPageBody({super.key});
 
   @override
@@ -27,18 +26,21 @@ class RegisterPageBody extends StatelessWidget {
               elevation: 12,
               borderRadius: BorderRadius.circular(8),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 32),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 32,
+                ),
                 width: context.width * 0.3,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).colorScheme.secondary,
-                        blurRadius: 30,
-                        spreadRadius: 0.5,
-                        offset: const Offset(0, 5),
-                      )
-                    ]
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(context).colorScheme.secondary,
+                      blurRadius: 30,
+                      spreadRadius: 0.5,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
                 child: Form(
                   key: controllerManager.formKey,
@@ -46,54 +48,72 @@ class RegisterPageBody extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            children: [
-                              Text(
-                                context.locale.first_name,
-                                style: Theme.of(context).textTheme.titleMedium,
-                                textAlign: TextAlign.start,
-                              ),
-                              TextFormField(
-                                controller: controllerManager.firstNameController,
-                                decoration: InputDecoration(
-                                  hintText: context.locale.first_name,
-                                  labelText: context.locale.enter_your_first_name,
-                                  prefixIcon: Icon(Icons.email, color: gray),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  context.locale.first_name,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return context.locale.enter_your_first_name;
-                                  }
-                                },
-                                onChanged: (value) {},
-                              ),
-                            ],
+                                verticalSpace(8),
+                                TextFormField(
+                                  controller:
+                                      controllerManager.firstNameController,
+                                  decoration: InputDecoration(
+                                    hintText: context.locale.first_name,
+                                    labelText:
+                                        context.locale.enter_your_first_name,
+                                    prefixIcon: Icon(Icons.person, color: gray),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return context
+                                          .locale
+                                          .enter_your_first_name;
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                          Column(
-                            children: [
-                              Text(
-                                context.locale.last_name,
-                                style: Theme.of(context).textTheme.titleMedium,
-                                textAlign: TextAlign.start,
-                              ),
-                              TextFormField(
-                                controller: controllerManager.lastNameController,
-                                decoration: InputDecoration(
-                                  hintText: context.locale.last_name,
-                                  labelText: context.locale.enter_your_last_name,
-                                  prefixIcon: Icon(Icons.email, color: gray),
+
+                          horizontalSpace(16),
+
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  context.locale.last_name,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return context.locale.enter_your_last_name;
-                                  }
-                                },
-                                onChanged: (value) {},
-                              ),
-                            ],
-                          )
+                                verticalSpace(8),
+                                TextFormField(
+                                  controller:
+                                      controllerManager.lastNameController,
+                                  decoration: InputDecoration(
+                                    hintText: context.locale.last_name,
+                                    labelText:
+                                        context.locale.enter_your_last_name,
+                                    prefixIcon: Icon(Icons.person, color: gray),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return context
+                                          .locale
+                                          .enter_your_last_name;
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                       verticalSpace(26),
@@ -188,7 +208,6 @@ class RegisterPageBody extends StatelessWidget {
                       ),
                       verticalSpace(26),
                       Text(
-
                         context.locale.address,
                         style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.start,
@@ -247,8 +266,4 @@ class RegisterPageBody extends StatelessWidget {
   }
 }
 
-
-enum Gender{
-  MALE,
-  FEMALE,
-}
+enum Gender { MALE, FEMALE }

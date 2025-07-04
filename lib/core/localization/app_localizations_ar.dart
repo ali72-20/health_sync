@@ -82,4 +82,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get user_name => 'اسم المستخدم';
+
+  @override
+  String get enter_your_user_name => 'أدخل اسم المستخدم الخاص بك';
 }

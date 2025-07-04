@@ -247,6 +247,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Username'**
   String get user_name;
+
+  /// No description provided for @enter_your_user_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username'**
+  String get enter_your_user_name;
 }
 
 class _AppLocalizationsDelegate
