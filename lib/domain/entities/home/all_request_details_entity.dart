@@ -1,6 +1,6 @@
 class AllRequestDetailsEntity {
   final List<DoctorDetailsEntity>? doctorDetails;
-  final List<dynamic>? clinicDetails;
+  final List<ClinicEntity>? clinicDetails;
   final int? total;
 
   AllRequestDetailsEntity({
@@ -33,5 +33,21 @@ class DoctorDetailsEntity {
     this.specialization,
     this.yearsOfExp,
     this.doctorClinics,
+  });
+}
+
+class ClinicEntity {
+  final String? clinicID;
+  final String? clinicName;
+  final String? address;
+  final String? phoneNumber;
+  final int? status;
+
+  ClinicEntity({
+    this.clinicID,
+    this.clinicName,
+    this.address,
+    this.phoneNumber,
+    this.status,
   });
 }

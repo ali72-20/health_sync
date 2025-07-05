@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
+import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
 import 'package:health_sync/presentation/ui/dash_board/manager/dash_board_page_event.dart';
 
 import '../manager/dash_board_page_view_model.dart';
@@ -52,7 +53,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               context: context,
             ),
             const SizedBox(height: 24),
-            _buildAlertBanner(),
+            _buildAlertBanner(context),
             const SizedBox(height: 24),
             _buildPendingRequestsSection(context),
           ],
@@ -177,7 +178,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     );
   }
 
-  Widget _buildAlertBanner() {
+  Widget _buildAlertBanner(BuildContext context) {
+    final viewModel = context.read<DashBoardPageViewModel>();
+    if(viewModel.currentList.isEmpty) return SizedBox.shrink();
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -202,7 +205,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               ),
               const SizedBox(width: 12),
               Text(
-                '10 Pending Requests Require Immediate Attention',
+                '${viewModel.currentList.length} Pending Requests Require Immediate Attention',
                 style: TextStyle(
                   color: Colors.red.shade900,
                   fontWeight: FontWeight.bold,
@@ -216,6 +219,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   }
 
   Widget _buildPendingRequestsSection(BuildContext context) {
+    final viewModel = context.read<DashBoardPageViewModel>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -229,6 +233,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             ToggleButtons(
               isSelected: _isSelected,
               onPressed: (int index) {
+                viewModel.onEvent(
+                  ChangeTabEvent(
+                    tab: _isSelected[1]
+                        ? DashBoardPageTab.Clinics
+                        : DashBoardPageTab.Doctors,
+                  ),
+                );
                 setState(() {
                   for (int i = 0; i < _isSelected.length; i++) {
                     _isSelected[i] = i == index;
@@ -261,40 +272,12 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             borderRadius: BorderRadius.circular(8.0),
             border: Border.all(color: Colors.grey.shade200),
           ),
-          child: Column(
-            children: _isSelected[1] ? _buildDoctorList(context) : _buildClinicList(),
-          ),
+          child: _isSelected[1]
+              ? _buildDoctorsListView(context, viewModel.doctors)
+              : _buildClinicsListView(context, viewModel.clinics),
         ),
       ],
     );
-  }
-
-  List<Widget> _buildDoctorList(BuildContext context) {
-    return [
-      _buildDoctorRow(
-        context,
-        'Dr. Michael...',
-        'Pediatrics',
-        'Children...',
-        '2024-01-20',
-      ),
-      _buildDoctorRow(context,'Dr. Lisa...', 'Dermatology', 'Skin Ca...', '2024-01-21'),
-    ];
-  }
-
-  List<Widget> _buildClinicList() {
-    return [
-      _buildClinicRow(
-        'Wellness Point Clinic',
-        '321 Health Road, Dubai Marina',
-        '2024-01-12',
-      ),
-      _buildClinicRow(
-        'City Medical Center',
-        '123 Healthcare Ave, Dubai Healthcare City',
-        '2024-01-15',
-      ),
-    ];
   }
 
   Widget _buildStatusChip(String text) {
@@ -315,6 +298,47 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     );
   }
 
+  Widget _buildClinicsListView(BuildContext context, List<ClinicEntity> list) {
+    if(list.isEmpty) return SizedBox.shrink();
+    return SizedBox(
+      height: context.height ,
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          final clinic = list[index];
+          return _buildClinicRow(
+            clinic.clinicName ?? "",
+            clinic.address ?? "",
+            clinic.address ?? "",
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildDoctorsListView(
+    BuildContext context,
+    List<DoctorDetailsEntity> list,
+  ) {
+    if(list.isEmpty) return SizedBox.shrink();
+    return SizedBox(
+      height: context.height,
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          final doctor = list[index];
+          return _buildDoctorRow(
+            context,
+            doctor.doctorName ?? "",
+            doctor.specialization ?? "",
+            doctor.doctorClinics ?? "",
+            doctor.yearsOfExp.toString(),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildDoctorRow(
     BuildContext context,
     String name,
@@ -324,63 +348,74 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   ) {
     final viewModel = context.read<DashBoardPageViewModel>();
     final int APPROVED = 1, REJECTED = 2;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 20,
-            // In a real app, use NetworkImage(doctor.imageUrl)
-            backgroundColor: Colors.black12,
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            flex: 2,
-            child: Text(
-              name,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          Expanded(flex: 2, child: Text(specialty)),
-          Expanded(flex: 2, child: Text(clinic)),
-          Expanded(flex: 2, child: _buildStatusChip('Pending')),
-          Expanded(
-            flex: 2,
-            child: Text(date, style: TextStyle(color: Colors.grey.shade600)),
-          ),
-          Expanded(
-            flex: 4,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(onPressed: () {}, child:  Text(context.locale.view_details)),
-                TextButton(
-                  onPressed: () {
-                    viewModel.onEvent(ApproveDoctorEvent(doctorId: "", status: APPROVED));
+    return InkWell(
+      onTap: (){
 
-                  },
-                  child: const Text(
-                    'Approve',
-                    style: TextStyle(color: Colors.green),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    viewModel.onEvent(ApproveDoctorEvent(doctorId: "", status: REJECTED));
-                  },
-                  child: const Text(
-                    'Reject',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Assign Clinic'),
-                ),
-              ],
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+        child: Row(
+          children: [
+            const CircleAvatar(
+              radius: 20,
+              // In a real app, use NetworkImage(doctor.imageUrl)
+              backgroundColor: Colors.black12,
             ),
-          ),
-        ],
+            const SizedBox(width: 16),
+            Expanded(
+              flex: 2,
+              child: Text(
+                name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Expanded(flex: 2, child: Text(specialty)),
+            Expanded(flex: 2, child: Text(clinic)),
+            Expanded(flex: 2, child: _buildStatusChip('Pending')),
+            Expanded(
+              flex: 2,
+              child: Text(date, style: TextStyle(color: Colors.grey.shade600)),
+            ),
+            Expanded(
+              flex: 4,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(context.locale.view_details),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      viewModel.onEvent(
+                        ApproveDoctorEvent(doctorId: "", status: APPROVED),
+                      );
+                    },
+                    child: const Text(
+                      'Approve',
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      viewModel.onEvent(
+                        ApproveDoctorEvent(doctorId: "", status: REJECTED),
+                      );
+                    },
+                    child: const Text(
+                      'Reject',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text('Assign Clinic'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

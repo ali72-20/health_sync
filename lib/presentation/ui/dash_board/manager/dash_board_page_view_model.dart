@@ -58,14 +58,26 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     }
   }
 
+  List<DoctorDetailsEntity> doctors = [];
+  List<ClinicEntity> clinics = [];
+  List<dynamic> currentList = [];
+
   _getAllRequestsDetails() async {
     final response = await _homeRepositoryContract.getAllRequestDetails();
+
     switch (response) {
       case OnSuccess<AllRequestDetailsEntity>():
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        final data = response.data;
+
+        doctors = data?.doctorDetails ?? [];
+        clinics = data?.clinicDetails ?? [];
+
+        allSuccess = true;
+        break;
+
       case OnFailure<AllRequestDetailsEntity>():
         allSuccess = false;
+        break;
     }
   }
 
@@ -77,12 +89,14 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     int allPendingRequests = await _getAppPendingRequests();
     await _getAllRequestsDetails();
     if (allSuccess) {
+      currentList = doctors;
       emit(
         DashBoardPageOnSuccessState(
           activeDoctors: activeDoctors,
           activePatients: activePatients,
           activeClinics: activeClinics,
           allPendingRequests: allPendingRequests,
+          activeDoctorsList: doctors,
         ),
       );
     } else {
@@ -130,6 +144,10 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     }
   }
 
+  _changeTab(DashBoardPageTab tab) {
+    currentList = tab == DashBoardPageTab.Doctors ? doctors : clinics;
+  }
+
   void onEvent(DashBoardPageEvent event) {
     switch (event) {
       case DashBoardPageGetInitialDataEvent():
@@ -138,6 +156,8 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
         _approveDoctor(doctorId: event.doctorId, status: event.status);
       case ApproveClinicEvent():
         _approveClinic(clinicId: event.clinicId, status: event.status);
+      case ChangeTabEvent():
+        _changeTab(event.tab);
     }
   }
 }

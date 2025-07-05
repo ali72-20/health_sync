@@ -8,7 +8,7 @@ class AllRequestDetailsResponseModel {
   @JsonKey(name: "doctorDetails")
   final List<DoctorDetails>? doctorDetails;
   @JsonKey(name: "clinicDetails")
-  final List<dynamic>? clinicDetails;
+  final List<ClinicDetails>? clinicDetails;
   @JsonKey(name: "total")
   final int? total;
 
@@ -29,7 +29,7 @@ class AllRequestDetailsResponseModel {
   AllRequestDetailsEntity toDomain() {
     return AllRequestDetailsEntity(
       doctorDetails: doctorDetails?.map((e) => e.toDomain()).toList(),
-      clinicDetails: clinicDetails,
+      clinicDetails: clinicDetails?.map((e)=> e.toDomain()).toList(),
       total: total,
     );
   }
@@ -91,6 +91,45 @@ class DoctorDetails {
       doctorClinics: doctorClinics,
       yearsOfExp: yearsOfExp,
       gender: gender,
+    );
+  }
+}
+
+@JsonSerializable()
+class ClinicDetails {
+  @JsonKey(name: "clinic_ID")
+  final String? clinicID;
+  @JsonKey(name: "clinic_Name")
+  final String? clinicName;
+  @JsonKey(name: "address")
+  final String? address;
+  @JsonKey(name: "phoneNumber")
+  final String? phoneNumber;
+  @JsonKey(name: "status")
+  final int? status;
+
+  ClinicDetails({
+    this.clinicID,
+    this.clinicName,
+    this.address,
+    this.phoneNumber,
+    this.status,
+  });
+
+  factory ClinicDetails.fromJson(Map<String, dynamic> json) {
+    return _$ClinicDetailsFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$ClinicDetailsToJson(this);
+  }
+  ClinicEntity toDomain() {
+    return ClinicEntity(
+      clinicID: clinicID,
+      clinicName: clinicName,
+      address: address,
+      phoneNumber: phoneNumber,
+      status: status,
     );
   }
 }

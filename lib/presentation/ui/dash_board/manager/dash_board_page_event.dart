@@ -14,3 +14,12 @@ final class ApproveClinicEvent extends DashBoardPageEvent {
   ApproveClinicEvent({required this.clinicId, required this.status});
 }
 
+final class ChangeTabEvent extends DashBoardPageEvent {
+  DashBoardPageTab tab;
+  ChangeTabEvent({required this.tab});
+}
+
+enum DashBoardPageTab{
+  Doctors,
+  Clinics,
+}

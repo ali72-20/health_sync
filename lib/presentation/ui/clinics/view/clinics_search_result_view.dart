@@ -74,35 +74,37 @@ class _ClinicSearchResultsPageState extends State<ClinicSearchResultsPage> {
               LayoutBuilder(
                 builder: (context, constraints) {
                   if (constraints.maxWidth > 1200) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Left Column
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            children: [
-                              _buildClinicInfoCard(),
-                              const SizedBox(height: 24),
-                              _buildAssignedDoctorsCard(),
-                            ],
+                    return IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Left Column
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                _buildClinicInfoCard(),
+                                const SizedBox(height: 24),
+                                _buildAssignedDoctorsCard(),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 24),
-                        // Right Column
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              _buildLicenseDetailsCard(),
-                              const SizedBox(height: 24),
-                              _buildOperatingHoursCard(),
-                              const SizedBox(height: 24),
-                              _buildStatisticsCards(),
-                            ],
+                          const SizedBox(width: 24),
+                          // Right Column
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                _buildLicenseDetailsCard(),
+                                const SizedBox(height: 24),
+                                _buildOperatingHoursCard(),
+                                const SizedBox(height: 24),
+                                _buildStatisticsCards(),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   } else {
                     return Column(
@@ -357,97 +359,109 @@ class _ClinicSearchResultsPageState extends State<ClinicSearchResultsPage> {
   }
 
   Widget _buildStatisticsCards() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth > 800) {
-          return Row(
-            children: [
-              Expanded(
-                child: _buildStatCard(
-                  'Total Patients',
-                  clinicResult.statistics.totalPatients.toString(),
-                  Icons.people,
-                  Colors.blue,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildStatCard(
-                  'Monthly App...',
-                  clinicResult.statistics.monthlyAppointments.toString(),
-                  Icons.calendar_today,
-                  Colors.orange,
-                ),
-              ),
-              Expanded(
-                child: _buildStatCard(
-                  'Active Doctors',
-                  clinicResult.statistics.activeDoctors.toString(),
-                  Icons.medical_services,
-                  Colors.green,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildStatCard(
-                  'Specialties',
-                  clinicResult.statistics.specialties.toString(),
-                  Icons.local_hospital,
-                  Colors.purple,
-                ),
-              ),
-            ],
-          );
-        } else {
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      'Total Patients',
-                      clinicResult.statistics.totalPatients.toString(),
-                      Icons.people,
-                      Colors.blue,
-                    ),
+    return Container(
+      width: double.infinity,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth > 600) {
+            return Row(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: _buildStatCard(
+                    'Total Patients',
+                    clinicResult.statistics.totalPatients.toString(),
+                    Icons.people,
+                    Colors.blue,
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildStatCard(
-                      'Monthly App...',
-                      clinicResult.statistics.monthlyAppointments.toString(),
-                      Icons.calendar_today,
-                      Colors.orange,
-                    ),
+                ),
+                const SizedBox(width: 16),
+                Flexible(
+                  flex: 1,
+                  child: _buildStatCard(
+                    'Monthly App...',
+                    clinicResult.statistics.monthlyAppointments.toString(),
+                    Icons.calendar_today,
+                    Colors.orange,
                   ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      'Active Doctors',
-                      clinicResult.statistics.activeDoctors.toString(),
-                      Icons.medical_services,
-                      Colors.green,
-                    ),
+                ),
+                const SizedBox(width: 16),
+                Flexible(
+                  flex: 1,
+                  child: _buildStatCard(
+                    'Active Doctors',
+                    clinicResult.statistics.activeDoctors.toString(),
+                    Icons.medical_services,
+                    Colors.green,
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildStatCard(
-                      'Specialties',
-                      clinicResult.statistics.specialties.toString(),
-                      Icons.local_hospital,
-                      Colors.purple,
-                    ),
+                ),
+                const SizedBox(width: 16),
+                Flexible(
+                  flex: 1,
+                  child: _buildStatCard(
+                    'Specialties',
+                    clinicResult.statistics.specialties.toString(),
+                    Icons.local_hospital,
+                    Colors.purple,
                   ),
-                ],
-              ),
-            ],
-          );
-        }
-      },
+                ),
+              ],
+            );
+          } else {
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: _buildStatCard(
+                        'Total Patients',
+                        clinicResult.statistics.totalPatients.toString(),
+                        Icons.people,
+                        Colors.blue,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Flexible(
+                      flex: 1,
+                      child: _buildStatCard(
+                        'Monthly App...',
+                        clinicResult.statistics.monthlyAppointments.toString(),
+                        Icons.calendar_today,
+                        Colors.orange,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: _buildStatCard(
+                        'Active Doctors',
+                        clinicResult.statistics.activeDoctors.toString(),
+                        Icons.medical_services,
+                        Colors.green,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Flexible(
+                      flex: 1,
+                      child: _buildStatCard(
+                        'Specialties',
+                        clinicResult.statistics.specialties.toString(),
+                        Icons.local_hospital,
+                        Colors.purple,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -458,16 +472,18 @@ class _ClinicSearchResultsPageState extends State<ClinicSearchResultsPage> {
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(color: Colors.grey[200]!),
       ),
-      child: Padding(
+      child: Container(
+        width: double.infinity,
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
                 Icon(icon, color: color, size: 20),
                 const SizedBox(width: 8),
-                Expanded(
+                Flexible(
                   child: Text(
                     title,
                     style: TextStyle(
@@ -475,6 +491,7 @@ class _ClinicSearchResultsPageState extends State<ClinicSearchResultsPage> {
                       color: Colors.grey[600],
                       fontWeight: FontWeight.w500,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
