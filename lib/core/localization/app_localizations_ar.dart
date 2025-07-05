@@ -119,4 +119,16 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get pending_requests_require_immediate_attention =>
       'الطلبات المعلقة تتطلب اهتمامًا فوريًا';
+
+  @override
+  String get admin_dashboard => 'لوحة تحكم المشرف';
+
+  @override
+  String get approve => 'الموافقة';
+
+  @override
+  String get reject => 'رفض';
+
+  @override
+  String get assign_clinic => 'تعيين العيادة';
 }

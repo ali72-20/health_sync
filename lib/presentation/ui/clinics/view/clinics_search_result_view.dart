@@ -1,288 +1,752 @@
-// clinic_profile_screen.dart
-
 import 'package:flutter/material.dart';
 
-class ClinicProfileScreen extends StatelessWidget {
-  const ClinicProfileScreen({super.key});
+class ClinicSearchResultsPage extends StatefulWidget {
+  const ClinicSearchResultsPage({super.key});
+
+  @override
+  State<ClinicSearchResultsPage> createState() => _ClinicSearchResultsPageState();
+}
+
+class _ClinicSearchResultsPageState extends State<ClinicSearchResultsPage> {
+  // Sample data
+  final ClinicSearchResult clinicResult = ClinicSearchResult(
+    name: 'City Medical Center',
+    status: 'Active',
+    address: '123 Healthcare Avenue, Dubai Healthcare City',
+    phone: '+971 2 123 4567',
+    email: 'contact@citymedical.ae',
+    licenseDetails: LicenseDetails(
+      licenseNumber: 'DH-2021-456',
+      expiryDate: 'December 31, 2024',
+    ),
+    operatingHours: OperatingHours(
+      monday: '8:00 AM - 8:00 PM',
+      tuesday: '8:00 AM - 8:00 PM',
+      wednesday: '8:00 AM - 8:00 PM',
+      thursday: '8:00 AM - 8:00 PM',
+      friday: '8:00 AM - 8:00 PM',
+      saturday: '8:00 AM - 8:00 PM',
+      sunday: 'Closed',
+    ),
+    statistics: ClinicStatistics(
+      totalPatients: 1245,
+      monthlyAppointments: 456,
+      activeDoctors: 5,
+      specialties: 3,
+    ),
+    assignedDoctors: [
+      Doctor(
+        name: 'Dr. Sarah Johnson',
+        specialty: 'Cardiology',
+        licenseNumber: 'DLC-2022-789',
+        status: 'Active',
+      ),
+      Doctor(
+        name: 'Dr. Ahmed Hassan',
+        specialty: 'Pediatrics',
+        licenseNumber: 'DLC-2023-456',
+        status: 'Active',
+      ),
+      Doctor(
+        name: 'Dr. Maria Garcia',
+        specialty: 'Dermatology',
+        licenseNumber: 'DLC-2022-321',
+        status: 'Active',
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
-    // *** FIX: Wrapped the content in a Scaffold to provide a proper screen structure ***
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(context),
-            const SizedBox(height: 24),
-            _buildClinicInfoCard(),
-            const SizedBox(height: 24),
-            _buildStatsRow(),
-            const SizedBox(height: 32),
-            _buildAssignedDoctorsSection(),
-          ],
+      backgroundColor: Colors.grey[50],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              _buildHeader(),
+              const SizedBox(height: 24),
+
+              // Main Content
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxWidth > 1200) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Left Column
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            children: [
+                              _buildClinicInfoCard(),
+                              const SizedBox(height: 24),
+                              _buildAssignedDoctorsCard(),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 24),
+                        // Right Column
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              _buildLicenseDetailsCard(),
+                              const SizedBox(height: 24),
+                              _buildOperatingHoursCard(),
+                              const SizedBox(height: 24),
+                              _buildStatisticsCards(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        _buildClinicInfoCard(),
+                        const SizedBox(height: 24),
+                        _buildStatisticsCards(),
+                        const SizedBox(height: 24),
+                        _buildLicenseDetailsCard(),
+                        const SizedBox(height: 24),
+                        _buildOperatingHoursCard(),
+                        const SizedBox(height: 24),
+                        _buildAssignedDoctorsCard(),
+                      ],
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader() {
     return Row(
       children: [
-        InkWell(
-          onTap: () {
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            }
+        IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
           },
-          child: Row(
-            children: const [
-              Icon(Icons.arrow_back, color: Color(0xFF0D6EFD), size: 20),
-              SizedBox(width: 8),
-              Text(
-                'Back to Clinics',
-                style: TextStyle(
-                    color: Color(0xFF0D6EFD),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
-              ),
-            ],
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.blue,
+        ),
+        const SizedBox(width: 8),
+        const Text(
+          'Back to Clinics',
+          style: TextStyle(
+            color: Colors.blue,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: 24),
         const Text(
           'Clinic Search Results',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
         ),
       ],
     );
   }
 
   Widget _buildClinicInfoCard() {
-    return Container(
-      padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: const Color(0xFF0D6EFD), width: 2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 5,
-          )
-        ],
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.grey[200]!),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'City Medical Center',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  clinicResult.name,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
-                  const SizedBox(height: 8),
-                  _buildStatusChip('Active', Colors.green),
-                ],
-              ),
-              TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.edit, size: 16, color: Color(0xFF0D6EFD)),
-                label: const Text(
-                  'Edit',
-                  style: TextStyle(color: Color(0xFF0D6EFD), fontWeight: FontWeight.bold),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    _buildInfoItemWithIcon(Icons.location_on_outlined, 'Address', '123 Healthcare Avenue, Dubai Healthcare City'),
-                    const SizedBox(height: 16),
-                    _buildInfoItemWithIcon(Icons.phone_outlined, 'Phone', '+971 4 123 4567'),
-                    const SizedBox(height: 16),
-                    _buildInfoItemWithIcon(Icons.email_outlined, 'Email', 'contact@citymedical.ae'),
-                  ],
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.green[100],
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    clinicResult.status,
+                    style: TextStyle(
+                      color: Colors.green[800],
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 24),
-              Expanded(
-                child: Column(
-                  children: [
-                    _buildInfoItemWithIcon(Icons.badge_outlined, 'License Details', 'License Number: CLN-2023-456\nExpiry: December 31, 2024'),
-                    const SizedBox(height: 16),
-                    _buildInfoItemWithIcon(Icons.calendar_today_outlined, 'Operating Hours', 'Mon - Fri: 8:00 AM - 8:00 PM\nSat: 9:00 AM - 5:00 PM\nSun: Closed'),
-                  ],
+                const SizedBox(width: 12),
+                TextButton(
+                  onPressed: () {
+                    // Edit functionality
+                  },
+                  child: const Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          )
-        ],
+              ],
+            ),
+            const SizedBox(height: 24),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildInfoItem('Address', clinicResult.address),
+                      const SizedBox(height: 16),
+                      _buildInfoItem('Phone', clinicResult.phone),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 32),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildInfoItem('Email', clinicResult.email),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildInfoItemWithIcon(IconData icon, String label, String value) {
-    return Row(
+  Widget _buildInfoItem(String label, String value) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: Colors.grey.shade600, size: 20),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: TextStyle(color: Colors.grey.shade700, fontSize: 13, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text(
-                value,
-                style: const TextStyle(fontSize: 14, height: 1.5),
-              ),
-            ],
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey[600],
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.black87,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildStatsRow() {
-    return Row(
-      children: [
-        Expanded(child: _buildStatCard(Icons.people_alt_outlined, Colors.blue.shade700, 'Total Patients', '1,245')),
-        const SizedBox(width: 20),
-        Expanded(child: _buildStatCard(Icons.access_time, Colors.orange.shade700, 'Monthly App..', '450')),
-        const SizedBox(width: 20),
-        Expanded(child: _buildStatCard(Icons.person_pin_circle_outlined, Colors.teal.shade700, 'Active Doctors', '3')),
-        const SizedBox(width: 20),
-        Expanded(child: _buildStatCard(Icons.medical_services_outlined, Colors.purple.shade700, 'Specialties', '3')),
-      ],
+  Widget _buildLicenseDetailsCard() {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.grey[200]!),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'License Details',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildInfoItem('License Number', clinicResult.licenseDetails.licenseNumber),
+            const SizedBox(height: 12),
+            _buildInfoItem('Expiry Date', clinicResult.licenseDetails.expiryDate),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildStatCard(IconData icon, Color iconColor, String label, String value) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: Colors.grey.shade200),
+  Widget _buildOperatingHoursCard() {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.grey[200]!),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Operating Hours',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildHoursRow('Mon - Fri', clinicResult.operatingHours.monday),
+            _buildHoursRow('Sat', clinicResult.operatingHours.saturday),
+            _buildHoursRow('Sun', clinicResult.operatingHours.sunday),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHoursRow(String day, String hours) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CircleAvatar(
-            radius: 20,
-            backgroundColor: iconColor.withOpacity(0.15),
-            child: Icon(icon, color: iconColor),
+          Text(
+            day,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+            ),
           ),
-          const SizedBox(height: 16),
-          Text(label, style: TextStyle(color: Colors.grey.shade600, fontSize: 14)),
-          const SizedBox(height: 4),
-          Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          Text(
+            hours,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildAssignedDoctorsSection() {
-    return Container(
-      padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildStatisticsCards() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 800) {
+          return Row(
             children: [
-              const Text('Assigned Doctors', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D6EFD),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+              Expanded(
+                child: _buildStatCard(
+                  'Total Patients',
+                  clinicResult.statistics.totalPatients.toString(),
+                  Icons.people,
+                  Colors.blue,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildStatCard(
+                  'Monthly App...',
+                  clinicResult.statistics.monthlyAppointments.toString(),
+                  Icons.calendar_today,
+                  Colors.orange,
+                ),
+              ),
+              Expanded(
+                child: _buildStatCard(
+                  'Active Doctors',
+                  clinicResult.statistics.activeDoctors.toString(),
+                  Icons.medical_services,
+                  Colors.green,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildStatCard(
+                  'Specialties',
+                  clinicResult.statistics.specialties.toString(),
+                  Icons.local_hospital,
+                  Colors.purple,
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildStatCard(
+                      'Total Patients',
+                      clinicResult.statistics.totalPatients.toString(),
+                      Icons.people,
+                      Colors.blue,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildStatCard(
+                      'Monthly App...',
+                      clinicResult.statistics.monthlyAppointments.toString(),
+                      Icons.calendar_today,
+                      Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildStatCard(
+                      'Active Doctors',
+                      clinicResult.statistics.activeDoctors.toString(),
+                      Icons.medical_services,
+                      Colors.green,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildStatCard(
+                      'Specialties',
+                      clinicResult.statistics.specialties.toString(),
+                      Icons.local_hospital,
+                      Colors.purple,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.grey[200]!),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon, color: color, size: 20),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-                child: const Text('Manage Doctors'),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildDoctorsTableHeader(),
-          const Divider(),
-          _buildDoctorRow('Dr. Sarah Johnson', 'Cardiology', 'DLC-2023-789'),
-          _buildDoctorRow('Dr. Ahmed Hassan', 'Pediatrics', 'DLC-2023-790'),
-          _buildDoctorRow('Dr. Maria Garcia', 'Dermatology', 'DLC-2023-791'),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildDoctorsTableHeader() {
-    const headerStyle = TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 13);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-      child: Row(
-        children: const [
-          Expanded(flex: 3, child: Text('Doctor Name', style: headerStyle)),
-          Expanded(flex: 3, child: Text('Specialty', style: headerStyle)),
-          Expanded(flex: 3, child: Text('License Number', style: headerStyle)),
-          Expanded(flex: 2, child: Text('Status', style: headerStyle)),
-        ],
+  Widget _buildAssignedDoctorsCard() {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.grey[200]!),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Text(
+                  'Assigned Doctors',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: () {
+                    // Manage doctors functionality
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    'Manage Doctors',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            // Table Header
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Doctor Name',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Specialty',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'License Number',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'Status',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            // Table Rows
+            ...clinicResult.assignedDoctors.map((doctor) => _buildDoctorRow(doctor)),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildDoctorRow(String name, String specialty, String license) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+  Widget _buildDoctorRow(Doctor doctor) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey[200]!, width: 1),
+        ),
+      ),
       child: Row(
         children: [
-          Expanded(flex: 3, child: Text(name, style: const TextStyle(fontWeight: FontWeight.w500))),
-          Expanded(flex: 3, child: Text(specialty)),
-          Expanded(flex: 3, child: Text(license)),
-          Expanded(flex: 2, child: _buildStatusChip('Active', Colors.green, small: true)),
+          Expanded(
+            flex: 2,
+            child: Text(
+              doctor.name,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              doctor.specialty,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              doctor.licenseNumber,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.green[100],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                doctor.status,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.green[800],
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildStatusChip(String text, Color color, {bool small = false}) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: small ? 8 : 12, vertical: small ? 4 : 6),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.15),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: color,
-            fontWeight: FontWeight.bold,
-            fontSize: small ? 12 : 14,
-          ),
-        ),
-      ),
-    );
-  }
+// Data Models
+class ClinicSearchResult {
+  final String name;
+  final String status;
+  final String address;
+  final String phone;
+  final String email;
+  final LicenseDetails licenseDetails;
+  final OperatingHours operatingHours;
+  final ClinicStatistics statistics;
+  final List<Doctor> assignedDoctors;
+
+  ClinicSearchResult({
+    required this.name,
+    required this.status,
+    required this.address,
+    required this.phone,
+    required this.email,
+    required this.licenseDetails,
+    required this.operatingHours,
+    required this.statistics,
+    required this.assignedDoctors,
+  });
+}
+
+class LicenseDetails {
+  final String licenseNumber;
+  final String expiryDate;
+
+  LicenseDetails({
+    required this.licenseNumber,
+    required this.expiryDate,
+  });
+}
+
+class OperatingHours {
+  final String monday;
+  final String tuesday;
+  final String wednesday;
+  final String thursday;
+  final String friday;
+  final String saturday;
+  final String sunday;
+
+  OperatingHours({
+    required this.monday,
+    required this.tuesday,
+    required this.wednesday,
+    required this.thursday,
+    required this.friday,
+    required this.saturday,
+    required this.sunday,
+  });
+}
+
+class ClinicStatistics {
+  final int totalPatients;
+  final int monthlyAppointments;
+  final int activeDoctors;
+  final int specialties;
+
+  ClinicStatistics({
+    required this.totalPatients,
+    required this.monthlyAppointments,
+    required this.activeDoctors,
+    required this.specialties,
+  });
+}
+
+class Doctor {
+  final String name;
+  final String specialty;
+  final String licenseNumber;
+  final String status;
+
+  Doctor({
+    required this.name,
+    required this.specialty,
+    required this.licenseNumber,
+    required this.status,
+  });
 }

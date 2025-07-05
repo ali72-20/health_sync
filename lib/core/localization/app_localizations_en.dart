@@ -119,4 +119,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pending_requests_require_immediate_attention =>
       'Pending Requests Require Immediate Attention';
+
+  @override
+  String get admin_dashboard => 'Admin Dashboard';
+
+  @override
+  String get approve => 'Approve';
+
+  @override
+  String get reject => 'Reject';
+
+  @override
+  String get assign_clinic => 'Assign Clinic';
 }

@@ -319,6 +319,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pending Requests Require Immediate Attention'**
   String get pending_requests_require_immediate_attention;
+
+  /// No description provided for @admin_dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Dashboard'**
+  String get admin_dashboard;
+
+  /// No description provided for @approve.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get approve;
+
+  /// No description provided for @reject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get reject;
+
+  /// No description provided for @assign_clinic.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Clinic'**
+  String get assign_clinic;
 }
 
 class _AppLocalizationsDelegate

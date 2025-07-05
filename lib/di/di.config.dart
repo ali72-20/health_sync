@@ -109,14 +109,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i114.GetUserProfileUseCase>(
       () => _i114.GetUserProfileUseCase(gh<_i800.AuthRepository>()),
     );
+    gh.factory<_i584.LogoutUseCase>(
+      () => _i584.LogoutUseCase(gh<_i800.AuthRepository>()),
+    );
     gh.factory<_i961.RegisterUseCase>(
       () => _i961.RegisterUseCase(gh<_i800.AuthRepository>()),
     );
     gh.factory<_i132.LoginUseCase>(
       () => _i132.LoginUseCase(gh<_i800.AuthRepository>()),
-    );
-    gh.factory<_i584.LogoutUseCase>(
-      () => _i584.LogoutUseCase(gh<_i800.AuthRepository>()),
     );
     gh.factory<_i78.ProfilePageViewModel>(
       () => _i78.ProfilePageViewModel(
