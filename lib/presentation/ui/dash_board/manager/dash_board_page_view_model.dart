@@ -21,7 +21,7 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     final activeDoctors = await _homeRepositoryContract.getActiveDoctors();
     switch (activeDoctors) {
       case OnSuccess<DashBoardResponseCardEntity>():
-        return activeDoctors.data;
+        return activeDoctors.data?.total;
       case OnFailure<DashBoardResponseCardEntity>():
         allSuccess = false;
     }
@@ -31,7 +31,7 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     final activePatients = await _homeRepositoryContract.getActivePatients();
     switch (activePatients) {
       case OnSuccess<DashBoardResponseCardEntity>():
-        return activePatients.data;
+        return activePatients.data?.total;
       case OnFailure<DashBoardResponseCardEntity>():
         allSuccess = false;
     }
@@ -41,7 +41,7 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     final activeClinics = await _homeRepositoryContract.getActiveClinics();
     switch (activeClinics) {
       case OnSuccess<DashBoardResponseCardEntity>():
-        return activeClinics.data;
+        return activeClinics.data?.total;
       case OnFailure<DashBoardResponseCardEntity>():
         allSuccess = false;
     }
@@ -52,7 +52,7 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
         .getAllPendingRequests();
     switch (allPendingRequests) {
       case OnSuccess<DashBoardResponseCardEntity>():
-        return allPendingRequests.data;
+        return allPendingRequests.data?.total;
       case OnFailure<DashBoardResponseCardEntity>():
         allSuccess = false;
     }
@@ -75,6 +75,7 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     int activePatients = await _getActivePatients();
     int activeClinics = await _getActiveClinics();
     int allPendingRequests = await _getAppPendingRequests();
+    await _getAllRequestsDetails();
     if (allSuccess) {
       emit(
         DashBoardPageOnSuccessState(

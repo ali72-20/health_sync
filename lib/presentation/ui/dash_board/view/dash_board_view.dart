@@ -8,7 +8,7 @@ import '../../../../di/di.dart';
 import '../manager/dash_board_page_event.dart';
 
 class DashBoardView extends StatefulWidget {
-  DashBoardView({super.key});
+  const DashBoardView({super.key});
 
   @override
   State<DashBoardView> createState() => _DashBoardViewState();
