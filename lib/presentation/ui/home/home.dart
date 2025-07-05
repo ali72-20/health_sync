@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/di/di.dart';
+import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_view_model.dart';
 import 'package:health_sync/presentation/ui/home/managers/home_screen_states.dart';
 import 'package:health_sync/presentation/ui/home/managers/home_screen_view_model.dart';
 import 'package:health_sync/presentation/ui/dash_board/view/dash_board_view.dart';
@@ -24,6 +25,9 @@ class Home extends StatelessWidget {
         ),
         BlocProvider<ProfilePageViewModel>(
           create: (_) => getIt.get<ProfilePageViewModel>(),
+        ),
+        BlocProvider<DoctorsPageViewModel>(
+          create: (_) => getIt.get<DoctorsPageViewModel>(),
         ),
       ],
       child: Scaffold(

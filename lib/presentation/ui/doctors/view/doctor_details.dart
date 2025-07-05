@@ -1,51 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
+import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_state.dart';
+import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_view_model.dart';
+
+import '../managers/doctors_page_event.dart';
 
 class DoctorDetailsView extends StatelessWidget {
+
   const DoctorDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          // Use a more responsive layout for smaller screens
-          bool isMobile = constraints.maxWidth < 700;
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Doctor Details',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 24),
-                  _buildInfoCard(isMobile),
-                  const SizedBox(height: 24),
-                  _buildLicenseCard(),
-                  const SizedBox(height: 32),
-                  _buildActionButtons(isMobile),
-                ],
-              ),
-            ),
+    final doctorEntity = ModalRoute.of(context)?.settings.arguments as DoctorDetailsEntity?;
+    return BlocListener<DoctorsPageViewModel,DoctorsPageState>(
+      listener: (context,state){
+        if(state is DoctorsPageSuccessState){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Doctor Approved Successfully!")),
           );
-        },
+          Navigator.pop(context);
+        } else if (state is DoctorsPageFailureState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage.toString())),
+          );
+        } else if(state is DoctorsPageLoadingState){
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Processing...")),
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey[50],
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            // Use a more responsive layout for smaller screens
+            bool isMobile = constraints.maxWidth < 700;
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Doctor Details',
+                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 24),
+                    _buildInfoCard(isMobile,doctorEntity!),
+                    const SizedBox(height: 24),
+                    _buildLicenseCard(),
+                    const SizedBox(height: 32),
+                    _buildActionButtons(isMobile,context, doctorEntity.doctorID.toString()),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildInfoCard(bool isMobile) {
+  Widget _buildInfoCard(bool isMobile, DoctorDetailsEntity doctorDetails) {
     final details = {
       'Doctor Information': {
-        'Full Name': 'Dr. Sarah Johnson',
-        'Doctor ID': 'DOC-2023-001',
-        'Specialty': 'Cardiology',
+        'Full Name': doctorDetails.doctorName ?? 'N/A',
+        'Doctor ID': doctorDetails.doctorID?.toString() ?? 'N/A',
+        'Specialty': doctorDetails.specialization ?? 'N/A',
       },
       'Registration Details': {
-        'Registration Date': 'January 15, 2024',
-        'Status': 'Pending Approval',
+        'Registration Date': doctorDetails.yearsOfExp ?? 'N/A',
+        'Status': doctorDetails.status ?? 'N/A',
       },
     };
 
@@ -60,7 +86,7 @@ class DoctorDetailsView extends StatelessWidget {
           spacing: isMobile ? 0 : 100.0, // Horizontal space between sections on web
           runSpacing: 40.0, // Vertical space between sections on mobile
           children: details.entries.map((entry) {
-            return _buildDetailSection(title: entry.key, details: entry.value);
+            return _buildDetailSection(title: entry.key, details: entry.value as Map<String, String>);
           }).toList(),
         ),
       ),
@@ -82,7 +108,7 @@ class DoctorDetailsView extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 16.0),
             child: _buildDetailItem(detail.key, detail.value),
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -149,14 +175,17 @@ class DoctorDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(bool isMobile) {
+  Widget _buildActionButtons(bool isMobile,BuildContext context, String doctorID) {
+    final viewModel = context.read<DoctorsPageViewModel>();
     return Wrap(
       spacing: 16.0,
       runSpacing: 16.0,
       alignment: WrapAlignment.start,
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            viewModel.onEvent(ApproveDoctorEvent(doctorId: doctorID));
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue.shade700,
             foregroundColor: Colors.white,
@@ -168,7 +197,9 @@ class DoctorDetailsView extends StatelessWidget {
           child: const Text('Approve Doctor'),
         ),
         OutlinedButton(
-          onPressed: () {},
+          onPressed: () {
+            viewModel.onEvent(RejectDoctorEvent(doctorId: doctorID));
+          },
           style: OutlinedButton.styleFrom(
             foregroundColor: Colors.red.shade700,
             side: BorderSide(color: Colors.red.shade700),

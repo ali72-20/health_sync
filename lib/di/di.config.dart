@@ -37,6 +37,7 @@ import '../domain/use_cases/auth/get_user_profile_use_case.dart' as _i114;
 import '../domain/use_cases/auth/login_use_case.dart' as _i132;
 import '../domain/use_cases/auth/logout_use_case.dart' as _i584;
 import '../domain/use_cases/auth/register_use_case.dart' as _i961;
+import '../domain/use_cases/doctor_state_use_case.dart' as _i1006;
 import '../presentation/ui/clinics/managers/clinics_page_view_model.dart'
     as _i735;
 import '../presentation/ui/dash_board/manager/dash_board_page_view_model.dart'
@@ -99,6 +100,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i977.DashBoardPageViewModel>(
       () => _i977.DashBoardPageViewModel(gh<_i424.HomeRepositoryContract>()),
+    );
+    gh.factory<_i1006.DoctorStateUseCase>(
+      () => _i1006.DoctorStateUseCase(gh<_i424.HomeRepositoryContract>()),
     );
     gh.factory<_i800.AuthRepository>(
       () => _i74.AuthRepositoryImpl(
