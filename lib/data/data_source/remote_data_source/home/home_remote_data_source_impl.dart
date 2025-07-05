@@ -34,4 +34,14 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSourceContract {
   Future<AllRequestDetailsResponseModel> getAllRequestDetails()async {
     return await _apiManager.getAllRequestDetails();
   }
+
+  @override
+  Future<void> doctorApprove({required String doctorId, required int status}) async{
+    return await _apiManager.doctorApprove(doctorId: doctorId, status: status);
+  }
+
+  @override
+  Future<void> clinicApprove({required String clinicId, required int status}) async{
+    return await _apiManager.clinicApprove(clinicId: clinicId, status: status);
+  }
 }

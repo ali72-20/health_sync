@@ -7,4 +7,13 @@ abstract interface class HomeRemoteDataSourceContract {
   Future<DashBoardCardResponseModel> getActiveClinics();
   Future<DashBoardCardResponseModel> getAllPendingRequests();
   Future<AllRequestDetailsResponseModel> getAllRequestDetails();
+  Future<void> doctorApprove({
+    required String doctorId,
+    required int status,
+  });
+
+  Future<void> clinicApprove({
+    required String clinicId,
+    required int status,
+  });
 }

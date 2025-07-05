@@ -59,4 +59,24 @@ class HomeRepositoryImpl implements HomeRepositoryContract {
       return response.toDomain();
     });
   }
+
+  @override
+  Future<ApiResult<void>> clinicApprove({required String clinicId, required int status}) async{
+    return safeApiCall<void>(apiCall: ()async{
+      return await _dataSourceContract.clinicApprove(
+        clinicId: clinicId,
+        status: status,
+      );
+    });
+  }
+
+  @override
+  Future<ApiResult<void>> doctorApprove({required String doctorId, required int status}) async{
+    return safeApiCall<void>(apiCall: ()async{
+      return await _dataSourceContract.doctorApprove(
+        doctorId: doctorId,
+        status: status,
+      );
+    });
+  }
 }

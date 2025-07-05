@@ -35,5 +35,9 @@
   "clinic": "Clinic",
   "view_details": "View Details",
   "pending": "Pending",
-  "pending_requests_require_immediate_attention":"Pending Requests Require Immediate Attention"
+  "pending_requests_require_immediate_attention": "Pending Requests Require Immediate Attention",
+  "admin_dashboard": "Admin Dashboard",
+  "approve": "Approve",
+  "reject": "Reject",
+  "assign_clinic": "Assign Clinic"
 }

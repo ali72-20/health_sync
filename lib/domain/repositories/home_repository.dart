@@ -12,4 +12,14 @@ abstract interface class HomeRepositoryContract {
   Future<ApiResult<DashBoardResponseCardEntity>> getAllPendingRequests();
 
   Future<ApiResult<AllRequestDetailsEntity>> getAllRequestDetails();
+
+  Future<ApiResult<void>> doctorApprove({
+    required String doctorId,
+    required int status,
+  });
+
+  Future<ApiResult<void>> clinicApprove({
+    required String clinicId,
+    required int status,
+  });
 }

@@ -47,8 +47,9 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     }
   }
 
-  _getAppPendingRequests() async{
-    final allPendingRequests = await _homeRepositoryContract.getAllPendingRequests();
+  _getAppPendingRequests() async {
+    final allPendingRequests = await _homeRepositoryContract
+        .getAllPendingRequests();
     switch (allPendingRequests) {
       case OnSuccess<DashBoardResponseCardEntity>():
         return allPendingRequests.data;
@@ -67,6 +68,7 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
         allSuccess = false;
     }
   }
+
   _getInitialData() async {
     emit(DashBoardPageOnLoadingState());
     int activeDoctors = await _getActiveDoctors();
@@ -79,7 +81,7 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
           activeDoctors: activeDoctors,
           activePatients: activePatients,
           activeClinics: activeClinics,
-          allPendingRequests: allPendingRequests
+          allPendingRequests: allPendingRequests,
         ),
       );
     } else {
@@ -89,12 +91,52 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     }
   }
 
+  _approveDoctor({required String doctorId, required int status}) async {
+    emit(DashBoardPageOnLoadingState());
+    final response = await _homeRepositoryContract.doctorApprove(
+      doctorId: doctorId,
+      status: status,
+    );
 
+    switch (response) {
+      case OnSuccess<void>():
+        emit(DashBoardPageOnSuccessState());
+      case OnFailure<void>():
+        emit(
+          DashBoardPageOnErrorState(
+            exception: Exception("Failed to approve doctor"),
+          ),
+        );
+    }
+  }
+
+  _approveClinic({required String clinicId, required int status}) async {
+    emit(DashBoardPageOnLoadingState());
+    final response = await _homeRepositoryContract.clinicApprove(
+      clinicId: clinicId,
+      status: status,
+    );
+
+    switch (response) {
+      case OnSuccess<void>():
+        emit(DashBoardPageOnSuccessState());
+      case OnFailure<void>():
+        emit(
+          DashBoardPageOnErrorState(
+            exception: Exception("Failed to approve doctor"),
+          ),
+        );
+    }
+  }
 
   void onEvent(DashBoardPageEvent event) {
     switch (event) {
       case DashBoardPageGetInitialDataEvent():
         _getInitialData();
+      case ApproveDoctorEvent():
+        _approveDoctor(doctorId: event.doctorId, status: event.status);
+      case ApproveClinicEvent():
+        _approveClinic(clinicId: event.clinicId, status: event.status);
     }
   }
 }

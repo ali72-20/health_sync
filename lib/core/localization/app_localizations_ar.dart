@@ -115,4 +115,8 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pending => 'قيد الانتظار';
+
+  @override
+  String get pending_requests_require_immediate_attention =>
+      'الطلبات المعلقة تتطلب اهتمامًا فوريًا';
 }

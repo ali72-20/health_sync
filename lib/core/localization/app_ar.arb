@@ -36,5 +36,9 @@
   "view_details": "عرض التفاصيل",
   "pending": "قيد الانتظار",
   "registered_clinics": "العيادات المسجلة",
-  "pending_requests_require_immediate_attention": "الطلبات المعلقة تتطلب اهتمامًا فوريًا"
+  "pending_requests_require_immediate_attention": "الطلبات المعلقة تتطلب اهتمامًا فوريًا",
+  "admin_dashboard": "لوحة تحكم المشرف",
+  "approve": "الموافقة",
+  "reject": "رفض",
+  "assign_clinic": "تعيين العيادة"
 }

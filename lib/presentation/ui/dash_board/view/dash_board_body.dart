@@ -1,7 +1,11 @@
 // admin_dashboard_screen.dart
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
+import 'package:health_sync/presentation/ui/dash_board/manager/dash_board_page_event.dart';
+
+import '../manager/dash_board_page_view_model.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   final int? activeDoctors;
@@ -311,11 +315,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   }
 
   Widget _buildDoctorRow(
+    BuildContext context,
     String name,
     String specialty,
     String clinic,
     String date,
   ) {
+    final viewModel = context.read<DashBoardPageViewModel>();
+    final int APPROVED = 1, REJECTED = 2;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       child: Row(
@@ -345,16 +352,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(onPressed: () {}, child: const Text('View Details')),
+                TextButton(onPressed: () {}, child:  Text(context.locale.view_details)),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    viewModel.onEvent(ApproveDoctorEvent(doctorId: "", status: APPROVED));
+
+                  },
                   child: const Text(
                     'Approve',
                     style: TextStyle(color: Colors.green),
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    viewModel.onEvent(ApproveDoctorEvent(doctorId: "", status: REJECTED));
+                  },
                   child: const Text(
                     'Reject',
                     style: TextStyle(color: Colors.red),

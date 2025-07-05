@@ -115,4 +115,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pending => 'Pending';
+
+  @override
+  String get pending_requests_require_immediate_attention =>
+      'Pending Requests Require Immediate Attention';
 }

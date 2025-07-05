@@ -313,6 +313,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pending'**
   String get pending;
+
+  /// No description provided for @pending_requests_require_immediate_attention.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Requests Require Immediate Attention'**
+  String get pending_requests_require_immediate_attention;
 }
 
 class _AppLocalizationsDelegate

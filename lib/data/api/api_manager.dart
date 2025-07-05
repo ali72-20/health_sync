@@ -49,4 +49,16 @@ abstract interface class ApiManager {
 
   @GET(ApiEndPoints.getDetails)
   Future<AllRequestDetailsResponseModel> getAllRequestDetails();
+
+  @POST(ApiEndPoints.doctorApprove)
+  Future<void> doctorApprove({
+    @Query("doctorId") required String doctorId,
+    @Query("status") required int status,
+  });
+
+  @POST(ApiEndPoints.clinicApprove)
+  Future<void> clinicApprove({
+    @Query("clinicId") required String clinicId,
+    @Query("status") required int status,
+  });
 }
