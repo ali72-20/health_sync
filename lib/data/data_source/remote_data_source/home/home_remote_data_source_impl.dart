@@ -1,5 +1,6 @@
 import 'package:health_sync/data/api/api_manager.dart';
 import 'package:health_sync/data/data_source/remote_data_source/home/home_remote_data_source_contract.dart';
+import 'package:health_sync/data/models/response_model/home/all_request_details_response_model.dart';
 import 'package:health_sync/data/models/response_model/home/dash_board_card_response_model.dart';
 import 'package:injectable/injectable.dart';
 
@@ -22,5 +23,15 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSourceContract {
   @override
   Future<DashBoardCardResponseModel> getActivePatients() async {
     return await _apiManager.activePatients();
+  }
+
+  @override
+  Future<DashBoardCardResponseModel> getAllPendingRequests() async{
+    return await _apiManager.getAllPendingRequests();
+  }
+
+  @override
+  Future<AllRequestDetailsResponseModel> getAllRequestDetails()async {
+    return await _apiManager.getAllRequestDetails();
   }
 }

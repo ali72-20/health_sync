@@ -4,6 +4,7 @@ import 'package:health_sync/data/models/request_models/auth/logout_request_model
 import 'package:health_sync/data/models/response_model/auth/login_response_model.dart';
 import 'package:health_sync/data/models/response_model/auth/register_response_model.dart';
 import 'package:health_sync/data/models/response_model/auth/user_model.dart';
+import 'package:health_sync/data/models/response_model/home/all_request_details_response_model.dart';
 import 'package:health_sync/data/models/response_model/home/dash_board_card_response_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -27,10 +28,15 @@ abstract interface class ApiManager {
   Future<RegisterResponseModel> register(@Body() RegisterRequestModel model);
 
   @GET(ApiEndPoints.getUserProfile)
-  Future<UserModel> getUserProfile({@Header("Authorization") required String token});
+  Future<UserModel> getUserProfile({
+    @Header("Authorization") required String token,
+  });
 
   @POST(ApiEndPoints.logout)
   Future<void> logout(@Body() LogoutReuqestModel model);
+
+  @GET(ApiEndPoints.pendingRequests)
+  Future<DashBoardCardResponseModel> getAllPendingRequests();
 
   @GET(ApiEndPoints.activeDoctors)
   Future<DashBoardCardResponseModel> activeDoctors();
@@ -41,4 +47,6 @@ abstract interface class ApiManager {
   @GET(ApiEndPoints.activeClinics)
   Future<DashBoardCardResponseModel> activeClinics();
 
+  @GET(ApiEndPoints.getDetails)
+  Future<AllRequestDetailsResponseModel> getAllRequestDetails();
 }

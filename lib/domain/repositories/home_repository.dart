@@ -7,4 +7,6 @@ abstract interface class HomeRepositoryContract {
   Future<ApiResult<DashBoardResponseCardEntity>> getActivePatients();
 
   Future<ApiResult<DashBoardResponseCardEntity>> getActiveClinics();
+
+  Future<ApiResult<DashBoardResponseCardEntity>> getAllPendingRequests();
 }
