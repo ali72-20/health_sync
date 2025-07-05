@@ -14,10 +14,11 @@ final class DashBoardPageOnSuccessState extends DashBoardPageState {
   int? activeDoctors;
   int? activePatients;
   int? activeClinics;
-
+  int? allPendingRequests;
   DashBoardPageOnSuccessState({
     this.activeDoctors,
     this.activePatients,
     this.activeClinics,
+    this.allPendingRequests
   });
 }
