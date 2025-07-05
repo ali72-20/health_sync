@@ -1,3 +1,5 @@
+import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
+
 sealed class DashBoardPageEvent {}
 final class DashBoardPageGetInitialDataEvent extends DashBoardPageEvent {}
 final class ApproveDoctorEvent extends DashBoardPageEvent {
@@ -17,6 +19,11 @@ final class ApproveClinicEvent extends DashBoardPageEvent {
 final class ChangeTabEvent extends DashBoardPageEvent {
   DashBoardPageTab tab;
   ChangeTabEvent({required this.tab});
+}
+
+final class NavigateToDoctorDetailsPageEvent extends DashBoardPageEvent {
+  final DoctorDetailsEntity? doctor;
+  NavigateToDoctorDetailsPageEvent({this.doctor});
 }
 
 enum DashBoardPageTab{

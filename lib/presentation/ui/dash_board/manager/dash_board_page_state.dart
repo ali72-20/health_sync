@@ -31,3 +31,10 @@ final class DashBoardChangeTabState extends DashBoardPageState {
    List<dynamic>? list;
   DashBoardChangeTabState({this.list});
 }
+
+
+final class NavigateToDoctorDetailsPageState extends DashBoardPageState {
+  final DoctorDetailsEntity? doctor;
+
+  NavigateToDoctorDetailsPageState({this.doctor});
+}

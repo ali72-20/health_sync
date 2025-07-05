@@ -329,10 +329,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           final doctor = list[index];
           return _buildDoctorRow(
             context,
-            doctor.doctorName ?? "",
-            doctor.specialization ?? "",
-            doctor.doctorClinics ?? "",
-            doctor.yearsOfExp.toString(),
+            doctor
           );
         },
       ),
@@ -341,16 +338,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
   Widget _buildDoctorRow(
     BuildContext context,
-    String name,
-    String specialty,
-    String clinic,
-    String date,
+    DoctorDetailsEntity entity,
   ) {
     final viewModel = context.read<DashBoardPageViewModel>();
     final int APPROVED = 1, REJECTED = 2;
     return InkWell(
       onTap: (){
-
+          viewModel.onEvent(NavigateToDoctorDetailsPageEvent(doctor: entity));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
@@ -365,16 +359,16 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             Expanded(
               flex: 2,
               child: Text(
-                name,
+                entity.doctorName??"",
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            Expanded(flex: 2, child: Text(specialty)),
-            Expanded(flex: 2, child: Text(clinic)),
+            Expanded(flex: 2, child: Text(entity.specialization??"")),
+            Expanded(flex: 2, child: Text(entity.doctorClinics??"")),
             Expanded(flex: 2, child: _buildStatusChip('Pending')),
             Expanded(
               flex: 2,
-              child: Text(date, style: TextStyle(color: Colors.grey.shade600)),
+              child: Text(entity.yearsOfExp.toString(), style: TextStyle(color: Colors.grey.shade600)),
             ),
             Expanded(
               flex: 4,

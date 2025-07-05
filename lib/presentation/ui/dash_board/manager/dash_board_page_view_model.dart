@@ -158,6 +158,8 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
         _approveClinic(clinicId: event.clinicId, status: event.status);
       case ChangeTabEvent():
         _changeTab(event.tab);
+      case NavigateToDoctorDetailsPageEvent():
+        emit(NavigateToDoctorDetailsPageState(doctor: event.doctor));
     }
   }
 }

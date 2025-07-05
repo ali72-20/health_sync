@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_sync/main.dart';
 import 'package:health_sync/presentation/ui/dash_board/manager/dash_board_page_state.dart';
 import 'package:health_sync/presentation/ui/dash_board/manager/dash_board_page_view_model.dart';
 import 'package:health_sync/presentation/ui/dash_board/view/dash_board_body.dart';
 
 import '../../../../core/common/common_imports.dart';
+import '../../../../core/routes/pages_route.dart';
 import '../../../../di/di.dart';
 import '../manager/dash_board_page_event.dart';
 
@@ -44,7 +46,14 @@ class _DashBoardViewState extends State<DashBoardView> {
         }
         return AdminDashboardScreen();
       },
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is NavigateToDoctorDetailsPageState) {
+          navKey.currentState!.pushNamed(
+            PagesRoutes.doctorsDetailsPage,
+            arguments: state.doctor,
+          );
+        }
+      },
     );
   }
 }
