@@ -85,4 +85,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enter_your_user_name => 'Enter your username';
+
+  @override
+  String get pending_requests => 'Pending Requests';
+
+  @override
+  String get requires_attention => 'Requires Attention';
+
+  @override
+  String get active_doctors => 'Active Doctors';
+
+  @override
+  String get all_active => 'All Active';
+
+  @override
+  String get registered_clinics => 'Registered Clinics';
+
+  @override
+  String get registered_patients => 'Registered Patients';
+
+  @override
+  String get active_users => 'Active Users';
+
+  @override
+  String get clinic => 'Clinic';
+
+  @override
+  String get view_details => 'View Details';
+
+  @override
+  String get pending => 'Pending';
 }

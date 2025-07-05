@@ -29,11 +29,11 @@
   "requires_attention": "Requires Attention",
   "active_doctors": "Active Doctors",
   "all_active": "All Active",
-  "Registered_clinics": "Registered Clinics",
+  "registered_clinics": "Registered Clinics",
   "registered_patients": "Registered Patients",
   "active_users": "Active Users",
   "clinic": "Clinic",
   "view_details": "View Details",
-  "pending": "Pending"
-
+  "pending": "Pending",
+  "pending_requests_require_immediate_attention":"Pending Requests Require Immediate Attention"
 }

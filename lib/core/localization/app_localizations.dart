@@ -253,6 +253,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter your username'**
   String get enter_your_user_name;
+
+  /// No description provided for @pending_requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Requests'**
+  String get pending_requests;
+
+  /// No description provided for @requires_attention.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires Attention'**
+  String get requires_attention;
+
+  /// No description provided for @active_doctors.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Doctors'**
+  String get active_doctors;
+
+  /// No description provided for @all_active.
+  ///
+  /// In en, this message translates to:
+  /// **'All Active'**
+  String get all_active;
+
+  /// No description provided for @registered_clinics.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered Clinics'**
+  String get registered_clinics;
+
+  /// No description provided for @registered_patients.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered Patients'**
+  String get registered_patients;
+
+  /// No description provided for @active_users.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Users'**
+  String get active_users;
+
+  /// No description provided for @clinic.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinic'**
+  String get clinic;
+
+  /// No description provided for @view_details.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get view_details;
+
+  /// No description provided for @pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
 }
 
 class _AppLocalizationsDelegate

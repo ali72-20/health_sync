@@ -1,18 +1,20 @@
 // admin_dashboard_screen.dart
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:health_sync/core/extensions/extensions.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   final int? activeDoctors;
   final int? activePatients;
   final int? activeClinics;
   final int? pendingRequests;
+
   const AdminDashboardScreen({
     super.key,
     this.activeDoctors,
     this.activePatients,
     this.activeClinics,
-    this.pendingRequests
+    this.pendingRequests,
   });
 
   @override
@@ -42,12 +44,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               activeClinics: widget.activeClinics ?? 0,
               activeDoctors: widget.activeDoctors ?? 0,
               activePatients: widget.activePatients ?? 0,
-              pendingRequests: widget.pendingRequests??0
+              pendingRequests: widget.pendingRequests ?? 0,
+              context: context,
             ),
             const SizedBox(height: 24),
             _buildAlertBanner(),
             const SizedBox(height: 24),
-            _buildPendingRequestsSection(),
+            _buildPendingRequestsSection(context),
           ],
         ),
       ),
@@ -55,6 +58,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   }
 
   Widget _buildStatsGrid({
+    required BuildContext context,
     required int activeDoctors,
     required int activePatients,
     required int activeClinics,
@@ -72,23 +76,23 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           icon: Icons.pending_actions_outlined,
           iconColor: Colors.orange,
           count: "$pendingRequests",
-          label: 'Pending Requests',
-          statusText: 'Requires Attention',
+          label: context.locale.pending_requests,
+          statusText: context.locale.requires_attention,
           statusColor: Colors.red,
         ),
         _buildStatCard(
           icon: Icons.medical_services_outlined,
           iconColor: Colors.blue,
           count: "$activeDoctors",
-          label: 'Active Doctors',
-          statusText: 'All Active',
+          label: context.locale.active_doctors,
+          statusText: context.locale.all_active,
           statusColor: Colors.blue,
         ),
         _buildStatCard(
           icon: Icons.add_business_outlined,
           iconColor: Colors.teal,
           count: '$activeClinics',
-          label: 'Registered Clinics',
+          label: context.locale.registered_clinics,
           statusText: '3 Pending Approval',
           statusColor: Colors.amber.shade800,
         ),
@@ -96,8 +100,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           icon: Icons.people_alt_outlined,
           iconColor: Colors.purple,
           count: '$activePatients',
-          label: 'Registered Patients',
-          statusText: 'Active Users',
+          label: context.locale.registered_patients,
+          statusText: context.locale.active_users,
           statusColor: Colors.blue,
         ),
       ],
@@ -207,14 +211,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     );
   }
 
-  Widget _buildPendingRequestsSection() {
+  Widget _buildPendingRequestsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            const Text(
-              'Pending Requests',
+            Text(
+              context.locale.pending_requests,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const Spacer(),
@@ -233,14 +237,14 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               fillColor: Colors.white,
               selectedBorderColor: Colors.grey.shade400,
               borderColor: Colors.grey.shade300,
-              children: const [
+              children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text('Clinic'),
+                  child: Text(context.locale.clinics),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text('Doctors'),
+                  child: Text(context.locale.doctors),
                 ),
               ],
             ),

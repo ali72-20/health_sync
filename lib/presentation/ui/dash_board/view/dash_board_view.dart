@@ -32,6 +32,11 @@ class DashBoardView extends StatelessWidget {
               pendingRequests: state.allPendingRequests,
             );
           }
+          if(state is DashBoardPageOnErrorState){
+            return Center(
+              child: Text(state.exception.toString()),
+            );
+          }
           return AdminDashboardScreen();
         },
         listener: (context, state) {},

@@ -85,4 +85,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enter_your_user_name => 'أدخل اسم المستخدم الخاص بك';
+
+  @override
+  String get pending_requests => 'الطلبات المعلقة';
+
+  @override
+  String get requires_attention => 'يتطلب اهتمامًا';
+
+  @override
+  String get active_doctors => 'الأطباء النشطون';
+
+  @override
+  String get all_active => 'جميع النشطين';
+
+  @override
+  String get registered_clinics => 'العيادات المسجلة';
+
+  @override
+  String get registered_patients => 'المرضى المسجلين';
+
+  @override
+  String get active_users => 'المستخدمون النشطون';
+
+  @override
+  String get clinic => 'العيادة';
+
+  @override
+  String get view_details => 'عرض التفاصيل';
+
+  @override
+  String get pending => 'قيد الانتظار';
 }
