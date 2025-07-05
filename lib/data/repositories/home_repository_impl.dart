@@ -1,6 +1,7 @@
 import 'package:health_sync/core/api_result/ApiResult.dart';
 import 'package:health_sync/data/api/core/safe_api_call.dart';
 import 'package:health_sync/data/data_source/remote_data_source/home/home_remote_data_source_contract.dart';
+import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
 import 'package:health_sync/domain/entities/home/dash_board_response_card_entity.dart';
 import 'package:health_sync/domain/repositories/home_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -49,5 +50,13 @@ class HomeRepositoryImpl implements HomeRepositoryContract {
         return response.toDomain();
       },
     );
+  }
+
+  @override
+  Future<ApiResult<AllRequestDetailsEntity>> getAllRequestDetails() async{
+    return await safeApiCall<AllRequestDetailsEntity>(apiCall: ()async{
+      final response = await _dataSourceContract.getAllRequestDetails();
+      return response.toDomain();
+    });
   }
 }

@@ -29,6 +29,7 @@ class DashBoardView extends StatelessWidget {
               activeClinics: state.activeClinics,
               activeDoctors: state.activeDoctors,
               activePatients: state.activePatients,
+              pendingRequests: state.allPendingRequests,
             );
           }
           return AdminDashboardScreen();

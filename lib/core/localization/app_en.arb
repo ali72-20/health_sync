@@ -24,5 +24,16 @@
   "enter_your_first_name": "Enter your first name",
   "enter_your_last_name": "Enter your last name",
   "user_name": "Username",
-  "enter_your_user_name": "Enter your username"
+  "enter_your_user_name": "Enter your username",
+  "pending_requests": "Pending Requests",
+  "requires_attention": "Requires Attention",
+  "active_doctors": "Active Doctors",
+  "all_active": "All Active",
+  "Registered_clinics": "Registered Clinics",
+  "registered_patients": "Registered Patients",
+  "active_users": "Active Users",
+  "clinic": "Clinic",
+  "view_details": "View Details",
+  "pending": "Pending"
+
 }

@@ -1,3 +1,4 @@
+import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'all_request_details_response_model.g.dart';
@@ -11,7 +12,7 @@ class AllRequestDetailsResponseModel {
   @JsonKey(name: "total")
   final int? total;
 
-  AllRequestDetailsResponseModel ({
+  AllRequestDetailsResponseModel({
     this.doctorDetails,
     this.clinicDetails,
     this.total,
@@ -23,6 +24,14 @@ class AllRequestDetailsResponseModel {
 
   Map<String, dynamic> toJson() {
     return _$AllRequestDetailsResponseModelToJson(this);
+  }
+
+  AllRequestDetailsEntity toDomain() {
+    return AllRequestDetailsEntity(
+      doctorDetails: doctorDetails?.map((e) => e.toDomain()).toList(),
+      clinicDetails: clinicDetails,
+      total: total,
+    );
   }
 }
 
@@ -49,7 +58,7 @@ class DoctorDetails {
   @JsonKey(name: "doctorClinics")
   final dynamic? doctorClinics;
 
-  DoctorDetails ({
+  DoctorDetails({
     this.doctorID,
     this.doctorName,
     this.email,
@@ -69,6 +78,19 @@ class DoctorDetails {
   Map<String, dynamic> toJson() {
     return _$DoctorDetailsToJson(this);
   }
+
+  DoctorDetailsEntity toDomain() {
+    return DoctorDetailsEntity(
+      doctorID: doctorID,
+      doctorName: doctorName,
+      email: email,
+      status: status,
+      phoneNumber: phoneNumber,
+      address: address,
+      specialization: specialization,
+      doctorClinics: doctorClinics,
+      yearsOfExp: yearsOfExp,
+      gender: gender,
+    );
+  }
 }
-
-

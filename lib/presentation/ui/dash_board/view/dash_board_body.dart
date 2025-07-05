@@ -6,12 +6,13 @@ class AdminDashboardScreen extends StatefulWidget {
   final int? activeDoctors;
   final int? activePatients;
   final int? activeClinics;
-
+  final int? pendingRequests;
   const AdminDashboardScreen({
     super.key,
     this.activeDoctors,
     this.activePatients,
     this.activeClinics,
+    this.pendingRequests
   });
 
   @override
@@ -41,6 +42,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               activeClinics: widget.activeClinics ?? 0,
               activeDoctors: widget.activeDoctors ?? 0,
               activePatients: widget.activePatients ?? 0,
+              pendingRequests: widget.pendingRequests??0
             ),
             const SizedBox(height: 24),
             _buildAlertBanner(),
@@ -56,6 +58,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     required int activeDoctors,
     required int activePatients,
     required int activeClinics,
+    required int pendingRequests,
   }) {
     return GridView.count(
       crossAxisCount: 2,
@@ -68,7 +71,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         _buildStatCard(
           icon: Icons.pending_actions_outlined,
           iconColor: Colors.orange,
-          count: '10',
+          count: "$pendingRequests",
           label: 'Pending Requests',
           statusText: 'Requires Attention',
           statusColor: Colors.red,

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/api_result/ApiResult.dart';
+import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
 import 'package:health_sync/domain/entities/home/dash_board_response_card_entity.dart';
 import 'package:health_sync/domain/repositories/home_repository.dart';
 import 'package:health_sync/presentation/ui/dash_board/manager/dash_board_page_state.dart';
@@ -56,6 +57,16 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
     }
   }
 
+  _getAllRequestsDetails() async {
+    final response = await _homeRepositoryContract.getAllRequestDetails();
+    switch (response) {
+      case OnSuccess<AllRequestDetailsEntity>():
+        // TODO: Handle this case.
+        throw UnimplementedError();
+      case OnFailure<AllRequestDetailsEntity>():
+        allSuccess = false;
+    }
+  }
   _getInitialData() async {
     emit(DashBoardPageOnLoadingState());
     int activeDoctors = await _getActiveDoctors();
@@ -77,6 +88,8 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
       );
     }
   }
+
+
 
   void onEvent(DashBoardPageEvent event) {
     switch (event) {
