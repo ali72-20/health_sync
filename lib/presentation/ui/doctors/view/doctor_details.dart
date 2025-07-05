@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_sync/di/di.dart';
 import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
 import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_state.dart';
 import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_view_model.dart';
@@ -7,71 +8,83 @@ import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_view_m
 import '../managers/doctors_page_event.dart';
 
 class DoctorDetailsView extends StatelessWidget {
+  DoctorDetailsView({super.key});
 
-  const DoctorDetailsView({super.key});
+  final viewModel = getIt<DoctorsPageViewModel>();
 
   @override
   Widget build(BuildContext context) {
-    final doctorEntity = ModalRoute.of(context)?.settings.arguments as DoctorDetailsEntity?;
-    return BlocListener<DoctorsPageViewModel,DoctorsPageState>(
-      listener: (context,state){
-        if(state is DoctorsPageSuccessState){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Doctor Approved Successfully!")),
-          );
-          Navigator.pop(context);
-        } else if (state is DoctorsPageFailureState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage.toString())),
-          );
-        } else if(state is DoctorsPageLoadingState){
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Processing...")),
-          );
-        }
-      },
-      child: Scaffold(
-        backgroundColor: Colors.grey[50],
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            // Use a more responsive layout for smaller screens
-            bool isMobile = constraints.maxWidth < 700;
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Doctor Details',
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 24),
-                    _buildInfoCard(isMobile,doctorEntity!),
-                    const SizedBox(height: 24),
-                    _buildLicenseCard(),
-                    const SizedBox(height: 32),
-                    _buildActionButtons(isMobile,context, doctorEntity.doctorID.toString()),
-                  ],
-                ),
-              ),
+    final doctorEntity =
+        ModalRoute.of(context)?.settings.arguments as DoctorDetailsEntity?;
+    return BlocProvider(
+      create: (_) => viewModel,
+      child: BlocListener<DoctorsPageViewModel, DoctorsPageState>(
+        listener: (context, state) {
+          if (state is DoctorsPageSuccessState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Doctor Approved Successfully!")),
             );
-          },
+            Navigator.pop(context);
+          } else if (state is DoctorsPageFailureState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage.toString())),
+            );
+          } else if (state is DoctorsPageLoadingState) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text("Processing...")));
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.grey[50],
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              // Use a more responsive layout for smaller screens
+              bool isMobile = constraints.maxWidth < 700;
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Doctor Details',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      _buildInfoCard(isMobile, doctorEntity!),
+                      const SizedBox(height: 24),
+                      _buildLicenseCard(),
+                      const SizedBox(height: 32),
+                      _buildActionButtons(
+                        isMobile,
+                        context,
+                        doctorEntity.doctorID.toString(),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
   Widget _buildInfoCard(bool isMobile, DoctorDetailsEntity doctorDetails) {
-    final details = {
+    final Map<String, Map<String, String>> details = {
       'Doctor Information': {
         'Full Name': doctorDetails.doctorName ?? 'N/A',
         'Doctor ID': doctorDetails.doctorID?.toString() ?? 'N/A',
         'Specialty': doctorDetails.specialization ?? 'N/A',
       },
       'Registration Details': {
-        'Registration Date': doctorDetails.yearsOfExp ?? 'N/A',
-        'Status': doctorDetails.status ?? 'N/A',
+        'Years of Experience': doctorDetails.yearsOfExp?.toString() ?? 'N/A',
+        'Status': "${doctorDetails.status}" ?? 'N/A',
       },
     };
 
@@ -83,17 +96,22 @@ class DoctorDetailsView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Wrap(
-          spacing: isMobile ? 0 : 100.0, // Horizontal space between sections on web
-          runSpacing: 40.0, // Vertical space between sections on mobile
+          spacing: isMobile ? 0 : 100.0,
+          runSpacing: 40.0,
           children: details.entries.map((entry) {
-            return _buildDetailSection(title: entry.key, details: entry.value as Map<String, String>);
+            return _buildDetailSection(
+              title: entry.key,
+              details: entry.value,
+            );
           }).toList(),
         ),
       ),
     );
   }
-
-  Widget _buildDetailSection({required String title, required Map<String, String> details}) {
+  Widget _buildDetailSection({
+    required String title,
+    required Map<String, String> details,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -117,10 +135,7 @@ class DoctorDetailsView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-        ),
+        Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
         const SizedBox(height: 4),
         Text(
           value,
@@ -158,8 +173,11 @@ class DoctorDetailsView extends StatelessWidget {
                   Image.network(
                     'https://i.imgur.com/Of1w2aD.png', // Placeholder image URL
                     fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.document_scanner_outlined, size: 100, color: Colors.grey),
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.document_scanner_outlined,
+                      size: 100,
+                      color: Colors.grey,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   const Text(
@@ -175,7 +193,11 @@ class DoctorDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(bool isMobile,BuildContext context, String doctorID) {
+  Widget _buildActionButtons(
+    bool isMobile,
+    BuildContext context,
+    String doctorID,
+  ) {
     final viewModel = context.read<DoctorsPageViewModel>();
     return Wrap(
       spacing: 16.0,
