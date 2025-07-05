@@ -7,40 +7,44 @@ import '../../../../core/common/common_imports.dart';
 import '../../../../di/di.dart';
 import '../manager/dash_board_page_event.dart';
 
-class DashBoardView extends StatelessWidget {
+class DashBoardView extends StatefulWidget {
   DashBoardView({super.key});
 
-  final viewModel = getIt.get<DashBoardPageViewModel>();
+  @override
+  State<DashBoardView> createState() => _DashBoardViewState();
+}
+
+class _DashBoardViewState extends State<DashBoardView> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<DashBoardPageViewModel>().onEvent(
+      DashBoardPageGetInitialDataEvent(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_){
-        viewModel.onEvent(DashBoardPageGetInitialDataEvent());
-        return viewModel;
+    return BlocConsumer<DashBoardPageViewModel, DashBoardPageState>(
+      builder: (context, state) {
+        if (state is DashBoardPageOnLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is DashBoardPageOnSuccessState) {
+          return AdminDashboardScreen(
+            activeClinics: state.activeClinics,
+            activeDoctors: state.activeDoctors,
+            activePatients: state.activePatients,
+            pendingRequests: state.allPendingRequests,
+          );
+        }
+        if (state is DashBoardPageOnErrorState) {
+          return Center(child: Text(state.exception.toString()));
+        }
+        return AdminDashboardScreen();
       },
-      child: BlocConsumer<DashBoardPageViewModel, DashBoardPageState>(
-        builder: (context, state) {
-          if(state is DashBoardPageOnLoadingState){
-            return const Center(child: CircularProgressIndicator());
-          }
-          if(state is DashBoardPageOnSuccessState){
-            return AdminDashboardScreen(
-              activeClinics: state.activeClinics,
-              activeDoctors: state.activeDoctors,
-              activePatients: state.activePatients,
-              pendingRequests: state.allPendingRequests,
-            );
-          }
-          if(state is DashBoardPageOnErrorState){
-            return Center(
-              child: Text(state.exception.toString()),
-            );
-          }
-          return AdminDashboardScreen();
-        },
-        listener: (context, state) {},
-      ),
+      listener: (context, state) {},
     );
   }
 }

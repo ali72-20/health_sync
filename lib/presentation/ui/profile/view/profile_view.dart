@@ -10,40 +10,44 @@ import 'package:health_sync/presentation/ui/profile/managers/profile_page_view_m
 
 import '../../../../di/di.dart';
 
-class ProfileView extends StatelessWidget {
-  ProfileView({super.key});
+class ProfileView extends StatefulWidget {
+  const ProfileView({super.key});
 
-  final viewModel = getIt<ProfilePageViewModel>();
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ProfilePageViewModel>().onEven(GetUserProfileEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        viewModel.onEven(GetUserProfileEvent());
-        return viewModel;
-      },
-      child: BlocConsumer<ProfilePageViewModel, ProfilePageState>(
-        builder: (context, state) {
-          if (state is ProfilePageOnLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ProfilePageOnSuccessState) {
-            return _profileScreenBody(context, state.userEntity);
-          }
-          return Scaffold(
-            body: Center(
-              child: Text(
-                'Error loading profile',
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
+    return BlocConsumer<ProfilePageViewModel, ProfilePageState>(
+      builder: (context, state) {
+        if (state is ProfilePageOnLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is ProfilePageOnSuccessState) {
+          return _profileScreenBody(context, state.userEntity);
+        }
+        return Scaffold(
+          body: Center(
+            child: Text(
+              'Error loading profile',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
             ),
-          );
-        },
-        listener: (context, state) {
-          if (state is LogoutSuccessState) {
-            navKey.currentState!.pushReplacementNamed(PagesRoutes.loginPage);
-          }
-        },
-      ),
+          ),
+        );
+      },
+      listener: (context, state) {
+        if (state is LogoutSuccessState) {
+          navKey.currentState!.pushReplacementNamed(PagesRoutes.loginPage);
+        }
+      },
     );
   }
 

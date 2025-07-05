@@ -6,6 +6,8 @@ import 'package:health_sync/presentation/ui/dash_board/view/dash_board_view.dart
 import 'package:health_sync/presentation/ui/home/widgets/home_body.dart';
 
 import '../../../core/common/common_imports.dart';
+import '../dash_board/manager/dash_board_page_view_model.dart';
+import '../profile/managers/profile_page_view_model.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -14,8 +16,16 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => viewModel,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeScreenViewModel>(create: (_) => viewModel),
+        BlocProvider<DashBoardPageViewModel>(
+          create: (_) => getIt.get<DashBoardPageViewModel>(),
+        ),
+        BlocProvider<ProfilePageViewModel>(
+          create: (_) => getIt.get<ProfilePageViewModel>(),
+        ),
+      ],
       child: Scaffold(
         body: BlocConsumer<HomeScreenViewModel, HomeScreenState>(
           builder: (context, state) {
