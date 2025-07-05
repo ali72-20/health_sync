@@ -1,0 +1,26 @@
+import 'package:health_sync/data/api/api_manager.dart';
+import 'package:health_sync/data/data_source/remote_data_source/home/home_remote_data_source_contract.dart';
+import 'package:health_sync/data/models/response_model/home/dash_board_card_response_model.dart';
+import 'package:injectable/injectable.dart';
+
+@Injectable(as: HomeRemoteDataSourceContract)
+class HomeRemoteDataSourceImpl implements HomeRemoteDataSourceContract {
+  final ApiManager _apiManager;
+
+  HomeRemoteDataSourceImpl(this._apiManager);
+
+  @override
+  Future<DashBoardCardResponseModel> getActiveClinics() async {
+    return await _apiManager.activeClinics();
+  }
+
+  @override
+  Future<DashBoardCardResponseModel> getActiveDoctors() async {
+    return await _apiManager.activeDoctors();
+  }
+
+  @override
+  Future<DashBoardCardResponseModel> getActivePatients() async {
+    return await _apiManager.activePatients();
+  }
+}

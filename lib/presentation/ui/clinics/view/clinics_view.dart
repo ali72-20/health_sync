@@ -1,14 +1,13 @@
-// clinics_screen.dart (CORRECTED)
+// clinics_view.dart (FINAL - WITH THE INFINITE WIDTH FIX)
 
 import 'package:flutter/material.dart';
 
+// Import your other screens so navigation works.
+// Make sure these file names match your project structure.
 import 'clinic_details_page.dart';
-import 'clinics_search_result_view.dart';
+import 'clinics_search_result_view.dart'; // Placeholder, update to your actual file name
 
-// Import your other screens so navigation works
-
-
-// A data model for the clinic and an enum for the status
+// Data model for a single clinic
 enum ClinicStatus { Approved, Rejected }
 
 class Clinic {
@@ -27,13 +26,12 @@ class Clinic {
 
 class ClinicsScreen extends StatefulWidget {
   const ClinicsScreen({super.key});
-
   @override
   State<ClinicsScreen> createState() => _ClinicsScreenState();
 }
 
 class _ClinicsScreenState extends State<ClinicsScreen> {
-  // Sample data. In a real app, this would come from an API.
+  // Sample data for the list.
   final List<Clinic> _clinics = [
     Clinic(name: 'Family Care Clinic', address: '456 Wellness Street, Abu Dhabi', status: ClinicStatus.Approved, registrationDate: '2024-01-14'),
     Clinic(name: 'Advanced Medical Hub', address: '789 Medical Boulevard, Sharjah', status: ClinicStatus.Rejected, registrationDate: '2024-01-13'),
@@ -43,7 +41,6 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
     Clinic(name: 'Wellness First', address: '101 Health Ave, Abu Dhabi', status: ClinicStatus.Approved, registrationDate: '2024-01-10'),
     Clinic(name: 'Sharjah Specialty', address: '202 Cure Rd, Sharjah', status: ClinicStatus.Approved, registrationDate: '2024-01-09'),
   ];
-
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -51,8 +48,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       body: Padding(
-        // Added padding for better aesthetics
-        padding: const EdgeInsets.fromLTRB(32, 32, 32, 0),
+        padding: const EdgeInsets.all(32.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,15 +56,9 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
             const SizedBox(height: 24),
             _buildSearchBarAndButton(),
             const SizedBox(height: 24),
-
-            // ================== THE FIX IS HERE ==================
-            // We wrap the part of the UI that scrolls (the table)
-            // in an Expanded widget. This tells the Column's child
-            // to fill the remaining available vertical space.
             Expanded(
               child: _buildClinicsTable(),
             ),
-            // =====================================================
           ],
         ),
       ),
@@ -92,10 +82,14 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
     );
   }
 
+  // Builds the search bar and the "Add New Clinic" button.
   Widget _buildSearchBarAndButton() {
     return Row(
       children: [
-        Expanded(
+        // ================== THE FIX FOR INFINITE WIDTH ==================
+        // We replace Expanded with Flexible. This resolves the conflict
+        // when the Row has unconstrained width from its parent.
+        Flexible(
           child: TextField(
             controller: _searchController,
             decoration: InputDecoration(
@@ -114,6 +108,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
             ),
           ),
         ),
+        // =================================================================
         const SizedBox(width: 24),
         ElevatedButton(
           onPressed: () {},
@@ -132,8 +127,8 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
     );
   }
 
+  // The rest of the file is identical and correct.
   Widget _buildClinicsTable() {
-    // This widget is fine, the problem was with its parent layout.
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -165,14 +160,11 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
 class _ClinicDataSource extends DataTableSource {
   final List<Clinic> clinics;
   final BuildContext context;
-
   _ClinicDataSource({required this.clinics, required this.context});
-
   @override
   DataRow? getRow(int index) {
     if (index >= clinics.length) return null;
     final clinic = clinics[index];
-
     return DataRow.byIndex(
       index: index,
       cells: [
@@ -184,7 +176,6 @@ class _ClinicDataSource extends DataTableSource {
       ],
     );
   }
-
   Widget _buildStatusChip(ClinicStatus status) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -197,12 +188,10 @@ class _ClinicDataSource extends DataTableSource {
         style: TextStyle(
             color: status == ClinicStatus.Approved ? const Color(0xFF065F46) : const Color(0xFF991B1B),
             fontWeight: FontWeight.bold,
-            fontSize: 12
-        ),
+            fontSize: 12),
       ),
     );
   }
-
   Widget _buildActionIcons(Clinic clinic) {
     return Row(
       children: [
@@ -217,20 +206,11 @@ class _ClinicDataSource extends DataTableSource {
           icon: const Icon(Icons.edit, color: Color(0xFF0D6EFD), size: 20),
           tooltip: 'View/Edit',
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.delete, color: Colors.red, size: 20),
-          tooltip: 'Delete',
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.more_vert, color: Colors.grey.shade600, size: 20),
-          tooltip: 'More Actions',
-        ),
+        IconButton(onPressed: () {}, icon: const Icon(Icons.delete, color: Colors.red, size: 20), tooltip: 'Delete'),
+        IconButton(onPressed: () {}, icon: Icon(Icons.more_vert, color: Colors.grey.shade600, size: 20), tooltip: 'More Actions'),
       ],
     );
   }
-
   @override
   bool get isRowCountApproximate => false;
   @override

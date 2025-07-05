@@ -4,6 +4,7 @@ import 'package:health_sync/data/models/request_models/auth/logout_request_model
 import 'package:health_sync/data/models/response_model/auth/login_response_model.dart';
 import 'package:health_sync/data/models/response_model/auth/register_response_model.dart';
 import 'package:health_sync/data/models/response_model/auth/user_model.dart';
+import 'package:health_sync/data/models/response_model/home/dash_board_card_response_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import '../models/request_models/auth/login_request_model.dart';
@@ -30,4 +31,14 @@ abstract interface class ApiManager {
 
   @POST(ApiEndPoints.logout)
   Future<void> logout(@Body() LogoutReuqestModel model);
+
+  @GET(ApiEndPoints.activeDoctors)
+  Future<DashBoardCardResponseModel> activeDoctors();
+
+  @GET(ApiEndPoints.activePatients)
+  Future<DashBoardCardResponseModel> activePatients();
+
+  @GET(ApiEndPoints.activeClinics)
+  Future<DashBoardCardResponseModel> activeClinics();
+
 }

@@ -25,8 +25,14 @@ import '../data/data_source/remote_data_source/auth/auth_remote_data_source_cont
     as _i121;
 import '../data/data_source/remote_data_source/auth/auth_remote_data_source_contract_impl.dart'
     as _i570;
+import '../data/data_source/remote_data_source/home/home_remote_data_source_contract.dart'
+    as _i1070;
+import '../data/data_source/remote_data_source/home/home_remote_data_source_impl.dart'
+    as _i1051;
 import '../data/repositories/auth_repository_impl.dart' as _i74;
+import '../data/repositories/home_repository_impl.dart' as _i158;
 import '../domain/repositories/auth_repository.dart' as _i800;
+import '../domain/repositories/home_repository.dart' as _i424;
 import '../domain/use_cases/auth/get_user_profile_use_case.dart' as _i114;
 import '../domain/use_cases/auth/login_use_case.dart' as _i132;
 import '../domain/use_cases/auth/logout_use_case.dart' as _i584;
@@ -85,6 +91,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i767.AuthLocalDataSourceImpl(),
     );
     gh.singleton<_i93.ApiManager>(() => _i93.ApiManager(gh<_i361.Dio>()));
+    gh.factory<_i1070.HomeRemoteDataSourceContract>(
+      () => _i1051.HomeRemoteDataSourceImpl(gh<_i93.ApiManager>()),
+    );
+    gh.factory<_i424.HomeRepositoryContract>(
+      () => _i158.HomeRepositoryImpl(gh<_i1070.HomeRemoteDataSourceContract>()),
+    );
     gh.factory<_i121.AuthRemoteDataSourceContract>(
       () => _i570.AuthRemoteDataSourceContractImpl(gh<_i93.ApiManager>()),
     );
