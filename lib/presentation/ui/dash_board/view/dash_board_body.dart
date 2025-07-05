@@ -1,6 +1,6 @@
 // admin_dashboard_screen.dart
-import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
 import 'package:health_sync/presentation/ui/dash_board/manager/dash_board_page_event.dart';
@@ -262,22 +262,23 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             border: Border.all(color: Colors.grey.shade200),
           ),
           child: Column(
-            children: _isSelected[1] ? _buildDoctorList() : _buildClinicList(),
+            children: _isSelected[1] ? _buildDoctorList(context) : _buildClinicList(),
           ),
         ),
       ],
     );
   }
 
-  List<Widget> _buildDoctorList() {
+  List<Widget> _buildDoctorList(BuildContext context) {
     return [
       _buildDoctorRow(
+        context,
         'Dr. Michael...',
         'Pediatrics',
         'Children...',
         '2024-01-20',
       ),
-      _buildDoctorRow('Dr. Lisa...', 'Dermatology', 'Skin Ca...', '2024-01-21'),
+      _buildDoctorRow(context,'Dr. Lisa...', 'Dermatology', 'Skin Ca...', '2024-01-21'),
     ];
   }
 
