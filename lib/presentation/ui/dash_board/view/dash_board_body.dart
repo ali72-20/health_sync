@@ -3,7 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
-  const AdminDashboardScreen({super.key});
+  final int? activeDoctors;
+  final int? activePatients;
+  final int? activeClinics;
+
+  const AdminDashboardScreen({
+    super.key,
+    this.activeDoctors,
+    this.activePatients,
+    this.activeClinics,
+  });
 
   @override
   State<AdminDashboardScreen> createState() => _AdminDashboardScreenState();
@@ -28,7 +37,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
-            _buildStatsGrid(),
+            _buildStatsGrid(
+              activeClinics: widget.activeClinics ?? 0,
+              activeDoctors: widget.activeDoctors ?? 0,
+              activePatients: widget.activePatients ?? 0,
+            ),
             const SizedBox(height: 24),
             _buildAlertBanner(),
             const SizedBox(height: 24),
@@ -39,43 +52,51 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     );
   }
 
-  Widget _buildStatsGrid() {
+  Widget _buildStatsGrid({
+    required int activeDoctors,
+    required int activePatients,
+    required int activeClinics,
+  }) {
     return GridView.count(
       crossAxisCount: 2,
       crossAxisSpacing: 20,
       mainAxisSpacing: 20,
-      childAspectRatio: 2.5, // Adjust this ratio for your desired card shape
+      childAspectRatio: 2.5,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
         _buildStatCard(
-            icon: Icons.pending_actions_outlined,
-            iconColor: Colors.orange,
-            count: '10',
-            label: 'Pending Requests',
-            statusText: 'Requires Attention',
-            statusColor: Colors.red),
+          icon: Icons.pending_actions_outlined,
+          iconColor: Colors.orange,
+          count: '10',
+          label: 'Pending Requests',
+          statusText: 'Requires Attention',
+          statusColor: Colors.red,
+        ),
         _buildStatCard(
-            icon: Icons.medical_services_outlined,
-            iconColor: Colors.blue,
-            count: '50',
-            label: 'Active Doctors',
-            statusText: 'All Active',
-            statusColor: Colors.blue),
+          icon: Icons.medical_services_outlined,
+          iconColor: Colors.blue,
+          count: "$activeDoctors",
+          label: 'Active Doctors',
+          statusText: 'All Active',
+          statusColor: Colors.blue,
+        ),
         _buildStatCard(
-            icon: Icons.add_business_outlined,
-            iconColor: Colors.teal,
-            count: '20',
-            label: 'Registered Clinics',
-            statusText: '3 Pending Approval',
-            statusColor: Colors.amber.shade800),
+          icon: Icons.add_business_outlined,
+          iconColor: Colors.teal,
+          count: '$activeClinics',
+          label: 'Registered Clinics',
+          statusText: '3 Pending Approval',
+          statusColor: Colors.amber.shade800,
+        ),
         _buildStatCard(
-            icon: Icons.people_alt_outlined,
-            iconColor: Colors.purple,
-            count: '100',
-            label: 'Registered Patients',
-            statusText: 'Active Users',
-            statusColor: Colors.blue),
+          icon: Icons.people_alt_outlined,
+          iconColor: Colors.purple,
+          count: '$activePatients',
+          label: 'Registered Patients',
+          statusText: 'Active Users',
+          statusColor: Colors.blue,
+        ),
       ],
     );
   }
@@ -99,7 +120,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             color: Colors.black.withOpacity(0.05),
             spreadRadius: 1,
             blurRadius: 10,
-          )
+          ),
         ],
       ),
       child: Stack(
@@ -114,9 +135,18 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 child: Icon(icon, color: iconColor, size: 20),
               ),
               const SizedBox(height: 12),
-              Text(count, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Text(
+                count,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text(label, style: TextStyle(color: Colors.grey.shade600, fontSize: 14)),
+              Text(
+                label,
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+              ),
             ],
           ),
           Positioned(
@@ -124,7 +154,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             right: 0,
             child: Text(
               statusText,
-              style: TextStyle(color: statusColor, fontWeight: FontWeight.bold, fontSize: 12),
+              style: TextStyle(
+                color: statusColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
             ),
           ),
         ],
@@ -150,11 +184,18 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           child: Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.red.shade700, size: 20),
+              Icon(
+                Icons.warning_amber_rounded,
+                color: Colors.red.shade700,
+                size: 20,
+              ),
               const SizedBox(width: 12),
               Text(
                 '10 Pending Requests Require Immediate Attention',
-                style: TextStyle(color: Colors.red.shade900, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: Colors.red.shade900,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -169,7 +210,10 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       children: [
         Row(
           children: [
-            const Text('Pending Requests', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text(
+              'Pending Requests',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             const Spacer(),
             ToggleButtons(
               isSelected: _isSelected,
@@ -187,10 +231,16 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               selectedBorderColor: Colors.grey.shade400,
               borderColor: Colors.grey.shade300,
               children: const [
-                Padding(padding: EdgeInsets.symmetric(horizontal: 16.0), child: Text('Clinic')),
-                Padding(padding: EdgeInsets.symmetric(horizontal: 16.0), child: Text('Doctors')),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text('Clinic'),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text('Doctors'),
+                ),
               ],
-            )
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -210,15 +260,28 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
   List<Widget> _buildDoctorList() {
     return [
-      _buildDoctorRow('Dr. Michael...', 'Pediatrics', 'Children...', '2024-01-20'),
+      _buildDoctorRow(
+        'Dr. Michael...',
+        'Pediatrics',
+        'Children...',
+        '2024-01-20',
+      ),
       _buildDoctorRow('Dr. Lisa...', 'Dermatology', 'Skin Ca...', '2024-01-21'),
     ];
   }
 
   List<Widget> _buildClinicList() {
     return [
-      _buildClinicRow('Wellness Point Clinic', '321 Health Road, Dubai Marina', '2024-01-12'),
-      _buildClinicRow('City Medical Center', '123 Healthcare Ave, Dubai Healthcare City', '2024-01-15'),
+      _buildClinicRow(
+        'Wellness Point Clinic',
+        '321 Health Road, Dubai Marina',
+        '2024-01-12',
+      ),
+      _buildClinicRow(
+        'City Medical Center',
+        '123 Healthcare Ave, Dubai Healthcare City',
+        '2024-01-15',
+      ),
     ];
   }
 
@@ -231,12 +294,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       ),
       child: Text(
         text,
-        style: TextStyle(color: Colors.amber.shade800, fontWeight: FontWeight.bold, fontSize: 12),
+        style: TextStyle(
+          color: Colors.amber.shade800,
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+        ),
       ),
     );
   }
 
-  Widget _buildDoctorRow(String name, String specialty, String clinic, String date) {
+  Widget _buildDoctorRow(
+    String name,
+    String specialty,
+    String clinic,
+    String date,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       child: Row(
@@ -247,23 +319,47 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             backgroundColor: Colors.black12,
           ),
           const SizedBox(width: 16),
-          Expanded(flex: 2, child: Text(name, style: const TextStyle(fontWeight: FontWeight.bold))),
+          Expanded(
+            flex: 2,
+            child: Text(
+              name,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           Expanded(flex: 2, child: Text(specialty)),
           Expanded(flex: 2, child: Text(clinic)),
           Expanded(flex: 2, child: _buildStatusChip('Pending')),
-          Expanded(flex: 2, child: Text(date, style: TextStyle(color: Colors.grey.shade600))),
+          Expanded(
+            flex: 2,
+            child: Text(date, style: TextStyle(color: Colors.grey.shade600)),
+          ),
           Expanded(
             flex: 4,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(onPressed: () {}, child: const Text('View Details')),
-                TextButton(onPressed: () {}, child: const Text('Approve', style: TextStyle(color: Colors.green))),
-                TextButton(onPressed: () {}, child: const Text('Reject', style: TextStyle(color: Colors.red))),
-                TextButton(onPressed: () {}, child: const Text('Assign Clinic')),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Approve',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Reject',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Assign Clinic'),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -274,21 +370,43 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       child: Row(
         children: [
-          Expanded(flex: 4, child: Text(name, style: const TextStyle(fontWeight: FontWeight.bold))),
+          Expanded(
+            flex: 4,
+            child: Text(
+              name,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           Expanded(flex: 4, child: Text(address)),
           Expanded(flex: 2, child: _buildStatusChip('Pending')),
-          Expanded(flex: 2, child: Text(date, style: TextStyle(color: Colors.grey.shade600))),
+          Expanded(
+            flex: 2,
+            child: Text(date, style: TextStyle(color: Colors.grey.shade600)),
+          ),
           Expanded(
             flex: 2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.edit, color: Colors.blue, size: 20)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.delete, color: Colors.red, size: 20)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert, color: Colors.grey, size: 20)),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.edit, color: Colors.blue, size: 20),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.delete, color: Colors.red, size: 20),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: Colors.grey,
+                    size: 20,
+                  ),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

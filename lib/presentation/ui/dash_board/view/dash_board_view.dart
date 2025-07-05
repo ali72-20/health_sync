@@ -5,6 +5,7 @@ import 'package:health_sync/presentation/ui/dash_board/view/dash_board_body.dart
 
 import '../../../../core/common/common_imports.dart';
 import '../../../../di/di.dart';
+import '../manager/dash_board_page_event.dart';
 
 class DashBoardView extends StatelessWidget {
   DashBoardView({super.key});
@@ -14,9 +15,22 @@ class DashBoardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => viewModel,
+      create: (_){
+        viewModel.onEvent(DashBoardPageGetInitialDataEvent());
+        return viewModel;
+      },
       child: BlocConsumer<DashBoardPageViewModel, DashBoardPageState>(
         builder: (context, state) {
+          if(state is DashBoardPageOnLoadingState){
+            return const Center(child: CircularProgressIndicator());
+          }
+          if(state is DashBoardPageOnSuccessState){
+            return AdminDashboardScreen(
+              activeClinics: state.activeClinics,
+              activeDoctors: state.activeDoctors,
+              activePatients: state.activePatients,
+            );
+          }
           return AdminDashboardScreen();
         },
         listener: (context, state) {},
