@@ -69,7 +69,6 @@ class DashBoardPageViewModel extends Cubit<DashBoardPageState> {
 
   void onEvent(DashBoardPageEvent event) {
     switch (event) {
-      // Handle events here
       case DashBoardPageGetInitialDataEvent():
         _getInitialData();
     }
