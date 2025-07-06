@@ -19,5 +19,5 @@ abstract interface class HomeRemoteDataSourceContract {
     required int status,
   });
 
-  Future<DoctorsResponseDetailsModel> getAllDoctors();
+  Future<List<DoctorsResponseDetailsModel>> getAllDoctors();
 }

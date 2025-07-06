@@ -6,6 +6,8 @@ import 'package:health_sync/domain/entities/home/dash_board_response_card_entity
 import 'package:health_sync/domain/repositories/home_repository.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../domain/entities/home/doctors_details_entity.dart';
+
 @Injectable(as: HomeRepositoryContract)
 class HomeRepositoryImpl implements HomeRepositoryContract {
   final HomeRemoteDataSourceContract _dataSourceContract;
@@ -77,6 +79,14 @@ class HomeRepositoryImpl implements HomeRepositoryContract {
         doctorId: doctorId,
         status: status,
       );
+    });
+  }
+
+  @override
+  Future<ApiResult<List<AllDoctorsDetailsEntity>>> getAllDoctors() async{
+    return await safeApiCall<List<AllDoctorsDetailsEntity>>(apiCall: ()async{
+      final response = await _dataSourceContract.getAllDoctors();
+      return response.map((e)=> e.toDomain()).toList();
     });
   }
 }

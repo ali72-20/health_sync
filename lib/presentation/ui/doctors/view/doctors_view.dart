@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_sync/domain/entities/home/doctors_details_entity.dart';
+import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_event.dart';
+import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_state.dart';
+import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_view_model.dart';
 
 class DoctorsView extends StatefulWidget {
   const DoctorsView({super.key});
@@ -9,41 +14,48 @@ class DoctorsView extends StatefulWidget {
 
 class _DoctorsViewState extends State<DoctorsView> {
   // Sample data - in a real app, you would fetch this from an API
-  final List<Doctor> _doctors = [
-    Doctor(name: 'Dr. Sarah', imageUrl: 'https://i.pravatar.cc/150?img=1', specialty: 'Cardiology', clinic: 'Heart Care', status: DoctorStatus.Approved, registrationDate: '2024-01-15'),
-    Doctor(name: 'Dr. Emily', imageUrl: 'https://i.pravatar.cc/150?img=2', specialty: 'Neurology', clinic: 'Brain & Spine', status: DoctorStatus.Rejected, registrationDate: '2024-01-18'),
-    Doctor(name: 'Dr. James', imageUrl: 'https://i.pravatar.cc/150?img=3', specialty: 'Orthopedics', clinic: 'Joint Care', status: DoctorStatus.Approved, registrationDate: '2024-01-16'),
-    Doctor(name: 'Dr. Sarah', imageUrl: 'https://i.pravatar.cc/150?img=4', specialty: 'Cardiology', clinic: 'Heart Care', status: DoctorStatus.Approved, registrationDate: '2024-01-15'),
-    Doctor(name: 'Dr. James', imageUrl: 'https://i.pravatar.cc/150?img=5', specialty: 'Orthopedics', clinic: 'Joint Care', status: DoctorStatus.Approved, registrationDate: '2024-01-16'),
-    // Add more doctors to see pagination
-    Doctor(name: 'Dr. John', imageUrl: 'https://i.pravatar.cc/150?img=6', specialty: 'Dermatology', clinic: 'Skin Clinic', status: DoctorStatus.Approved, registrationDate: '2024-02-20'),
-    Doctor(name: 'Dr. Linda', imageUrl: 'https://i.pravatar.cc/150?img=7', specialty: 'Pediatrics', clinic: 'Child Health', status: DoctorStatus.Rejected, registrationDate: '2024-02-22'),
-    Doctor(name: 'Dr. Michael', imageUrl: 'https://i.pravatar.cc/150?img=8', specialty: 'Oncology', clinic: 'Cancer Center', status: DoctorStatus.Approved, registrationDate: '2024-03-01'),
-    Doctor(name: 'Dr. Jessica', imageUrl: 'https://i.pravatar.cc/150?img=9', specialty: 'ENT', clinic: 'Head & Neck', status: DoctorStatus.Approved, registrationDate: '2024-03-05'),
-    Doctor(name: 'Dr. David', imageUrl: 'https://i.pravatar.cc/150?img=10', specialty: 'Psychiatry', clinic: 'Mind Care', status: DoctorStatus.Approved, registrationDate: '2024-03-10'),
-  ];
+  List<AllDoctorsDetailsEntity> allDoctors = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<DoctorsPageViewModel>().onEvent(GetAllDoctorsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Doctors',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+      body: BlocConsumer<DoctorsPageViewModel, DoctorsPageState>(
+        builder: (context, state) {
+          if (state is DoctorsPageLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is DoctorsPageFailureState) {
+            return Center(child: Text(state.errorMessage));
+          }
+          if (state is DoctorsPageSuccessState) {
+            allDoctors = state.allDoctors ?? [];
+          }
+          return Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Doctors',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 24),
+                _buildFilterAndSearch(),
+                const SizedBox(height: 24),
+                Expanded(child: _buildDoctorsTable()),
+              ],
             ),
-            const SizedBox(height: 24),
-            _buildFilterAndSearch(),
-            const SizedBox(height: 24),
-            Expanded(
-              child: _buildDoctorsTable(),
-            ),
-          ],
-        ),
+          );
+        },
+        listener: (context, state) {},
       ),
     );
   }
@@ -95,7 +107,8 @@ class _DoctorsViewState extends State<DoctorsView> {
             isExpanded: true,
             hint: Text(hint, style: TextStyle(color: Colors.grey.shade600)),
             icon: const Icon(Icons.arrow_drop_down),
-            items: const [], // Add your filter items here
+            items: const [],
+            // Add your filter items here
             onChanged: (value) {},
           ),
         ),
@@ -122,7 +135,7 @@ class _DoctorsViewState extends State<DoctorsView> {
           DataColumn(label: Text('Registration Date')),
           DataColumn(label: Text('Actions')),
         ],
-        source: _DoctorDataSource(doctors: _doctors, context: context),
+        source: _DoctorDataSource(doctors: allDoctors, context: context),
         columnSpacing: 20,
         horizontalMargin: 20,
         showCheckboxColumn: false,
@@ -132,7 +145,7 @@ class _DoctorsViewState extends State<DoctorsView> {
 }
 
 class _DoctorDataSource extends DataTableSource {
-  final List<Doctor> doctors;
+  final List<AllDoctorsDetailsEntity> doctors;
   final BuildContext context;
 
   _DoctorDataSource({required this.doctors, required this.context});
@@ -147,24 +160,27 @@ class _DoctorDataSource extends DataTableSource {
       index: index,
       cells: [
         DataCell(_buildDoctorNameCell(doctor)),
-        DataCell(Text(doctor.specialty)),
-        DataCell(Text(doctor.clinic)),
-        DataCell(_buildStatusChip(doctor.status)),
-        DataCell(Text(doctor.registrationDate)),
+        DataCell(Text(doctor.specialization ?? "")),
+        DataCell(Text(doctor.doctorClinics!.first.toString())),
+        DataCell(
+          _buildStatusChip(
+            doctor.status == 0
+                ? DoctorStatus.values.first
+                : DoctorStatus.Rejected,
+          ),
+        ),
+        DataCell(Text(doctor.yearsOfExp.toString() ?? "")),
         DataCell(_buildActionButtons()),
       ],
     );
   }
 
-  Widget _buildDoctorNameCell(Doctor doctor) {
+  Widget _buildDoctorNameCell(AllDoctorsDetailsEntity doctor) {
     return Row(
       children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(doctor.imageUrl),
-          radius: 16,
-        ),
+        CircleAvatar(backgroundColor: Colors.white, radius: 16),
         const SizedBox(width: 12),
-        Text(doctor.name),
+        Text(doctor.doctorName ?? ""),
       ],
     );
   }
@@ -193,15 +209,9 @@ class _DoctorDataSource extends DataTableSource {
   Widget _buildActionButtons() {
     return Row(
       children: [
-        TextButton(
-          onPressed: () {},
-          child: const Text('View Details'),
-        ),
+        TextButton(onPressed: () {}, child: const Text('View Details')),
         const SizedBox(width: 8),
-        TextButton(
-          onPressed: () {},
-          child: const Text('Assign Clinic'),
-        ),
+        TextButton(onPressed: () {}, child: const Text('Assign Clinic')),
       ],
     );
   }
@@ -214,25 +224,6 @@ class _DoctorDataSource extends DataTableSource {
 
   @override
   int get selectedRowCount => 0;
-
-
 }
-enum DoctorStatus { Approved, Rejected }
 
-class Doctor {
-  final String name;
-  final String imageUrl;
-  final String specialty;
-  final String clinic;
-  final DoctorStatus status;
-  final String registrationDate;
-
-  Doctor({
-    required this.name,
-    required this.imageUrl,
-    required this.specialty,
-    required this.clinic,
-    required this.status,
-    required this.registrationDate,
-  });
-}
+enum DoctorStatus { Approved, Rejected, Pending }

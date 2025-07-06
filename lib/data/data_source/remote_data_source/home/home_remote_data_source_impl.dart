@@ -47,7 +47,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSourceContract {
   }
 
   @override
-  Future<DoctorsResponseDetailsModel> getAllDoctors() async{
+  Future<List<DoctorsResponseDetailsModel>> getAllDoctors() async{
     return await _apiManager.getAllDoctors();
   }
 }

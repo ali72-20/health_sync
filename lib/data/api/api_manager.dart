@@ -64,6 +64,6 @@ abstract interface class ApiManager {
   });
 
   @GET(ApiEndPoints.allDoctors)
-  Future<DoctorsResponseDetailsModel> getAllDoctors();
+  Future<List<DoctorsResponseDetailsModel>> getAllDoctors();
 
 }

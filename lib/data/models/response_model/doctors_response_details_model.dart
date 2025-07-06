@@ -1,3 +1,4 @@
+import 'package:health_sync/domain/entities/home/doctors_details_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'doctors_response_details_model.g.dart';
@@ -45,6 +46,20 @@ class DoctorsResponseDetailsModel {
   Map<String, dynamic> toJson() {
     return _$DoctorsResponseDetailsModelToJson(this);
   }
+  AllDoctorsDetailsEntity toDomain(){
+    return AllDoctorsDetailsEntity(
+      doctorID: doctorID,
+      doctorName: doctorName,
+      email: email,
+      status: status,
+      phoneNumber: phoneNumber,
+      address: address,
+      gender: gender,
+      specialization: specialization,
+      yearsOfExp: yearsOfExp,
+      doctorClinics: doctorClinics?.map((e) => e.toDomain()).toList(),
+    );
+  }
 }
 
 @JsonSerializable()
@@ -89,6 +104,16 @@ class DoctorClinics {
 
   Map<String, dynamic> toJson() {
     return _$DoctorClinicsToJson(this);
+  }
+
+  DoctorClinicEntity toDomain(){
+    return DoctorClinicEntity(
+      clinicID: clinicID,
+      name: name,
+      address: address,
+      contactNumber: contactNumber,
+      contactEmail: contactEmail,
+    );
   }
 }
 

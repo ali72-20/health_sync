@@ -2,6 +2,8 @@ import 'package:health_sync/core/api_result/ApiResult.dart';
 import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
 import 'package:health_sync/domain/entities/home/dash_board_response_card_entity.dart';
 
+import '../entities/home/doctors_details_entity.dart';
+
 abstract interface class HomeRepositoryContract {
   Future<ApiResult<DashBoardResponseCardEntity>> getActiveDoctors();
 
@@ -22,4 +24,6 @@ abstract interface class HomeRepositoryContract {
     required String clinicId,
     required int status,
   });
+
+  Future<ApiResult<List<AllDoctorsDetailsEntity>>> getAllDoctors();
 }

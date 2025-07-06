@@ -7,3 +7,5 @@ final class RejectDoctorEvent extends DoctorsPageEvent {
   final String doctorId;
   RejectDoctorEvent({required this.doctorId});
 }
+
+final class GetAllDoctorsEvent extends DoctorsPageEvent{}
