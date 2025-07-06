@@ -25,5 +25,5 @@ abstract interface class HomeRepositoryContract {
     required int status,
   });
 
-  Future<ApiResult<List<AllDoctorsDetailsEntity>>> getAllDoctors();
+  Future<ApiResult<List<AllDoctorsDetailsEntity>>> getAllDoctors({int page  = 1});
 }

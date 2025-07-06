@@ -13,14 +13,13 @@ class DoctorsView extends StatefulWidget {
 }
 
 class _DoctorsViewState extends State<DoctorsView> {
-  // Sample data - in a real app, you would fetch this from an API
+  int totalCount = 0;
   List<AllDoctorsDetailsEntity> allDoctors = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    context.read<DoctorsPageViewModel>().onEvent(GetAllDoctorsEvent());
+    context.read<DoctorsPageViewModel>().onEvent(GetAllDoctorsEvent(page: 1));
   }
 
   @override
@@ -28,6 +27,7 @@ class _DoctorsViewState extends State<DoctorsView> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: BlocConsumer<DoctorsPageViewModel, DoctorsPageState>(
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is DoctorsPageLoadingState) {
             return const Center(child: CircularProgressIndicator());
@@ -36,8 +36,10 @@ class _DoctorsViewState extends State<DoctorsView> {
             return Center(child: Text(state.errorMessage));
           }
           if (state is DoctorsPageSuccessState) {
-            allDoctors = state.allDoctors ?? [];
+            allDoctors = state.allDoctors!;
+            totalCount = state.totalCount!;
           }
+
           return Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
@@ -55,7 +57,6 @@ class _DoctorsViewState extends State<DoctorsView> {
             ),
           );
         },
-        listener: (context, state) {},
       ),
     );
   }
@@ -70,10 +71,6 @@ class _DoctorsViewState extends State<DoctorsView> {
               hintText: 'Search by name, specialty, or clinic',
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Colors.grey.shade300),
-              ),
-              enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(color: Colors.grey.shade300),
               ),
@@ -108,7 +105,6 @@ class _DoctorsViewState extends State<DoctorsView> {
             hint: Text(hint, style: TextStyle(color: Colors.grey.shade600)),
             icon: const Icon(Icons.arrow_drop_down),
             items: const [],
-            // Add your filter items here
             onChanged: (value) {},
           ),
         ),
@@ -127,6 +123,12 @@ class _DoctorsViewState extends State<DoctorsView> {
       child: PaginatedDataTable(
         header: const Text('Doctor List'),
         rowsPerPage: 5,
+        onPageChanged: (int rowIndex) {
+          final page = (rowIndex ~/ 5) + 1;
+          context.read<DoctorsPageViewModel>().onEvent(
+            GetAllDoctorsEvent(page: page),
+          );
+        },
         columns: const [
           DataColumn(label: Text('Doctor Name')),
           DataColumn(label: Text('Specialty')),

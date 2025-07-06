@@ -8,4 +8,7 @@ final class RejectDoctorEvent extends DoctorsPageEvent {
   RejectDoctorEvent({required this.doctorId});
 }
 
-final class GetAllDoctorsEvent extends DoctorsPageEvent{}
+final class GetAllDoctorsEvent extends DoctorsPageEvent{
+  final int page;
+  GetAllDoctorsEvent({this.page = 1});
+}

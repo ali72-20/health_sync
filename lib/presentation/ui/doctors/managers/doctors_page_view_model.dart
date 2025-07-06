@@ -10,6 +10,8 @@ import 'doctors_page_event.dart';
 @injectable
 class DoctorsPageViewModel extends Cubit<DoctorsPageState> {
   final HomeRepositoryContract _homeRepositoryContract;
+  int _currentPage = 1;
+  int _totalCount = 0;
 
   DoctorsPageViewModel(this._homeRepositoryContract)
     : super(DoctorsPageInitialState());
@@ -50,16 +52,16 @@ class DoctorsPageViewModel extends Cubit<DoctorsPageState> {
     }
   }
 
-  _getAllDoctors() async {
+  _getAllDoctors({int page = 1}) async {
     emit(DoctorsPageLoadingState());
-    final result = await _homeRepositoryContract.getAllDoctors();
+    _currentPage = page;
+    final result = await _homeRepositoryContract.getAllDoctors(page: page);
     switch (result) {
       case OnSuccess<List<AllDoctorsDetailsEntity>>():
-        emit(DoctorsPageSuccessState(allDoctors: result.data));
+        _totalCount = (result.data!.length * 5); // OR from backend response
+        emit(DoctorsPageSuccessState(allDoctors: result.data, totalCount: _totalCount));
       case OnFailure<List<AllDoctorsDetailsEntity>>():
-        emit(
-          DoctorsPageFailureState(errorMessage: result.exception.toString()),
-        );
+        emit(DoctorsPageFailureState(errorMessage: result.exception.toString()));
     }
   }
 
@@ -70,7 +72,7 @@ class DoctorsPageViewModel extends Cubit<DoctorsPageState> {
       case RejectDoctorEvent():
         _rejectDoctor(event.doctorId);
       case GetAllDoctorsEvent():
-        _getAllDoctors();
+        _getAllDoctors(page: event.page);
     }
   }
 }

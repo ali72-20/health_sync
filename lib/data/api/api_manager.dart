@@ -9,6 +9,7 @@ import 'package:health_sync/data/models/response_model/home/all_request_details_
 import 'package:health_sync/data/models/response_model/home/dash_board_card_response_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import '../models/request_models/all_doctors_details_request_model.dart';
 import '../models/request_models/auth/login_request_model.dart';
 import '../models/request_models/auth/register_request_model.dart';
 import 'core/api_base_urls.dart';
@@ -64,6 +65,6 @@ abstract interface class ApiManager {
   });
 
   @GET(ApiEndPoints.allDoctors)
-  Future<List<DoctorsResponseDetailsModel>> getAllDoctors();
+  Future<List<DoctorsResponseDetailsModel>> getAllDoctors(@Body() AllDoctorsDetailsRequestModel model);
 
 }

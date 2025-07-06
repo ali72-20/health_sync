@@ -7,6 +7,7 @@ import 'package:health_sync/domain/repositories/home_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../domain/entities/home/doctors_details_entity.dart';
+import '../models/request_models/all_doctors_details_request_model.dart';
 
 @Injectable(as: HomeRepositoryContract)
 class HomeRepositoryImpl implements HomeRepositoryContract {
@@ -83,9 +84,10 @@ class HomeRepositoryImpl implements HomeRepositoryContract {
   }
 
   @override
-  Future<ApiResult<List<AllDoctorsDetailsEntity>>> getAllDoctors() async{
+  Future<ApiResult<List<AllDoctorsDetailsEntity>>> getAllDoctors({int page = 1}) async{
     return await safeApiCall<List<AllDoctorsDetailsEntity>>(apiCall: ()async{
-      final response = await _dataSourceContract.getAllDoctors();
+      final model = AllDoctorsDetailsRequestModel(page: page);
+      final response = await _dataSourceContract.getAllDoctors(model);
       return response.map((e)=> e.toDomain()).toList();
     });
   }
