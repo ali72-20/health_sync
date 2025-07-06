@@ -1,4 +1,4 @@
 class ApiBaseUrls{
   ApiBaseUrls._();
-  static const String BASE_URL = "http://amalmohamed77-001-site1.ktempurl.com/api/";
+  static const String BASE_URL = "http://56.228.82.100:8080/api/";
 }

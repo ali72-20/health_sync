@@ -72,7 +72,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i835.HomeScreenViewModel>(() => _i835.HomeScreenViewModel());
     gh.factory<_i735.ClinicsPageViewModel>(() => _i735.ClinicsPageViewModel());
-    gh.factory<_i756.DoctorsPageViewModel>(() => _i756.DoctorsPageViewModel());
     gh.factory<_i384.ReportsScreeViewModel>(
       () => _i384.ReportsScreeViewModel(),
     );
@@ -100,6 +99,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i977.DashBoardPageViewModel>(
       () => _i977.DashBoardPageViewModel(gh<_i424.HomeRepositoryContract>()),
+    );
+    gh.factory<_i756.DoctorsPageViewModel>(
+      () => _i756.DoctorsPageViewModel(gh<_i424.HomeRepositoryContract>()),
     );
     gh.factory<_i1006.DoctorStateUseCase>(
       () => _i1006.DoctorStateUseCase(gh<_i424.HomeRepositoryContract>()),
