@@ -20,10 +20,10 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    context.read<ProfilePageViewModel>().onEven(GetUserProfileEvent());
-  }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProfilePageViewModel>().onEven(GetUserProfileEvent());
+    });  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +33,16 @@ class _ProfileViewState extends State<ProfileView> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is ProfilePageOnSuccessState) {
           return _profileScreenBody(context, state.userEntity);
+        }
+        if (state is ProfilePageOnErrorState) {
+          return Scaffold(
+            body: Center(
+              child: Text(
+                state.exception.toString(),
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            ),
+          );
         }
         return Scaffold(
           body: Center(
@@ -116,8 +126,8 @@ class _ProfileViewState extends State<ProfileView> {
     required String value,
     int flex = 1,
   }) {
-    return Expanded(
-      flex: flex,
+    return SizedBox(
+      width: flex * 140, // adjust for your layout
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
@@ -141,6 +151,7 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
+
 
   Widget _buildActionButtons(BuildContext context) {
     final viewModel = context.read<ProfilePageViewModel>();

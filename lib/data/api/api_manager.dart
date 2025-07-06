@@ -64,8 +64,6 @@ abstract interface class ApiManager {
   });
 
   @GET(ApiEndPoints.allDoctors)
-  Future<DoctorsResponseDetailsModel> getAllDoctors({
-    @Query("page") int page = 1,
-    @Query("limit") int limit = 10,
-  });
+  Future<DoctorsResponseDetailsModel> getAllDoctors();
+
 }

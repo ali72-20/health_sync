@@ -1,5 +1,6 @@
 import 'package:health_sync/data/api/api_manager.dart';
 import 'package:health_sync/data/data_source/remote_data_source/home/home_remote_data_source_contract.dart';
+import 'package:health_sync/data/models/response_model/doctors_response_details_model.dart';
 import 'package:health_sync/data/models/response_model/home/all_request_details_response_model.dart';
 import 'package:health_sync/data/models/response_model/home/dash_board_card_response_model.dart';
 import 'package:injectable/injectable.dart';
@@ -43,5 +44,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSourceContract {
   @override
   Future<void> clinicApprove({required String clinicId, required int status}) async{
     return await _apiManager.clinicApprove(clinicId: clinicId, status: status);
+  }
+
+  @override
+  Future<DoctorsResponseDetailsModel> getAllDoctors() async{
+    return await _apiManager.getAllDoctors();
   }
 }

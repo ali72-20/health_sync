@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/api_result/ApiResult.dart';
 import 'package:health_sync/domain/entities/auth/user_entity.dart';
@@ -17,7 +19,9 @@ class ProfilePageViewModel extends Cubit<ProfilePageState> {
 
   _getUserProfile() async {
     emit(ProfilePageOnLoadingState());
+    log("profile");
     final response = await _getUserProfileUseCase.getUserProfile();
+    log("profile2");
     switch (response) {
       case OnSuccess<UserEntity>():
         emit(ProfilePageOnSuccessState(userEntity: response.data!));
