@@ -13,4 +13,6 @@ class ApiEndPoints{
   static const String approveClinics = "Dashboard/ClinicApprove";
   static const String doctorApprove ="Dashboard/DoctorApprove";
   static const String clinicApprove = "Dashboard/ClinicApprove";
+  static const String allDoctors = "DoctorAuth/DoctorManagement";
+
 }

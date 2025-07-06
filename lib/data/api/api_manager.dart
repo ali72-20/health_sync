@@ -4,6 +4,7 @@ import 'package:health_sync/data/models/request_models/auth/logout_request_model
 import 'package:health_sync/data/models/response_model/auth/login_response_model.dart';
 import 'package:health_sync/data/models/response_model/auth/register_response_model.dart';
 import 'package:health_sync/data/models/response_model/auth/user_model.dart';
+import 'package:health_sync/data/models/response_model/doctors_response_details_model.dart';
 import 'package:health_sync/data/models/response_model/home/all_request_details_response_model.dart';
 import 'package:health_sync/data/models/response_model/home/dash_board_card_response_model.dart';
 import 'package:injectable/injectable.dart';
@@ -60,5 +61,11 @@ abstract interface class ApiManager {
   Future<void> clinicApprove({
     @Query("clinicId") required String clinicId,
     @Query("status") required int status,
+  });
+
+  @GET(ApiEndPoints.allDoctors)
+  Future<DoctorsResponseDetailsModel> getAllDoctors({
+    @Query("page") int page = 1,
+    @Query("limit") int limit = 10,
   });
 }
