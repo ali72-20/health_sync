@@ -64,11 +64,6 @@ class _HomeBodyState extends State<HomeBody> {
             ),
             // MODIFIED: Icon added for Patients
             SideMenuItem(
-              icon: const Icon(Icons.people),
-              title: context.locale.patients,
-              onTap: (index, _) => sideMenuController.changePage(index),
-            ),
-            SideMenuItem(
               icon: const Icon(Icons.local_hospital),
               title: context.locale.clinics,
               onTap: (index, _) => sideMenuController.changePage(index),
@@ -83,13 +78,6 @@ class _HomeBodyState extends State<HomeBody> {
               title: context.locale.profile,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
-            SideMenuItem(
-              icon: const Icon(Icons.logout),
-              title: context.locale.logout,
-              onTap: (_, _) {
-                // Your logout logic here
-              },
-            )
           ],
           controller: sideMenuController,
           title: const Text("HealthSync"), // Added const for performance

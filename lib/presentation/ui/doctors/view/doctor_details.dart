@@ -22,12 +22,12 @@ class DoctorDetailsView extends StatelessWidget {
         listener: (context, state) {
           if (state is DoctorsPageSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Doctor Approved Successfully!")),
+              SnackBar(content: Text("Doctor Approved Successfully!", style: TextStyle(color: Colors.white),), backgroundColor: Colors.green,),
             );
             Navigator.pop(context);
           } else if (state is DoctorsPageFailureState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage.toString())),
+              SnackBar(content: Text(state.errorMessage.toString()), backgroundColor: Theme.of(context).colorScheme.error,),
             );
           } else if (state is DoctorsPageLoadingState) {
             ScaffoldMessenger.of(
