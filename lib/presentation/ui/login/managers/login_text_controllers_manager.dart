@@ -19,8 +19,8 @@ class LoginTextControllerManager{
      }
 
      void dispose() {
-       _emailController.dispose();
-       _passwordController.dispose();
+       _emailController.text = "";
+       _passwordController.text = "";
      }
 
 }
