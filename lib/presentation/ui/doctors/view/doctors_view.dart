@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:health_sync/core/routes/pages_route.dart';
+import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
 import 'package:health_sync/domain/entities/home/doctors_details_entity.dart';
+import 'package:health_sync/main.dart';
 import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_event.dart';
 import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_state.dart';
 import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_view_model.dart';
@@ -172,7 +175,15 @@ class _DoctorDataSource extends DataTableSource {
           ),
         ),
         DataCell(Text(doctor.yearsOfExp.toString() ?? "")),
-        DataCell(_buildActionButtons()),
+        DataCell(_buildActionButtons(doctor: DoctorDetailsEntity(
+          doctorName: doctor.doctorName,
+          doctorID: doctor.doctorID,
+          specialization: doctor.specialization,
+          status: doctor.status,
+          email: doctor.email,
+          phoneNumber: doctor.phoneNumber,
+          gender: doctor.gender
+        ))),
       ],
     );
   }
@@ -208,10 +219,13 @@ class _DoctorDataSource extends DataTableSource {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons({required DoctorDetailsEntity  doctor}) {
+
     return Row(
       children: [
-        TextButton(onPressed: () {}, child: const Text('View Details')),
+        TextButton(onPressed: () {
+          navKey.currentState!.pushNamed(PagesRoutes.doctorsDetailsPage, arguments:doctor );
+        }, child: const Text('View Details')),
         const SizedBox(width: 8),
         TextButton(onPressed: () {}, child: const Text('Assign Clinic')),
       ],

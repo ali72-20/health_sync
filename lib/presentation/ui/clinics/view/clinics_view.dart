@@ -345,8 +345,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Expanded(
-                        flex: 2,
+                      SizedBox(
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                           decoration: BoxDecoration(
@@ -464,7 +463,6 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
     final int maxVisiblePages = 5;
 
     if (_totalPages <= maxVisiblePages) {
-      // Show all pages if total pages are less than or equal to max visible pages
       for (int i = 1; i <= _totalPages; i++) {
         pageNumbers.add(_buildPageButton(i));
       }

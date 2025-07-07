@@ -3,7 +3,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
+import 'package:health_sync/core/routes/pages_route.dart';
 import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
+import 'package:health_sync/main.dart';
 import 'package:health_sync/presentation/ui/dash_board/manager/dash_board_page_event.dart';
 
 import '../manager/dash_board_page_view_model.dart';
@@ -347,7 +349,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           viewModel.onEvent(NavigateToDoctorDetailsPageEvent(doctor: entity));
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
         child: Row(
           children: [
             const CircleAvatar(
@@ -376,7 +378,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      navKey.currentState?.pushNamed(PagesRoutes.doctorsDetailsPage, arguments: entity);
+                    },
                     child: Text(context.locale.view_details),
                   ),
                   TextButton(
@@ -427,7 +431,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             ),
           ),
           Expanded(flex: 4, child: Text(address)),
-          Expanded(flex: 2, child: _buildStatusChip('Pending')),
+          SizedBox(child: _buildStatusChip('Pending')),
           Expanded(
             flex: 2,
             child: Text(date, style: TextStyle(color: Colors.grey.shade600)),

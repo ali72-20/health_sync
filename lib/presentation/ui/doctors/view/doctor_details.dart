@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/di/di.dart';
 import 'package:health_sync/domain/entities/home/all_request_details_entity.dart';
+import 'package:health_sync/domain/entities/home/doctors_details_entity.dart';
 import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_state.dart';
 import 'package:health_sync/presentation/ui/doctors/managers/doctors_page_view_model.dart';
 
@@ -14,7 +15,7 @@ class DoctorDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final doctorEntity =
+    var doctorEntity =
         ModalRoute.of(context)?.settings.arguments as DoctorDetailsEntity?;
     return BlocProvider(
       create: (_) => viewModel,

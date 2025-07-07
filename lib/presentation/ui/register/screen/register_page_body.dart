@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_sync/core/extensions/extensions.dart';
+import 'package:health_sync/core/routes/pages_route.dart';
 import 'package:health_sync/domain/entities/auth/register_request_entity.dart';
+import 'package:health_sync/main.dart';
 import 'package:health_sync/presentation/ui/register/manager/register_page_event.dart';
 
 import '../../../../core/assets/assets_paths.dart';
@@ -171,16 +173,15 @@ class RegisterPageBody extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       verticalSpace(32),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.security, color: gray),
-                          horizontalSpace(8),
-                          Text(
-                            context.locale.secure_login,
-                            style: Theme.of(context).textTheme.displaySmall,
-                          ),
-                        ],
+                      horizontalSpace(8),
+                      InkWell(
+                        onTap: () {
+                          navKey.currentState?.pushNamed(PagesRoutes.loginPage);
+                        },
+                        child: Text(
+                          "Have an Account? Login",
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
                       ),
                     ],
                   ),
