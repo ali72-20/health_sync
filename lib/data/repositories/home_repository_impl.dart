@@ -86,8 +86,13 @@ class HomeRepositoryImpl implements HomeRepositoryContract {
   @override
   Future<ApiResult<List<AllDoctorsDetailsEntity>>> getAllDoctors({int page = 1}) async{
     return await safeApiCall<List<AllDoctorsDetailsEntity>>(apiCall: ()async{
-      final model = AllDoctorsDetailsRequestModel(page: page);
-      final response = await _dataSourceContract.getAllDoctors(model);
+      final request = AllDoctorsDetailsRequestModel(
+        filter: "",
+        clinicsIds: [],
+        specialization: [],
+        page: page,
+      );
+      final response = await _dataSourceContract.getAllDoctors(request);
       return response.map((e)=> e.toDomain()).toList();
     });
   }

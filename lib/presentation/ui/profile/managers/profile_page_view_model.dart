@@ -19,9 +19,7 @@ class ProfilePageViewModel extends Cubit<ProfilePageState> {
 
   _getUserProfile() async {
     emit(ProfilePageOnLoadingState());
-    log("profile");
     final response = await _getUserProfileUseCase.getUserProfile();
-    log("profile2");
     switch (response) {
       case OnSuccess<UserEntity>():
         emit(ProfilePageOnSuccessState(userEntity: response.data!));

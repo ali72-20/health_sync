@@ -19,7 +19,6 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider<LoginTextControllerManager>(
       create: (_) => controllerManager,
-      dispose: (_) => controllerManager.dispose(),
       child: Scaffold(
         body: BlocProvider(
           create: (_) => viewModel,

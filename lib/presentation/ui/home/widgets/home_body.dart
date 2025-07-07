@@ -52,56 +52,69 @@ class _HomeBodyState extends State<HomeBody> {
         SideMenu(
           items: [
             SideMenuItem(
-              icon: Icon(Icons.dashboard),
+              icon: const Icon(Icons.dashboard),
               title: context.locale.dashboard,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
+            // MODIFIED: Icon added for Doctors
             SideMenuItem(
+              icon: const Icon(Icons.medical_services),
               title: context.locale.doctors,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
+            // MODIFIED: Icon added for Patients
             SideMenuItem(
+              icon: const Icon(Icons.people),
               title: context.locale.patients,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
-              icon: Icon(Icons.local_hospital),
+              icon: const Icon(Icons.local_hospital),
               title: context.locale.clinics,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
-              icon: Icon(Icons.bar_chart),
+              icon: const Icon(Icons.bar_chart),
               title: context.locale.reports,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
-              icon: Icon(Icons.person),
+              icon: const Icon(Icons.person),
               title: context.locale.profile,
               onTap: (index, _) => sideMenuController.changePage(index),
             ),
             SideMenuItem(
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               title: context.locale.logout,
-              onTap: (_,_){
-
-              }
+              onTap: (_, _) {
+                // Your logout logic here
+              },
             )
           ],
           controller: sideMenuController,
-          title: Text("HealthSync"),
+          title: const Text("HealthSync"), // Added const for performance
           style: SideMenuStyle(
             selectedIconColor: Theme.of(context).colorScheme.secondary,
             hoverColor: Colors.transparent,
-            selectedTitleTextStyle: Theme.of(context).textTheme.labelLarge
+            selectedTitleTextStyle: Theme.of(context)
+                .textTheme
+                .labelLarge
                 ?.copyWith(color: Theme.of(context).colorScheme.secondary),
-            unselectedTitleTextStyle: Theme.of(context).textTheme.labelLarge
+            unselectedTitleTextStyle: Theme.of(context)
+                .textTheme
+                .labelLarge
                 ?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
             backgroundColor: offWhite,
             selectedColor: Theme.of(context).colorScheme.primary,
           ),
         ),
         Expanded(
-          child: PageView(controller: pageController, children: views),
+          child: PageView(
+            controller: pageController,
+            children: views,
+            // It's a good idea to disable swiping if navigation is only through the menu
+            physics: const NeverScrollableScrollPhysics(),
+          ),
         ),
       ],
     );
