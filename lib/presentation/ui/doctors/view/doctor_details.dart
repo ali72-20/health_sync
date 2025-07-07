@@ -37,6 +37,11 @@ class DoctorDetailsView extends StatelessWidget {
           }
         },
         child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(onPressed: (){
+              Navigator.of(context).pop();
+            }, icon: Icon(Icons.arrow_back_ios)),
+          ),
           backgroundColor: Colors.grey[50],
           body: LayoutBuilder(
             builder: (context, constraints) {

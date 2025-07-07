@@ -182,7 +182,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
 
   Widget _buildAlertBanner(BuildContext context) {
     final viewModel = context.read<DashBoardPageViewModel>();
-    if(viewModel.currentList.isEmpty) return SizedBox.shrink();
+    if (viewModel.currentList.isEmpty) return SizedBox.shrink();
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -301,9 +301,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   }
 
   Widget _buildClinicsListView(BuildContext context, List<ClinicEntity> list) {
-    if(list.isEmpty) return SizedBox.shrink();
+    if (list.isEmpty) return SizedBox.shrink();
     return SizedBox(
-      height: context.height ,
+      height: context.height,
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
@@ -322,31 +322,25 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     BuildContext context,
     List<DoctorDetailsEntity> list,
   ) {
-    if(list.isEmpty) return SizedBox.shrink();
+    if (list.isEmpty) return SizedBox.shrink();
     return SizedBox(
       height: context.height,
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
           final doctor = list[index];
-          return _buildDoctorRow(
-            context,
-            doctor
-          );
+          return _buildDoctorRow(context, doctor);
         },
       ),
     );
   }
 
-  Widget _buildDoctorRow(
-    BuildContext context,
-    DoctorDetailsEntity entity,
-  ) {
+  Widget _buildDoctorRow(BuildContext context, DoctorDetailsEntity entity) {
     final viewModel = context.read<DashBoardPageViewModel>();
     final int APPROVED = 1, REJECTED = 2;
     return InkWell(
-      onTap: (){
-          viewModel.onEvent(NavigateToDoctorDetailsPageEvent(doctor: entity));
+      onTap: () {
+        viewModel.onEvent(NavigateToDoctorDetailsPageEvent(doctor: entity));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
@@ -361,56 +355,59 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             Expanded(
               flex: 2,
               child: Text(
-                entity.doctorName??"",
+                entity.doctorName ?? "",
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            Expanded(flex: 2, child: Text(entity.specialization??"")),
-            Expanded(flex: 2, child: Text(entity.doctorClinics??"")),
+            Expanded(flex: 2, child: Text(entity.specialization ?? "")),
+            Expanded(flex: 2, child: Text(entity.doctorClinics ?? "")),
             Expanded(flex: 2, child: _buildStatusChip('Pending')),
             Expanded(
               flex: 2,
-              child: Text(entity.yearsOfExp.toString(), style: TextStyle(color: Colors.grey.shade600)),
-            ),
-            Expanded(
-              flex: 4,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      navKey.currentState?.pushNamed(PagesRoutes.doctorsDetailsPage, arguments: entity);
-                    },
-                    child: Text(context.locale.view_details),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      viewModel.onEvent(
-                        ApproveDoctorEvent(doctorId: "", status: APPROVED),
-                      );
-                    },
-                    child: const Text(
-                      'Approve',
-                      style: TextStyle(color: Colors.green),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      viewModel.onEvent(
-                        ApproveDoctorEvent(doctorId: "", status: REJECTED),
-                      );
-                    },
-                    child: const Text(
-                      'Reject',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Assign Clinic'),
-                  ),
-                ],
+              child: Text(
+                entity.yearsOfExp.toString(),
+                style: TextStyle(color: Colors.grey.shade600),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    navKey.currentState?.pushNamed(
+                      PagesRoutes.doctorsDetailsPage,
+                      arguments: entity,
+                    );
+                  },
+                  child: Text(context.locale.view_details),
+                ),
+                TextButton(
+                  onPressed: () {
+                    viewModel.onEvent(
+                      ApproveDoctorEvent(doctorId: "", status: APPROVED),
+                    );
+                  },
+                  child: const Text(
+                    'Approve',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    viewModel.onEvent(
+                      ApproveDoctorEvent(doctorId: "", status: REJECTED),
+                    );
+                  },
+                  child: const Text(
+                    'Reject',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Assign Clinic'),
+                ),
+              ],
             ),
           ],
         ),
