@@ -39,7 +39,7 @@ class _HomeBodyState extends State<HomeBody> {
   List<Widget> views = [
     DashBoardView(),
     DoctorsView(),
-    ClinicDetailsPage(),
+    ClinicsScreen(),
     ReportsView(),
     ProfileView(),
   ];
